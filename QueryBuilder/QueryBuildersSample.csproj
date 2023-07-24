@@ -145,6 +145,18 @@
     <Compile Include="RuleGroupControl.Designer.cs">
       <DependentUpon>RuleGroupControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="SelectConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SelectConfig.Designer.cs">
+      <DependentUpon>SelectConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectForm.Designer.cs">
+      <DependentUpon>SelectForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SelectTableForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,6 +217,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RuleGroupControl.resx">
       <DependentUpon>RuleGroupControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectConfig.resx">
+      <DependentUpon>SelectConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectForm.resx">
+      <DependentUpon>SelectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectTableForm.resx">
       <DependentUpon>SelectTableForm.cs</DependentUpon>

@@ -52,6 +52,7 @@ namespace QueryBuilder
             // tlpRuleGroup
             // 
             this.tlpRuleGroup.AutoSize = true;
+            this.tlpRuleGroup.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tlpRuleGroup.ColumnCount = 5;
             this.tlpRuleGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tlpRuleGroup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
@@ -183,6 +184,7 @@ namespace QueryBuilder
             // 
             this.tlpRules.AutoScroll = true;
             this.tlpRules.AutoSize = true;
+            this.tlpRules.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tlpRules.ColumnCount = 1;
             this.tlpRules.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpRules.Dock = System.Windows.Forms.DockStyle.Fill;

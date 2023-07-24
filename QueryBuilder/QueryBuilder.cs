@@ -19,18 +19,24 @@ namespace QueryBuilder
         public QueryBuilder()
         {
             InitializeComponent();
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.FlatAppearance.BorderColor = Color.LightGray;
-            button1.FlatAppearance.BorderSize = 1;
-            button1.ForeColor = Color.DarkGray;
+            btnRun.FlatStyle = FlatStyle.Flat;
+            btnRun.FlatAppearance.BorderColor = Color.LightGray;
+            btnRun.FlatAppearance.BorderSize = 1;
+            btnRun.ForeColor = Color.DarkGray;
 
             IDataSchema dataSchema = new DataSchemaWithDatabaseSchemaReader();
             _dbTables = dataSchema.GetSchema(ConnectionString, "");
-            joinTableConfig.DbTables = _dbTables.ToList();
+
             var usedTables = UsedTables();
+
+            joinTableConfig.DbTables = _dbTables.ToList();
             joinTableConfig.UsedTables = usedTables;
+
             filterConfigTable.DbTables = _dbTables.ToList();
             filterConfigTable.UsedTables = usedTables;
+
+            selectConfig.DbTables = _dbTables.ToList();
+            selectConfig.UsedTables = usedTables;
         }
         private void tlpQueryBuilder_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
         {
@@ -50,19 +56,6 @@ namespace QueryBuilder
 
                 graphics.DrawLine(pen, cellRectangle.Left, cellRectangle.Top, cellRectangle.Left, cellRectangle.Bottom);
             }
-        }
-        protected override void WndProc(ref Message m)
-        {
-            int WM_NCHITTEST = 0x0084;
-            int HTCLIENT = 0x0001;
-            int HTCAPTION = 0x0002;
-            if (m.Msg == WM_NCHITTEST)
-            {
-                // Disable hover effect by returning HTCAPTION instead of HTCLIENT
-                m.Result = (IntPtr)(HTCAPTION);
-                return;
-            }
-            base.WndProc(ref m);
         }
         private void tlpQueryBuilderFlow_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
         {
@@ -90,18 +83,6 @@ namespace QueryBuilder
                 e.Graphics.FillRectangle(Brushes.White, e.CellBounds);
             }
         }
-        private void btnAddJoin_Click(object sender, EventArgs e)
-        {
-            var button = (Button)sender;
-            JoinForm popupForm = new JoinForm(FormStatus.Add, Join.GetEmpty());
-            var screenCoordinates = button.PointToScreen(Point.Empty);
-            popupForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
-            popupForm.ShowDialog(button);
-        }
-        private void tableLayoutPanel1_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
-        {
-            e.Graphics.FillRectangle(Brushes.White, e.CellBounds);
-        }
         private void joinTableConfig_AddedJoin(object sender, EventArgs e)
         {
             JoinTableConfig joinTableConfig = (JoinTableConfig)sender;
@@ -116,21 +97,10 @@ namespace QueryBuilder
             joinObj.UsedTables = this.UsedTables();
             joinObj.DbTables = this._dbTables.ToList();
             joinObj.ToolTip = this.toolTipName;
-
             tlpQueryBuilderFlow.RowStyles.Insert(2, rowStyle);
-
             tlpQueryBuilderFlow.Controls.Add(joinObj, 1, joinTableConfigIndex + 1);
+            SetUsedTables();
             refresh();
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("this is test shiftdown");
-            int selectIndex = 0;
-            var rowStyle = new RowStyle(SizeType.Absolute, 50F);
-            tlpQueryBuilderFlow.RowStyles.Insert(selectIndex, rowStyle);
-            Shiftdown(selectIndex);
-            var joinObj = new JoinTableConfig();
-            tlpQueryBuilderFlow.Controls.Add(joinObj, 1, selectIndex);
         }
         private void Shiftdown(int selectIndex)
         {
@@ -170,64 +140,77 @@ namespace QueryBuilder
             tlpQueryBuilderFlow.Controls.Remove(joinTableConfig);
             tlpQueryBuilderFlow.RowStyles.RemoveAt(joinTableConfigIndex);
             ShiftAbove(joinTableConfigIndex);
-            refresh();
-        }
-        private void QueryObject_Changed(object sender, EventArgs e)
-        {
+            SetUsedTables();
             refresh();
         }
         private void refresh()
         {
-            var factory = new QueryFactory(new SqlConnection(ConnectionString), new FFSqlServerCompiler());
-            Query query = factory.Query(QueryModel.StartTable.ToString());
-
-            if (QueryModel.Joins.Count > 0)
+            try
             {
-                foreach (var join in QueryModel.Joins)
-                {
-                    SqlKata.Join joinQuery = new SqlKata.Join();
-                    foreach (var joinOn in join.JoinOns)
-                    {
-                        joinQuery.On($"{joinOn.LeftTable.Name}.{joinOn.LeftField.Name}", $"{joinOn.RightTable.Name}.{joinOn.RightField.Name}", op: "=");
-                    }
-                    query = query.Join(join.Table.Name, j => joinQuery);
-                }
+                var query = QueryModel.GenerateQuery(new SqlConnection(ConnectionString), new FFSqlServerCompiler());
+                #region trashy
+                //var factory = new QueryFactory(new SqlConnection(ConnectionString), new FFSqlServerCompiler());
+                //Query query = factory.Query(QueryModel.StartTable.ToString());
+
+                //if (QueryModel.Joins.Count > 0)
+                //{
+                //    foreach (var join in QueryModel.Joins)
+                //    {
+                //        SqlKata.Join joinQuery = new SqlKata.Join();
+                //        foreach (var joinOn in join.JoinOns)
+                //        {
+                //            joinQuery.On($"{joinOn.LeftTable.Name}.{joinOn.LeftField.Name}", $"{joinOn.RightTable.Name}.{joinOn.RightField.Name}", op: "=");
+                //        }
+                //        query = query.Join(join.Table.Name, j => joinQuery);
+                //    }
+                //}
+
+                //if (QueryModel.Where != null)
+                //{
+                //    query.Where(QueryModel.Where.FilterExpression);
+                //}
+                //BaseWhere orderIdNotZero = new SimpleWhere() { Field = new NameAlias() { Name = "orderId" }, Operation = "!=", ExpectedValue = 0 };
+                //BaseWhere customerIdVINET = new SimpleWhere() { Field = new NameAlias() { Name = "OrderId.CustomerId" }, Operation = "=", ExpectedValue = "VINET" };
+                //LogicalWhere orTest = new LogicalWhere()
+                //{ OperationLogical = OperationLogical.Or, WhereRules = new List<BaseWhere>() { orderIdNotZero, customerIdVINET } };
+
+                //BaseWhere OrderIdMore10250 = new SimpleWhere() { Field = new NameAlias() { Name = "orderId" }, Operation = ">", ExpectedValue =10250 };
+
+                //QueryModel.Where = new LogicalWhere()
+                //{
+                //    OperationLogical = OperationLogical.And, WhereRules = new List<BaseWhere>() { OrderIdMore10250, orTest }
+                //};
+                //query.Where(QueryModel.Where.FilterExpression);
+                //Func<Query, Query> w = q => q.Where("orderId", "!=", 0).OrWhere("CustomerId", "VINET");
+                //Func<Query, Query> w_1 = q => q.Where("OrderId", ">", 10250);
+
+                //query = query.Where(w).Where(w_1);
+                //query = query.Where(q => q.Where("orderId", "!=", 0).OrWhere("CustomerId","VINET")).Where("OrderId",">",10250); 
+                #endregion
+
+                var dbdd = query.Get();
+                dgResult.DataSource = null;
+                dgResult.DataSource = dbdd.ToList();
+                txtScript.Text = new FFSqlServerCompiler().Compile(query).Sql;
+
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
             }
 
-            if (QueryModel.Where != null)
-            {
-                query.Where(QueryModel.Where.FilterExpression);
-            }
-            //BaseWhere orderIdNotZero = new SimpleWhere() { Field = new NameAlias() { Name = "orderId" }, Operation = "!=", ExpectedValue = 0 };
-            //BaseWhere customerIdVINET = new SimpleWhere() { Field = new NameAlias() { Name = "OrderId.CustomerId" }, Operation = "=", ExpectedValue = "VINET" };
-            //LogicalWhere orTest = new LogicalWhere()
-            //{ OperationLogical = OperationLogical.Or, WhereRules = new List<BaseWhere>() { orderIdNotZero, customerIdVINET } };
-
-            //BaseWhere OrderIdMore10250 = new SimpleWhere() { Field = new NameAlias() { Name = "orderId" }, Operation = ">", ExpectedValue =10250 };
-
-            //QueryModel.Where = new LogicalWhere()
-            //{
-            //    OperationLogical = OperationLogical.And, WhereRules = new List<BaseWhere>() { OrderIdMore10250, orTest }
-            //};
-            //query.Where(QueryModel.Where.FilterExpression);
-            //Func<Query, Query> w = q => q.Where("orderId", "!=", 0).OrWhere("CustomerId", "VINET");
-            //Func<Query, Query> w_1 = q => q.Where("OrderId", ">", 10250);
-
-            //query = query.Where(w).Where(w_1);
-            //query = query.Where(q => q.Where("orderId", "!=", 0).OrWhere("CustomerId","VINET")).Where("OrderId",">",10250);
-
-            var dbdd = query.Get();
-            dgResult.DataSource = null;
-            dgResult.DataSource = dbdd.ToList();
-            txtScript.Text = new FFSqlServerCompiler().Compile(query).Sql;
-
-
-            MessageBox.Show("model changed");
+            MessageBox.Show("query model changed!");
         }
         private void startTableConfig_Changed(object sender, EventArgs e)
         {
             var startTableConfig = (StartTableConfig)sender;
             this.QueryModel.StartTable = startTableConfig.Table;
+            SetUsedTables();
+            refresh();
+        }
+
+        private void SetUsedTables()
+        {
             List<NameAlias> usedTables = UsedTables();
             foreach (var control in tlpQueryBuilderFlow.Controls)
             {
@@ -235,8 +218,9 @@ namespace QueryBuilder
             }
 
             filterConfigTable.UsedTables = usedTables;
-            refresh();
+            selectConfig.UsedTables = usedTables;
         }
+
         private List<NameAlias> UsedTables()
         {
             var result = new List<NameAlias>();
@@ -253,6 +237,12 @@ namespace QueryBuilder
         {
             this.QueryModel.Where = filterConfigTable.Where;
             refresh();
+        }
+
+        private void selectConfig_Changed(object sender, EventArgs e)
+        {
+            this.QueryModel.SelectFields = selectConfig.SelectedFields;
+            refresh(); 
         }
     }
 }

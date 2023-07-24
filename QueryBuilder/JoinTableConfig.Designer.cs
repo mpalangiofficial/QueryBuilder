@@ -32,8 +32,6 @@
             this.btnJoinedTable = new System.Windows.Forms.Button();
             this.btnAddJoin = new System.Windows.Forms.Button();
             this.btnJoinCaption = new System.Windows.Forms.Button();
-            this.btnAddAlias = new System.Windows.Forms.Button();
-            this.lblAlias = new System.Windows.Forms.Label();
             this.btnRemoveJoin = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -51,8 +49,6 @@
             this.tableLayoutPanel1.Controls.Add(this.btnJoinedTable, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnAddJoin, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnJoinCaption, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnAddAlias, 3, 0);
-            this.tableLayoutPanel1.Controls.Add(this.lblAlias, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnRemoveJoin, 6, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -101,34 +97,6 @@
             this.btnJoinCaption.Text = "Join";
             this.btnJoinCaption.UseVisualStyleBackColor = true;
             // 
-            // btnAddAlias
-            // 
-            this.btnAddAlias.AutoSize = true;
-            this.btnAddAlias.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnAddAlias.FlatAppearance.BorderSize = 0;
-            this.btnAddAlias.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddAlias.Location = new System.Drawing.Point(152, 19);
-            this.btnAddAlias.Margin = new System.Windows.Forms.Padding(5, 19, 3, 3);
-            this.btnAddAlias.Name = "btnAddAlias";
-            this.btnAddAlias.Size = new System.Drawing.Size(29, 26);
-            this.btnAddAlias.TabIndex = 7;
-            this.btnAddAlias.Text = "As";
-            this.btnAddAlias.UseVisualStyleBackColor = false;
-            this.btnAddAlias.Visible = false;
-            // 
-            // lblAlias
-            // 
-            this.lblAlias.AutoSize = true;
-            this.lblAlias.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblAlias.Location = new System.Drawing.Point(187, 19);
-            this.lblAlias.Margin = new System.Windows.Forms.Padding(3, 19, 3, 0);
-            this.lblAlias.Name = "lblAlias";
-            this.lblAlias.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.lblAlias.Size = new System.Drawing.Size(10, 19);
-            this.lblAlias.TabIndex = 8;
-            this.lblAlias.Text = " ";
-            this.lblAlias.Visible = false;
-            // 
             // btnRemoveJoin
             // 
             this.btnRemoveJoin.BackColor = System.Drawing.Color.Transparent;
@@ -165,8 +133,6 @@
         private System.Windows.Forms.Button btnJoinCaption;
         private System.Windows.Forms.Button btnAddJoin;
         private System.Windows.Forms.Button btnJoinedTable;
-        private System.Windows.Forms.Button btnAddAlias;
-        private System.Windows.Forms.Label lblAlias;
         private System.Windows.Forms.Button btnRemoveJoin;
     }
 }

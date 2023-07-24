@@ -9,19 +9,19 @@ namespace QueryBuilder
     public partial class JoinOnForm : Form
     {
         public List<NameAlias> UsedTables { get; set; }
-        public DbTableModel RightTable
+        public NameAlias RightTable
         {
             get => _rightTable;
-            private set
+            set
             {
                 _rightTable = value;
-                lblRightTable.Text = _rightTable.Name;
+                lblRightTable.Text = _rightTable.ToString();
                 loadRightField();
             }
         }
 
         private IList<DbTableModel> _dbTables;
-        private DbTableModel _rightTable;
+        private NameAlias _rightTable;
         private readonly bool _isEdit;
 
         public JoinOn JoinOn { get; private set; }
@@ -35,10 +35,9 @@ namespace QueryBuilder
             }
         }
 
-        public JoinOnForm(DbTableModel rightTable)
+        public JoinOnForm()
         {
             InitializeComponent();
-            RightTable = rightTable;
             _isEdit = false;
             DialogResult = DialogResult.Cancel;
         }
@@ -54,7 +53,8 @@ namespace QueryBuilder
         {
             cmbRightFields.ValueMember = nameof(DbFieldModel.Name);
             cmbRightFields.DisplayMember = nameof(DbFieldModel.Name);
-            foreach (var field in RightTable.Fields)
+            var rightTable = DbTables.SingleOrDefault(t => t.Name.ToLower() == RightTable.Name.ToLower());
+            foreach (var field in rightTable.Fields)
             {
                 cmbRightFields.Items.Add(field);
             }
@@ -64,26 +64,23 @@ namespace QueryBuilder
 
         private void loadTables()
         {
-            cmbLeftTables.DisplayMember = nameof(DbTableModel.Name);
-            cmbLeftTables.ValueMember = nameof(DbTableModel.Name);
             if (this.UsedTables is null)
             {
                 cmbLeftTables.Items.Clear();
-                return;
             }
-
-            foreach (var dbTableModel in DbTables.Where(table => UsedTables.Any(ut => ut.Name.ToLower() == table.Name.ToLower())))
+            else
             {
-                cmbLeftTables.Items.Add(dbTableModel);
+                cmbLeftTables.DataSource = null;
+                cmbLeftTables.DataSource = UsedTables;
+                cmbLeftTables.DisplayMember = nameof(NameAlias.ToString);
+                cmbLeftTables.SelectedIndex = 0;
             }
-
-            cmbLeftTables.SelectedIndex = 0;
         }
 
         private void cmbLeftTables_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            var leftTableSelectedItem = (DbTableModel)cmbLeftTables.SelectedItem;
+            var leftTableSelectedItem = DbTables.SingleOrDefault(t => t.Name == ((NameAlias)cmbLeftTables.SelectedItem).Name);
             cmbLeftFields.ValueMember = nameof(DbFieldModel.Name);
             cmbLeftFields.DisplayMember = nameof(DbFieldModel.Name);
             cmbLeftFields.Items.Clear();
@@ -105,13 +102,12 @@ namespace QueryBuilder
             else
             {
                 this.JoinOn = new JoinOn();
-                JoinOn.RightTable = new NameAlias() { Name = RightTable.Name, Alias = string.Empty };
+                JoinOn.RightTable = RightTable;
 
                 var rightField = (DbFieldModel)cmbRightFields.SelectedItem;
                 JoinOn.RightField = new NameAlias() { Name = rightField.Name, Alias = string.Empty };
 
-                var leftTable = (DbTableModel)cmbLeftTables.SelectedItem;
-                JoinOn.LeftTable = new NameAlias() { Name = leftTable.Name, Alias = string.Empty };
+                JoinOn.LeftTable = (NameAlias)cmbLeftTables.SelectedItem;
 
                 var leftField = (DbFieldModel)cmbLeftFields.SelectedItem;
                 JoinOn.LeftField = new NameAlias() { Name = leftField.Name, Alias = string.Empty };
@@ -129,9 +125,10 @@ namespace QueryBuilder
         {
             if (_isEdit)
             {
-                RightTable = DbTables.FirstOrDefault(t => t.Name.ToLower() == JoinOn.RightTable.Name.ToLower());
+                RightTable = JoinOn.RightTable;
+                var rightTable = DbTables.SingleOrDefault(t => t.Name.ToLower() == RightTable.Name);
                 cmbRightFields.SelectedItem =
-                    RightTable.Fields.FirstOrDefault(f => f.Name.ToLower() == JoinOn.RightField.Name.ToLower());
+                    rightTable.Fields.FirstOrDefault(f => f.Name.ToLower() == JoinOn.RightField.Name.ToLower());
                 var leftTable = DbTables.FirstOrDefault(t => t.Name.ToLower() == JoinOn.LeftTable.Name.ToLower());
                 cmbLeftTables.SelectedItem = leftTable;
                 cmbLeftFields.SelectedItem =

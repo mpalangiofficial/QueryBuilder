@@ -169,7 +169,7 @@
             this.lblFields.Name = "lblFields";
             this.lblFields.Size = new System.Drawing.Size(82, 29);
             this.lblFields.TabIndex = 2;
-            this.lblFields.Text = "Fields:";
+            this.lblFields.Text = "SelectedFields:";
             this.lblFields.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // cmbFields
@@ -258,7 +258,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 13);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Selected Fields:";
+            this.label1.Text = "Selected SelectedFields:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Column1

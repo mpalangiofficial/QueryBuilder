@@ -59,6 +59,11 @@ namespace QueryBuilder
         {
             FilterdgTables();
         }
+
+        private void SelectTableForm_Load(object sender, EventArgs e)
+        {
+            this.txtFilter.Focus();
+        }
     }
 
     public class TableItemview : Label

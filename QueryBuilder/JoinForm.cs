@@ -9,16 +9,17 @@ namespace QueryBuilder
 {
     public partial class JoinForm : Form
     {
-        private DbTableModel _rightTable;
+        private NameAlias _rightTable;
         public List<DbTableModel> DbTables { get; set; }
         public List<NameAlias> UsedTables { get; set; }
-        private DbTableModel RightTable
+        private NameAlias RightTable
         {
             get => _rightTable;
             set
             {
                 _rightTable = value;
-                txtRightTable.Text = _rightTable?.Name ?? string.Empty;
+                txtRightTableName.Text = _rightTable?.Name ?? string.Empty;
+                txtRightTableAlias.Text = _rightTable?.Alias ?? string.Empty;
             }
         }
         public Join Join { get; set; }
@@ -43,11 +44,6 @@ namespace QueryBuilder
 
             dgJoinOns.Refresh();
         }
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-            Close();
-        }
         private void btnSelectTable_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
@@ -57,18 +53,19 @@ namespace QueryBuilder
 
             if (selectTableForm.ShowDialog(button) == DialogResult.OK)
             {
-                this.RightTable = selectTableForm.SelectedTable;
+                this.RightTable = new NameAlias() { Name = selectTableForm.SelectedTable.Name, Alias = txtRightTableAlias.Text };
             }
         }
         private void btnAddJoinOn_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
-            JoinOnForm joinOnForm = new JoinOnForm(RightTable);
+            JoinOnForm joinOnForm = new JoinOnForm();
             var screenCoordinates = button.PointToScreen(Point.Empty);
             joinOnForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
 
             joinOnForm.UsedTables = this.UsedTables;
             joinOnForm.DbTables = this.DbTables;
+            joinOnForm.RightTable = RightTable;
             if (joinOnForm.ShowDialog(button) == DialogResult.OK)
             {
                 if (Join.JoinOns.Exists(jo => jo.Equals(joinOnForm.JoinOn)))
@@ -82,7 +79,7 @@ namespace QueryBuilder
         }
         private void btnOk_Click(object sender, EventArgs e)
         {
-            this.Join.Table = new NameAlias() { Name = RightTable.Name, Alias = string.Empty };
+            this.Join.Table = RightTable;
             this.Join.JoinType = string.Empty;
             this.DialogResult = DialogResult.OK;
         }
@@ -130,9 +127,11 @@ namespace QueryBuilder
 
         }
 
-
+        private void txtAlias_TextChanged(object sender, EventArgs e)
+        {
+            if (RightTable != null) RightTable.Alias = txtRightTableAlias.Text;
+        }
     }
-
     public enum FormStatus
     {
         Add,

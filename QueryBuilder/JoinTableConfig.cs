@@ -14,7 +14,6 @@ namespace QueryBuilder
         public event EventHandler Changed;
         public ToolTip ToolTip { get; set; }
         public List<DbTableModel> DbTables { get; set; }
-
         public List<NameAlias> UsedTables
         {
             get => _usedTables;
@@ -24,13 +23,11 @@ namespace QueryBuilder
                 btnAddJoin.Enabled=!( _usedTables is null || _usedTables?.Count <1);
             }
         }
-
         public Join Join { get; private set; }
         public JoinTableConfig()
         {
             InitializeComponent();
         }
-
         private void btnAddJoin_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
@@ -46,18 +43,20 @@ namespace QueryBuilder
                 this.Join = joinForm.Join;
 
                 btnAddJoin.Visible = false;
-                btnRemoveJoin.Visible = btnAddAlias.Visible = lblAlias.Visible = btnJoinedTable.Visible = true;
+                btnRemoveJoin.Visible =  btnJoinedTable.Visible = true;
 
                 this.ToolTip?.SetToolTip(this.btnJoinedTable, joinForm.Join.Table.Name);
 
 
-                btnJoinedTable.Text = joinForm.Join.Table.Name.Substring(0, Math.Min(joinForm.Join.Table.Name.Length, 12)); ;
+                if(string.IsNullOrEmpty(joinForm.Join.Table.Alias))
+                    btnJoinedTable.Text = joinForm.Join.Table.Name.Substring(0, Math.Min(joinForm.Join.Table.Name.Length, 12)) ; 
+                else
+                    btnJoinedTable.Text = $"{joinForm.Join.Table.Name.Substring(0, Math.Min(joinForm.Join.Table.Name.Length, 12)) } as {joinForm.Join.Table.Alias}";
                 AddedJoin?.Invoke(this, e);
 
             }
 
         }
-
         private void btnRemoveJoin_Click(object sender, EventArgs e)
         {
             RemovingJoin?.Invoke(this, e);

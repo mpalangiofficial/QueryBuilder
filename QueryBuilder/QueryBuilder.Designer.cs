@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.tlpQueryBuilder = new System.Windows.Forms.TableLayoutPanel();
             this.tlpQueryBuilderFlow = new System.Windows.Forms.TableLayoutPanel();
+            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.joinTableConfig = new JoinTableConfig();
@@ -38,8 +39,9 @@
             this.startTableConfig = new StartTableConfig();
             this.button4 = new System.Windows.Forms.Button();
             this.filterConfigTable = new FilterConfigTable();
+            this.selectConfig = new SelectConfig();
             this.txtScript = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnRun = new System.Windows.Forms.Button();
             this.dgResult = new System.Windows.Forms.DataGridView();
             this.tlpQueryBuilder.SuspendLayout();
             this.tlpQueryBuilderFlow.SuspendLayout();
@@ -50,12 +52,12 @@
             // 
             this.tlpQueryBuilder.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tlpQueryBuilder.ColumnCount = 3;
-            this.tlpQueryBuilder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
-            this.tlpQueryBuilder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
-            this.tlpQueryBuilder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpQueryBuilder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.88889F));
+            this.tlpQueryBuilder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.11111F));
+            this.tlpQueryBuilder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpQueryBuilder.Controls.Add(this.tlpQueryBuilderFlow, 0, 0);
             this.tlpQueryBuilder.Controls.Add(this.txtScript, 1, 0);
-            this.tlpQueryBuilder.Controls.Add(this.button1, 2, 0);
+            this.tlpQueryBuilder.Controls.Add(this.btnRun, 2, 0);
             this.tlpQueryBuilder.Controls.Add(this.dgResult, 1, 1);
             this.tlpQueryBuilder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpQueryBuilder.Location = new System.Drawing.Point(0, 0);
@@ -75,24 +77,39 @@
             this.tlpQueryBuilderFlow.ColumnCount = 2;
             this.tlpQueryBuilderFlow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tlpQueryBuilderFlow.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpQueryBuilderFlow.Controls.Add(this.button1, 0, 3);
             this.tlpQueryBuilderFlow.Controls.Add(this.button2, 0, 0);
             this.tlpQueryBuilderFlow.Controls.Add(this.button3, 0, 2);
             this.tlpQueryBuilderFlow.Controls.Add(this.joinTableConfig, 1, 1);
             this.tlpQueryBuilderFlow.Controls.Add(this.startTableConfig, 1, 0);
             this.tlpQueryBuilderFlow.Controls.Add(this.button4, 0, 1);
             this.tlpQueryBuilderFlow.Controls.Add(this.filterConfigTable, 1, 2);
+            this.tlpQueryBuilderFlow.Controls.Add(this.selectConfig, 1, 3);
             this.tlpQueryBuilderFlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpQueryBuilderFlow.Location = new System.Drawing.Point(3, 3);
             this.tlpQueryBuilderFlow.Name = "tlpQueryBuilderFlow";
-            this.tlpQueryBuilderFlow.RowCount = 4;
+            this.tlpQueryBuilderFlow.RowCount = 5;
             this.tlpQueryBuilder.SetRowSpan(this.tlpQueryBuilderFlow, 3);
             this.tlpQueryBuilderFlow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tlpQueryBuilderFlow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tlpQueryBuilderFlow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tlpQueryBuilderFlow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tlpQueryBuilderFlow.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpQueryBuilderFlow.Size = new System.Drawing.Size(361, 548);
+            this.tlpQueryBuilderFlow.Size = new System.Drawing.Size(382, 548);
             this.tlpQueryBuilderFlow.TabIndex = 1;
             this.tlpQueryBuilderFlow.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.tlpQueryBuilderFlow_CellPaint);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(8, 230);
+            this.button1.Margin = new System.Windows.Forms.Padding(8, 20, 3, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(27, 26);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "4";
+            this.button1.UseVisualStyleBackColor = false;
             // 
             // button2
             // 
@@ -125,7 +142,7 @@
             this.joinTableConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.joinTableConfig.Location = new System.Drawing.Point(48, 73);
             this.joinTableConfig.Name = "joinTableConfig";
-            this.joinTableConfig.Size = new System.Drawing.Size(310, 64);
+            this.joinTableConfig.Size = new System.Drawing.Size(331, 64);
             this.joinTableConfig.TabIndex = 6;
             this.joinTableConfig.ToolTip = this.toolTipName;
             this.joinTableConfig.UsedTables = null;
@@ -140,7 +157,7 @@
             this.startTableConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.startTableConfig.Location = new System.Drawing.Point(48, 3);
             this.startTableConfig.Name = "startTableConfig";
-            this.startTableConfig.Size = new System.Drawing.Size(310, 64);
+            this.startTableConfig.Size = new System.Drawing.Size(331, 64);
             this.startTableConfig.TabIndex = 7;
             this.startTableConfig.ToolTipName = null;
             this.startTableConfig.Changed += new System.EventHandler(this.startTableConfig_Changed);
@@ -163,39 +180,53 @@
             this.filterConfigTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.filterConfigTable.Location = new System.Drawing.Point(48, 143);
             this.filterConfigTable.Name = "filterConfigTable";
-            this.filterConfigTable.Size = new System.Drawing.Size(310, 64);
+            this.filterConfigTable.Size = new System.Drawing.Size(331, 64);
             this.filterConfigTable.TabIndex = 9;
             this.filterConfigTable.UsedTables = null;
             this.filterConfigTable.Where = null;
             this.filterConfigTable.Changed += new System.EventHandler(this.filterConfigTable_Changed);
             // 
+            // selectConfig
+            // 
+            this.selectConfig.DbTables = null;
+            this.selectConfig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.selectConfig.SelectedFields = null;
+            this.selectConfig.Location = new System.Drawing.Point(48, 213);
+            this.selectConfig.Name = "selectConfig";
+            this.selectConfig.Size = new System.Drawing.Size(331, 64);
+            this.selectConfig.TabIndex = 10;
+            this.selectConfig.ToolTip = null;
+            this.selectConfig.UsedTables = null;
+            this.selectConfig.Changed += new System.EventHandler(this.selectConfig_Changed);
+            // 
             // txtScript
             // 
             this.txtScript.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtScript.Location = new System.Drawing.Point(370, 3);
+            this.txtScript.Location = new System.Drawing.Point(391, 3);
             this.txtScript.Multiline = true;
             this.txtScript.Name = "txtScript";
-            this.txtScript.Size = new System.Drawing.Size(572, 70);
+            this.txtScript.Size = new System.Drawing.Size(605, 70);
             this.txtScript.TabIndex = 2;
             // 
-            // button1
+            // btnRun
             // 
-            this.button1.Location = new System.Drawing.Point(948, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Run";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnRun.Location = new System.Drawing.Point(1002, 14);
+            this.btnRun.Margin = new System.Windows.Forms.Padding(3, 14, 3, 3);
+            this.btnRun.Name = "btnRun";
+            this.btnRun.Size = new System.Drawing.Size(45, 45);
+            this.btnRun.TabIndex = 3;
+            this.btnRun.Text = "Run";
+            this.btnRun.UseVisualStyleBackColor = true;
             // 
             // dgResult
             // 
             this.dgResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tlpQueryBuilder.SetColumnSpan(this.dgResult, 2);
             this.dgResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgResult.Location = new System.Drawing.Point(370, 79);
+            this.dgResult.Location = new System.Drawing.Point(391, 79);
             this.dgResult.Name = "dgResult";
             this.tlpQueryBuilder.SetRowSpan(this.dgResult, 2);
-            this.dgResult.Size = new System.Drawing.Size(678, 472);
+            this.dgResult.Size = new System.Drawing.Size(657, 472);
             this.dgResult.TabIndex = 4;
             // 
             // QueryBuilder
@@ -222,10 +253,12 @@
         private System.Windows.Forms.ToolTip toolTipName;
         private JoinTableConfig joinTableConfig;
         private System.Windows.Forms.TextBox txtScript;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.DataGridView dgResult;
         private StartTableConfig startTableConfig;
         private System.Windows.Forms.Button button4;
         private FilterConfigTable filterConfigTable;
+        private System.Windows.Forms.Button button1;
+        private SelectConfig selectConfig;
     }
 }

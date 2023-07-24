@@ -13,7 +13,7 @@ namespace QueryBuilder
         public FilterForm()
         {
             InitializeComponent();
-            this.DialogResult = DialogResult.OK;
+            this.DialogResult = DialogResult.Cancel;
         }
 
         private void rootRuleGroupControl_Load(object sender, System.EventArgs e)
@@ -27,6 +27,12 @@ namespace QueryBuilder
             this.Where = rootRuleGroupControl.Where.WhereRules.Count == 0 
                 ? rootRuleGroupControl.Where.WhereRules.FirstOrDefault() 
                 : rootRuleGroupControl.Where;
+        }
+
+        private void btnOk_Click(object sender, System.EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+
         }
     }
 }

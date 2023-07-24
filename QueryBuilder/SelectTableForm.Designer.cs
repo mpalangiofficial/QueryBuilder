@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnClose = new System.Windows.Forms.Button();
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.dgTables = new System.Windows.Forms.DataGridView();
@@ -50,11 +50,10 @@
             // 
             // txtFilter
             // 
-            this.txtFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtFilter.Location = new System.Drawing.Point(0, 0);
-            this.txtFilter.Multiline = true;
+            this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFilter.Location = new System.Drawing.Point(1, 7);
             this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(455, 28);
+            this.txtFilter.Size = new System.Drawing.Size(451, 20);
             this.txtFilter.TabIndex = 1;
             this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
             // 
@@ -90,10 +89,10 @@
             // 
             // btnSelect
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(2);
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.btnSelect.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSelect.DefaultCellStyle = dataGridViewCellStyle4;
             this.btnSelect.HeaderText = "";
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.ReadOnly = true;
@@ -129,6 +128,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Select table";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.SelectTableForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgTables)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

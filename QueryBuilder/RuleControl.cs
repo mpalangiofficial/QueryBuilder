@@ -19,13 +19,9 @@ namespace QueryBuilder
             set
             {
                 _dbTables = value;
-                cmbTables.DisplayMember = nameof(DbTableModel.Name);
-                cmbTables.ValueMember = nameof(DbTableModel.Name);
-                cmbTables.Items.Clear();
-                value.Where(table => UsedTables?.Any(ut => ut.Name.ToLower() == table.Name.ToLower()) ?? false)?.ToList().ForEach(table =>
-                        {
-                            cmbTables.Items.Add(table);
-                        });
+                cmbTables.DataSource = null;
+                cmbTables.DataSource = UsedTables;
+                cmbTables.DisplayMember = nameof(NameAlias.ToString);
                 cmbTables.SelectedIndex = 0;
             }
         }
@@ -60,6 +56,7 @@ namespace QueryBuilder
                 {
                     RuleId = this.RuleId,
                     ExpectedValue = txtExpectedValue?.Text??String.Empty,
+                    Table = (NameAlias)cmbTables.SelectedItem,
                     Field = new NameAlias() { Name = ((DbFieldModel)cmbFields?.SelectedItem)?.Name??String.Empty },
                     Operation = "="
                     
@@ -77,7 +74,7 @@ namespace QueryBuilder
             cmbFields.Items.Clear();
             cmbFields.ValueMember = nameof(DbFieldModel.Name);
             cmbFields.DisplayMember = nameof(DbFieldModel.Name);
-            var selectedTable = (DbTableModel)cmbTables.SelectedItem;
+            var selectedTable = DbTables.SingleOrDefault(t=>t.Name== ((NameAlias)cmbTables.SelectedItem).Name);
             selectedTable.Fields.ToList().ForEach(field => cmbFields.Items.Add(field));
             cmbFields.SelectedIndex = 0;
         }

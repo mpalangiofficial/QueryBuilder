@@ -40,10 +40,7 @@ namespace QueryBuilder
             {
                 this.Where = filterForm.Where;
                 this.Changed?.Invoke(this, EventArgs.Empty);
-                MessageBox.Show("Test");
             }
-            this.Where = filterForm.Where;
-            this.Changed?.Invoke(this, EventArgs.Empty);
         }
     }
 }
