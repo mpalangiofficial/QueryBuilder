@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D0279BDC-6FB9-4E8B-AE8E-7D37CA642F6B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>QueryBuilder</RootNamespace>
+    <AssemblyName>QueryBuilder</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.123\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DatabaseSchemaReader, Version=2.8.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DatabaseSchemaReader.2.8.1\lib\net45\DatabaseSchemaReader.dll</HintPath>
+    </Reference>
+    <Reference Include="Humanizer, Version=2.8.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humanizer.Core.2.8.26\lib\netstandard2.0\Humanizer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SqlKata, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SqlKata.2.4.0\lib\netstandard2.0\SqlKata.dll</HintPath>
+    </Reference>
+    <Reference Include="SqlKata.Execution, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SqlKata.Execution.2.4.0\lib\netstandard2.0\SqlKata.Execution.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DatabaseSchema\DataSchemaWithDatabaseSchemaReader.cs" />
+    <Compile Include="DatabaseSchema\DbFieldModel.cs" />
+    <Compile Include="DatabaseSchema\DbTableMappers.cs" />
+    <Compile Include="DatabaseSchema\DbTableModel.cs" />
+    <Compile Include="DatabaseSchema\GetStringSegmentHelper.cs" />
+    <Compile Include="DatabaseSchema\IDataSchema.cs" />
+    <Compile Include="DatabaseSchema\KeyValueModel.cs" />
+    <Compile Include="FarineLayout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FilterConfigTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FilterConfigTable.Designer.cs">
+      <DependentUpon>FilterConfigTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FilterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FilterForm.Designer.cs">
+      <DependentUpon>FilterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GetAliaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GetAliaseForm.Designer.cs">
+      <DependentUpon>GetAliaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ISource.cs" />
+    <Compile Include="JoinForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JoinForm.Designer.cs">
+      <DependentUpon>JoinForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JoinOnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JoinOnForm.Designer.cs">
+      <DependentUpon>JoinOnForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JoinTableConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="JoinTableConfig.Designer.cs">
+      <DependentUpon>JoinTableConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryBuilder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="QueryBuilder.Designer.cs">
+      <DependentUpon>QueryBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QueryBuilder_back.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="QueryBuilder_back.Designer.cs">
+      <DependentUpon>QueryBuilder_back.cs</DependentUpon>
+    </Compile>
+    <Compile Include="qu\FFSqlServerCompiler.cs" />
+    <Compile Include="RuleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RuleControl.Designer.cs">
+      <DependentUpon>RuleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RuleGroupControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RuleGroupControl.Designer.cs">
+      <DependentUpon>RuleGroupControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectTableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectTableForm.Designer.cs">
+      <DependentUpon>SelectTableForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StartTableConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StartTableConfig.Designer.cs">
+      <DependentUpon>StartTableConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StartTableConfig_back.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <EmbeddedResource Include="FarineLayout.resx">
+      <DependentUpon>FarineLayout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilterConfigTable.resx">
+      <DependentUpon>FilterConfigTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FilterForm.resx">
+      <DependentUpon>FilterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GetAliaseForm.resx">
+      <DependentUpon>GetAliaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JoinForm.resx">
+      <DependentUpon>JoinForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JoinOnForm.resx">
+      <DependentUpon>JoinOnForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JoinTableConfig.resx">
+      <DependentUpon>JoinTableConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="QueryBuilder.resx">
+      <DependentUpon>QueryBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QueryBuilder_back.resx">
+      <DependentUpon>QueryBuilder_back.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RuleControl.resx">
+      <DependentUpon>RuleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RuleGroupControl.resx">
+      <DependentUpon>RuleGroupControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectTableForm.resx">
+      <DependentUpon>SelectTableForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartTableConfig.resx">
+      <DependentUpon>StartTableConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartTableConfig_back.resx">
+      <DependentUpon>StartTableConfig_back.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\edit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\remove.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
