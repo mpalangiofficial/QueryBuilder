@@ -2,8 +2,15 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Dynamic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using Dapper;
+using Microsoft.CSharp.RuntimeBinder;
 using QueryBuilder.DatabaseSchema;
 using SqlKata;
 using SqlKata.Compilers;
@@ -19,6 +26,7 @@ namespace QueryBuilder
         public QueryBuilder()
         {
             InitializeComponent();
+            dgResult.AutoGenerateColumns = false;
             btnRun.FlatStyle = FlatStyle.Flat;
             btnRun.FlatAppearance.BorderColor = Color.LightGray;
             btnRun.FlatAppearance.BorderSize = 1;
@@ -148,51 +156,23 @@ namespace QueryBuilder
             try
             {
                 var query = QueryModel.GenerateQuery(new SqlConnection(ConnectionString), new FFSqlServerCompiler());
-                #region trashy
-                //var factory = new QueryFactory(new SqlConnection(ConnectionString), new FFSqlServerCompiler());
-                //Query query = factory.Query(QueryModel.StartTable.ToString());
+                var queryResult = query.Get();
 
-                //if (QueryModel.Joins.Count > 0)
-                //{
-                //    foreach (var join in QueryModel.Joins)
-                //    {
-                //        SqlKata.Join joinQuery = new SqlKata.Join();
-                //        foreach (var joinOn in join.JoinOns)
-                //        {
-                //            joinQuery.On($"{joinOn.LeftTable.Name}.{joinOn.LeftField.Name}", $"{joinOn.RightTable.Name}.{joinOn.RightField.Name}", op: "=");
-                //        }
-                //        query = query.Join(join.Table.Name, j => joinQuery);
-                //    }
-                //}
-
-                //if (QueryModel.Where != null)
-                //{
-                //    query.Where(QueryModel.Where.FilterExpression);
-                //}
-                //BaseWhere orderIdNotZero = new SimpleWhere() { Field = new NameAlias() { Name = "orderId" }, Operation = "!=", ExpectedValue = 0 };
-                //BaseWhere customerIdVINET = new SimpleWhere() { Field = new NameAlias() { Name = "OrderId.CustomerId" }, Operation = "=", ExpectedValue = "VINET" };
-                //LogicalWhere orTest = new LogicalWhere()
-                //{ OperationLogical = OperationLogical.Or, WhereRules = new List<BaseWhere>() { orderIdNotZero, customerIdVINET } };
-
-                //BaseWhere OrderIdMore10250 = new SimpleWhere() { Field = new NameAlias() { Name = "orderId" }, Operation = ">", ExpectedValue =10250 };
-
-                //QueryModel.Where = new LogicalWhere()
-                //{
-                //    OperationLogical = OperationLogical.And, WhereRules = new List<BaseWhere>() { OrderIdMore10250, orTest }
-                //};
-                //query.Where(QueryModel.Where.FilterExpression);
-                //Func<Query, Query> w = q => q.Where("orderId", "!=", 0).OrWhere("CustomerId", "VINET");
-                //Func<Query, Query> w_1 = q => q.Where("OrderId", ">", 10250);
-
-                //query = query.Where(w).Where(w_1);
-                //query = query.Where(q => q.Where("orderId", "!=", 0).OrWhere("CustomerId","VINET")).Where("OrderId",">",10250); 
-                #endregion
-
-                var dbdd = query.Get();
+                var d = queryResult.First();
+                var columnNames = ((IDictionary<string, object>)d).Keys.ToArray();
+                dgResult.Columns.Clear();
+                foreach (var columnName in columnNames)
+                {
+                    var column = new DataGridViewTextBoxColumn();
+                    column.HeaderText = columnName;
+                    //column.Name = columnName;
+                    column.DataPropertyName = columnName;
+                    dgResult.Columns.Add(column);
+                }
                 dgResult.DataSource = null;
+                dgResult.DataSource = queryResult.ToList();
 
-                var dd = dbdd.ToList();
-                dgResult.DataSource = dbdd.ToList<dynamic>();
+
                 txtScript.Text = new FFSqlServerCompiler().Compile(query).Sql;
 
             }
@@ -202,6 +182,31 @@ namespace QueryBuilder
             }
 
             //MessageBox.Show("query model changed!");
+        }
+        public static object GetProperty(object o, string member)
+        {
+            if (o == null) throw new ArgumentNullException("o");
+            if (member == null) throw new ArgumentNullException("member");
+            Type scope = o.GetType();
+            IDynamicMetaObjectProvider provider = o as IDynamicMetaObjectProvider;
+            if (provider != null)
+            {
+                ParameterExpression param = Expression.Parameter(typeof(object));
+                DynamicMetaObject mobj = provider.GetMetaObject(param);
+                GetMemberBinder binder = (GetMemberBinder)Microsoft.CSharp.RuntimeBinder.Binder.GetMember(0, member, scope, new CSharpArgumentInfo[] { CSharpArgumentInfo.Create(0, null) });
+                DynamicMetaObject ret = mobj.BindGetMember(binder);
+                BlockExpression final = Expression.Block(
+                    Expression.Label(CallSiteBinder.UpdateLabel),
+                    ret.Expression
+                );
+                LambdaExpression lambda = Expression.Lambda(final, param);
+                Delegate del = lambda.Compile();
+                return del.DynamicInvoke(o);
+            }
+            else
+            {
+                return o.GetType().GetProperty(member, BindingFlags.Public | BindingFlags.Instance).GetValue(o, null);
+            }
         }
         private void startTableConfig_Changed(object sender, EventArgs e)
         {
@@ -216,7 +221,7 @@ namespace QueryBuilder
             List<NameAlias> usedTables = UsedTables();
             foreach (var control in tlpQueryBuilderFlow.Controls)
             {
-                if (control is JoinTableConfig) ((JoinTableConfig)control).UsedTables = usedTables;
+                if (control is JoinTableConfig config) config.UsedTables = usedTables;
             }
 
             filterConfigTable.UsedTables = usedTables;
@@ -245,7 +250,7 @@ namespace QueryBuilder
         {
             this.QueryModel.SelectFields = selectConfig.SelectedFields;
             this.QueryModel.SelectedFunctionFields = selectConfig.SelectedFunctionFields;
-            refresh(); 
+            refresh();
         }
     }
 }

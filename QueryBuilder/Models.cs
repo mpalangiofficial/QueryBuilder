@@ -49,7 +49,6 @@ namespace QueryBuilder
         Or = 0,
         And = 1
     }
-
     public class NameAlias
     {
         public string Name { get; set; }
@@ -101,10 +100,20 @@ namespace QueryBuilder
         public string Alias { get; set; }
         public override string ToString()
         {
-            var segment= Name.Split('.');
+            var segment = Name.Split('.');
             var name = $"[{segment[0]}].{segment[1]}";
             return string.IsNullOrEmpty(Alias) ? $"{Function}({name})" : $"{Function}({name}) as {Alias}";
         }
+    }
+    public class OrderByField
+    {
+        public string Field { get; set; }
+        public OrderByType OrderByType { get; set; }
+    }
+    public enum OrderByType
+    {
+        Asc = 0,
+        Desc = 1
     }
     public class QueryModel
     {
@@ -118,7 +127,6 @@ namespace QueryBuilder
             var factory = new QueryFactory(connection, compiler);
             Query query = factory.Query(this.StartTable.ToString());
 
-            //query.Select("customerId").SelectRaw("count(orderId) as count").GroupBy("customerId");
             if (this.Joins.Count > 0)
             {
                 foreach (var join in this.Joins)
@@ -157,7 +165,7 @@ namespace QueryBuilder
                 }
                 if (this.SelectFields != null && this.SelectFields.Count > 0)
                 {
-                    SelectFields.ForEach(sf=> query.GroupBy(sf.Name));
+                    SelectFields.ForEach(sf => query.GroupBy(sf.Name));
                 }
             }
 

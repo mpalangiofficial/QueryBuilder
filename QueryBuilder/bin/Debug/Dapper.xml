@@ -481,7 +481,7 @@
             <param name="commandTimeout">The command timeout (in seconds).</param>
             <param name="commandType">The type of command to execute.</param>
             <returns>
-            A sequence of data of <typeparamref name="T"/>; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+            A sequence of data of <typeparamref name="T"/>; if a basic type (int, string, etc) is queried then the data from the first column is assumed, otherwise an instance is
             created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
             </returns>
         </member>
@@ -650,7 +650,7 @@
             <param name="cnn">The connection to query on.</param>
             <param name="command">The command used to query on this connection.</param>
             <returns>
-            A sequence of data of <typeparamref name="T"/>; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+            A sequence of data of <typeparamref name="T"/>; if a basic type (int, string, etc) is queried then the data from the first column is assumed, otherwise an instance is
             created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
             </returns>
         </member>
@@ -1181,6 +1181,14 @@
             <param name="type">The type to map from.</param>
             <param name="dbType">The database type to map to.</param>
         </member>
+        <member name="M:Dapper.SqlMapper.AddTypeMap(System.Type,System.Data.DbType,System.Boolean)">
+            <summary>
+            Configure the specified type to be mapped to a given db-type.
+            </summary>
+            <param name="type">The type to map from.</param>
+            <param name="dbType">The database type to map to.</param>
+            <param name="useGetFieldValue">Whether to prefer <see cref="M:System.Data.Common.DbDataReader.GetFieldValue``1(System.Int32)"/> over <see cref="M:System.Data.Common.DbDataReader.GetValue(System.Int32)"/>.</param>
+        </member>
         <member name="M:Dapper.SqlMapper.RemoveTypeMap(System.Type)">
             <summary>
             Removes the specified type from the Type/DbType mapping table.
@@ -1660,7 +1668,7 @@
             <param name="cnn">The connection to query on.</param>
             <param name="command">The command to execute for this query.</param>
         </member>
-        <member name="M:Dapper.SqlMapper.ReadRow``1(Dapper.SqlMapper.CacheInfo,Dapper.SqlMapper.Identity,Dapper.CommandDefinition@,System.Type,System.Data.IDataReader)">
+        <member name="M:Dapper.SqlMapper.ReadRow``1(Dapper.SqlMapper.CacheInfo,Dapper.SqlMapper.Identity,Dapper.CommandDefinition@,System.Type,System.Data.Common.DbDataReader)">
             <summary>
             Shared value deserialization path for QueryRowImpl and QueryRowAsync
             </summary>
@@ -1897,6 +1905,16 @@
             <param name="length"></param>
             <param name="returnNullIfFirstMissing"></param>
             <returns></returns>
+        </member>
+        <member name="M:Dapper.SqlMapper.GetTypeDeserializer(System.Type,System.Data.Common.DbDataReader,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Internal use only
+            </summary>
+            <param name="type"></param>
+            <param name="reader"></param>
+            <param name="startBound"></param>
+            <param name="length"></param>
+            <param name="returnNullIfFirstMissing"></param>
         </member>
         <member name="M:Dapper.SqlMapper.ThrowDataException(System.Exception,System.Int32,System.Data.IDataReader,System.Object)">
             <summary>
@@ -2303,7 +2321,22 @@
             <param name="returnNullIfFirstMissing">Return null if we can't find the first column? (default false)</param>
             <returns>A parser for this specific object from this row.</returns>
         </member>
+        <member name="M:Dapper.SqlMapper.GetRowParser(System.Data.Common.DbDataReader,System.Type,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Gets the row parser for a specific row on a data reader. This allows for type switching every row based on, for example, a TypeId column.
+            You could return a collection of the base type but have each more specific.
+            </summary>
+            <param name="reader">The data reader to get the parser for the current row from</param>
+            <param name="type">The type to get the parser for</param>
+            <param name="startIndex">The start column index of the object (default 0)</param>
+            <param name="length">The length of columns to read (default -1 = all fields following startIndex)</param>
+            <param name="returnNullIfFirstMissing">Return null if we can't find the first column? (default false)</param>
+            <returns>A parser for this specific object from this row.</returns>
+        </member>
         <member name="M:Dapper.SqlMapper.GetRowParser``1(System.Data.IDataReader,System.Type,System.Int32,System.Int32,System.Boolean)">
+            <inheritdoc cref="M:Dapper.SqlMapper.GetRowParser``1(System.Data.Common.DbDataReader,System.Type,System.Int32,System.Int32,System.Boolean)"/>
+        </member>
+        <member name="M:Dapper.SqlMapper.GetRowParser``1(System.Data.Common.DbDataReader,System.Type,System.Int32,System.Int32,System.Boolean)">
             <summary>
             Gets the row parser for a specific row on a data reader. This allows for type switching every row based on, for example, a TypeId column.
             You could return a collection of the base type but have each more specific.

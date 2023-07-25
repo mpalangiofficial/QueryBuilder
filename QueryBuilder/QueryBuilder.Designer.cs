@@ -190,9 +190,10 @@
             // 
             this.selectConfig.DbTables = null;
             this.selectConfig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.selectConfig.SelectedFields = null;
             this.selectConfig.Location = new System.Drawing.Point(48, 213);
             this.selectConfig.Name = "selectConfig";
+            this.selectConfig.SelectedFields = null;
+            this.selectConfig.SelectedFunctionFields = null;
             this.selectConfig.Size = new System.Drawing.Size(331, 64);
             this.selectConfig.TabIndex = 10;
             this.selectConfig.ToolTip = null;
