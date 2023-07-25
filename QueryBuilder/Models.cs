@@ -1,4 +1,5 @@
-﻿using SqlKata;
+﻿
+using SqlKata;
 using SqlKata.Compilers;
 using System;
 using System.Collections.Generic;
@@ -93,17 +94,31 @@ namespace QueryBuilder
         }
 
     }
+    public class FunctionField
+    {
+        public string Function { get; set; }
+        public string Name { get; set; }
+        public string Alias { get; set; }
+        public override string ToString()
+        {
+            var segment= Name.Split('.');
+            var name = $"[{segment[0]}].{segment[1]}";
+            return string.IsNullOrEmpty(Alias) ? $"{Function}({name})" : $"{Function}({name}) as {Alias}";
+        }
+    }
     public class QueryModel
     {
         public NameAlias StartTable { get; set; }
         public List<Join> Joins { get; set; }
         public BaseWhere Where { get; set; }
         public List<NameAlias> SelectFields { get; set; }
+        public List<FunctionField> SelectedFunctionFields { get; set; }
         public Query GenerateQuery(IDbConnection connection, Compiler compiler)
         {
             var factory = new QueryFactory(connection, compiler);
             Query query = factory.Query(this.StartTable.ToString());
 
+            //query.Select("customerId").SelectRaw("count(orderId) as count").GroupBy("customerId");
             if (this.Joins.Count > 0)
             {
                 foreach (var join in this.Joins)
@@ -132,6 +147,18 @@ namespace QueryBuilder
             {
                 var fields = this.SelectFields.Select(f => f.ToString()).ToArray();
                 query.Select(fields);
+            }
+
+            if (this.SelectedFunctionFields != null && this.SelectedFunctionFields.Count > 0)
+            {
+                foreach (var selectedFunctionField in this.SelectedFunctionFields)
+                {
+                    query.SelectRaw(selectedFunctionField.ToString());
+                }
+                if (this.SelectFields != null && this.SelectFields.Count > 0)
+                {
+                    SelectFields.ForEach(sf=> query.GroupBy(sf.Name));
+                }
             }
 
             return query;

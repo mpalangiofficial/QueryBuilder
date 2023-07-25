@@ -31,8 +31,8 @@ namespace QueryBuilder
                 btnStartTable.Visible = false;
 
                 this.ToolTipName?.SetToolTip(this.btnSelectedTable, popupForm.SelectedTable.Name);
-
-                this.Table.Name = btnSelectedTable.Text = popupForm.SelectedTable.Name.Substring(0, Math.Min(popupForm.SelectedTable.Name.Length, 12));
+                this.Table.Name = popupForm.SelectedTable.Name;
+                 btnSelectedTable.Text = popupForm.SelectedTable.Name.Substring(0, Math.Min(popupForm.SelectedTable.Name.Length, 12));
                 btnSelectedTable.Tag = popupForm.SelectedTable;
                 
                 this.Changed?.Invoke(this, e);

@@ -190,7 +190,9 @@ namespace QueryBuilder
 
                 var dbdd = query.Get();
                 dgResult.DataSource = null;
-                dgResult.DataSource = dbdd.ToList();
+
+                var dd = dbdd.ToList();
+                dgResult.DataSource = dbdd.ToList<dynamic>();
                 txtScript.Text = new FFSqlServerCompiler().Compile(query).Sql;
 
             }
@@ -199,7 +201,7 @@ namespace QueryBuilder
                 MessageBox.Show(exception.Message);
             }
 
-            MessageBox.Show("query model changed!");
+            //MessageBox.Show("query model changed!");
         }
         private void startTableConfig_Changed(object sender, EventArgs e)
         {
@@ -242,6 +244,7 @@ namespace QueryBuilder
         private void selectConfig_Changed(object sender, EventArgs e)
         {
             this.QueryModel.SelectFields = selectConfig.SelectedFields;
+            this.QueryModel.SelectedFunctionFields = selectConfig.SelectedFunctionFields;
             refresh(); 
         }
     }

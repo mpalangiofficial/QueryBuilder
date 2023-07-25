@@ -14,8 +14,37 @@ namespace QueryBuilder
     public partial class SelectForm : Form
     {
         private List<NameAlias> _usedTables;
+        private List<NameAlias> _selectedFields = new List<NameAlias>();
+        private List<FunctionField> _selectedFunctionFields = new List<FunctionField>();
         public List<DbTableModel> DbTables { set; get; }
-        public List<NameAlias> SelectedFields { get; set; } = new List<NameAlias>();
+
+        public List<NameAlias> SelectedFields
+        {
+            get => _selectedFields;
+            set
+            {
+                if (value is null)
+                    _selectedFields = new List<NameAlias>();
+                else
+                    _selectedFields = value;
+
+                refresh();
+            }
+        }
+
+        public List<FunctionField> SelectedFunctionFields
+        {
+            get => _selectedFunctionFields;
+            set
+            {
+                if (value is null)
+                    _selectedFunctionFields = new List<FunctionField>();
+                else
+                    _selectedFunctionFields = value;
+                refresh();
+            }
+
+        }
 
         public List<NameAlias> UsedTables
         {
@@ -38,6 +67,9 @@ namespace QueryBuilder
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
+            var functions = new string[] { "count", "sum" };
+            cmbFunction.DataSource = functions;
+            cmbFunction.SelectedIndex = 0;
         }
 
         private void SelectForm_Load(object sender, EventArgs e)
@@ -64,10 +96,61 @@ namespace QueryBuilder
         {
             var table = (NameAlias)cmbTables.SelectedItem;
             var tableName = string.IsNullOrEmpty(table.Alias) ? table.Name : table.Alias;
-            var field = new NameAlias() { Name = $"{tableName}.{cmbFields.SelectedItem.ToString()}", Alias = txtAlias.Text };
-            SelectedFields.Add(field);
+            if (chkUsedFunction.Checked)
+            {
+                var functionField = new FunctionField() { Name = $"{tableName}.{cmbFields.SelectedItem.ToString()}", Alias = txtAlias.Text, Function = cmbFunction.SelectedItem.ToString() };
+                SelectedFunctionFields.Add(functionField);
+            }
+            else
+            {
+                var field = new NameAlias() { Name = $"{tableName}.{cmbFields.SelectedItem.ToString()}", Alias = txtAlias.Text };
+                SelectedFields.Add(field);
+            }
+            refresh();
+        }
+
+        private void refresh()
+        {
             dgFields.DataSource = null;
-            dgFields.DataSource = SelectedFields;
+            var source = SelectedFields.Select(sf => new FieldDto(sf)).Concat(SelectedFunctionFields.Select(ff => new FieldDto(ff))
+                .ToList());
+            dgFields.DataSource = source.ToList();
+        }
+
+        private void dgFields_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgFields.Rows[e.RowIndex].Cells[e.ColumnIndex].GetType() == typeof(DataGridViewImageCell))
+            {
+                var item = (FieldDto)dgFields.Rows[e.RowIndex].DataBoundItem;
+                if (item.OrginalItem.GetType() == typeof(NameAlias))
+                {
+                    SelectedFields.Remove((NameAlias)item.OrginalItem);
+                }
+                else if (item.OrginalItem.GetType() == typeof(FunctionField))
+                {
+                    SelectedFunctionFields.Remove((FunctionField)item.OrginalItem);
+                }
+                refresh();
+            }
+        }
+    }
+    internal class FieldDto
+    {
+        public string Name { get; set; }
+        public string Alias { get; set; }
+        public object OrginalItem { get; set; }
+
+        public FieldDto(NameAlias nameAlias)
+        {
+            this.OrginalItem = nameAlias;
+            this.Name = nameAlias.Name;
+            this.Alias = nameAlias.Alias;
+        }
+        public FieldDto(FunctionField functionField)
+        {
+            this.OrginalItem = functionField;
+            this.Name = $"{functionField.Function}({functionField.Name})";
+            this.Alias = functionField.Alias;
         }
     }
 }

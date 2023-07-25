@@ -22,10 +22,12 @@ namespace QueryBuilder
             set
             {
                 _usedTables = value;
+                btnAddSelect.Enabled = _usedTables?.Count > 0 ? true : false;
             }
         }
         public event EventHandler Changed;
         public List<NameAlias> SelectedFields { get; set; }
+        public List<FunctionField> SelectedFunctionFields { get; set; }
         public SelectConfig()
         {
             InitializeComponent();
@@ -39,10 +41,14 @@ namespace QueryBuilder
             SelectForm selectForm = new SelectForm();
             selectForm.DbTables = this.DbTables;
             selectForm.UsedTables = this.UsedTables;
+            selectForm.SelectedFields = this.SelectedFields;
+            selectForm.SelectedFunctionFields = this.SelectedFunctionFields;
             selectForm.Location= new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
             if (selectForm.ShowDialog(button) == DialogResult.OK)
             {
                 this.SelectedFields = selectForm.SelectedFields;
+                this.SelectedFunctionFields = selectForm.SelectedFunctionFields;
+                txtFields.Text = string.Join("; ", selectForm.SelectedFields)+"; "+string.Join("; ",selectForm.SelectedFunctionFields);
                 this.Changed?.Invoke(this,EventArgs.Empty);
             }
         }
