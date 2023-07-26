@@ -161,7 +161,7 @@
             // 
             this.dgFields.AllowUserToAddRows = false;
             this.dgFields.AllowUserToDeleteRows = false;
-            this.dgFields.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dgFields.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dgFields.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.dgFields.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgFields.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
