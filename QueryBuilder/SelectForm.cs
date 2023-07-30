@@ -14,17 +14,17 @@ namespace QueryBuilder
     public partial class SelectForm : Form
     {
         private List<NameAlias> _usedTables;
-        private List<NameAlias> _selectedFields = new List<NameAlias>();
+        private List<SelectField> _selectedFields = new List<SelectField>();
         private List<FunctionField> _selectedFunctionFields = new List<FunctionField>();
         public List<DbTableModel> DbTables { set; get; }
 
-        public List<NameAlias> SelectedFields
+        public List<SelectField> SelectedFields
         {
             get => _selectedFields;
             set
             {
                 if (value is null)
-                    _selectedFields = new List<NameAlias>();
+                    _selectedFields = new List<SelectField>();
                 else
                     _selectedFields = value;
 
@@ -32,19 +32,6 @@ namespace QueryBuilder
             }
         }
 
-        public List<FunctionField> SelectedFunctionFields
-        {
-            get => _selectedFunctionFields;
-            set
-            {
-                if (value is null)
-                    _selectedFunctionFields = new List<FunctionField>();
-                else
-                    _selectedFunctionFields = value;
-                refresh();
-            }
-
-        }
 
         public List<NameAlias> UsedTables
         {
@@ -57,6 +44,10 @@ namespace QueryBuilder
                     this.cmbTables.DataSource = value;
                     cmbTables.DisplayMember = nameof(NameAlias.ToString);
                     cmbTables.SelectedIndex = 0;
+
+                    this.cmbFormulaTables.DataSource = value.Select(ut => ut.DeepCopy()).ToList();
+                    cmbFormulaTables.DisplayMember = nameof(NameAlias.ToString);
+                    cmbFormulaTables.SelectedIndex = 0;
                 }
             }
             get => _usedTables;
@@ -67,10 +58,15 @@ namespace QueryBuilder
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
-            var functions = new string[] { "Count", "Sum","Max","Min" ,"Avg"};
-            cmbFunction.DataSource = functions;
+
+            cmbFunction.DataSource = AggregationFunction.Functions;
+            cmbFunction.DisplayMember = nameof(AggregationFunction.Name);
             cmbFunction.SelectedIndex = 0;
             dgFields.AutoGenerateColumns = false;
+            var operators = Operator.Operators;
+            cmbOperators.DisplayMember = nameof(Operator.Symbol);
+            cmbOperators.DataSource = operators;
+            cmbFormulaTables.Visible = cmbFormulaFields.Visible = cmbOperators.Visible = false;
         }
 
         private void SelectForm_Load(object sender, EventArgs e)
@@ -97,44 +93,28 @@ namespace QueryBuilder
         {
             var table = (NameAlias)cmbTables.SelectedItem;
             var tableName = string.IsNullOrEmpty(table.Alias) ? table.Name : table.Alias;
-            if (chkUsedFunction.Checked)
-            {
-                if (string.IsNullOrEmpty(txtAlias.Text) || cmbFields.SelectedIndex == 0)
-                {
-                    MessageBox.Show("please, select a field, or set alias for function field");
-                }
-                else
-                {
-                    var functionField = new FunctionField()
-                    {
-                        Name = $"{tableName}.{cmbFields.SelectedItem.ToString()}", Alias = txtAlias.Text,
-                        Function = cmbFunction.SelectedItem.ToString()
-                    };
-                    SelectedFunctionFields.Add(functionField);
-                }
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(txtAlias.Text) && cmbFields.SelectedIndex == 0)
-                {
-                    MessageBox.Show("you can't set alias for set of field");
-                }
-                else
 
-                {
-                    var field = new NameAlias()
-                        { Name = $"{tableName}.{cmbFields.SelectedItem.ToString()}", Alias = txtAlias.Text };
-                    SelectedFields.Add(field);
-                }
-            }
+            var selectField = new SelectField();
+            selectField.TableName = table;
+            selectField.FieldName = new NameAlias() { Name = cmbFields.SelectedItem.ToString() };
+            selectField.Alias = txtAlias.Text;
+            selectField.HasFunction = chkUsedFunction.Checked;
+            selectField.Function = chkUsedFunction.Checked ? (AggregationFunction)cmbFunction.SelectedItem : null;
+            SelectedFields.Add(selectField);
             refresh();
+            resetForm();
+        }
+
+        private void resetForm()
+        {
+            MessageBox.Show("Reset form");
         }
 
         private void refresh()
         {
             dgFields.DataSource = null;
-            var source = SelectedFields.Select(sf => new FieldDto(sf)).Concat(SelectedFunctionFields.Select(ff => new FieldDto(ff))
-                .ToList());
+            //todo fix
+            var source = SelectedFields.Select(sf => new FieldDto(sf));
             dgFields.DataSource = source.ToList();
         }
 
@@ -145,15 +125,8 @@ namespace QueryBuilder
                 if (dgFields.Rows[e.RowIndex].Cells[e.ColumnIndex].GetType() == typeof(DataGridViewImageCell))
                 {
                     var item = (FieldDto)dgFields.Rows[e.RowIndex].DataBoundItem;
-                    if (item.OrginalItem.GetType() == typeof(NameAlias))
-                    {
-                        SelectedFields.Remove((NameAlias)item.OrginalItem);
-                    }
-                    else if (item.OrginalItem.GetType() == typeof(FunctionField))
-                    {
-                        SelectedFunctionFields.Remove((FunctionField)item.OrginalItem);
-                    }
 
+                    SelectedFields.Remove((SelectField)item.OrginalItem);
                     refresh();
                 }
             }
@@ -162,6 +135,21 @@ namespace QueryBuilder
         private void chkUsedFunction_CheckedChanged(object sender, EventArgs e)
         {
             cmbFunction.Visible = chkUsedFunction.Checked;
+        }
+
+        private void chkFormula_CheckedChanged(object sender, EventArgs e)
+        {
+            cmbFormulaTables.Visible = cmbFormulaFields.Visible = cmbOperators.Visible = chkFormula.Checked;
+        }
+
+        private void cmbFormulaTables_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedTable =
+                DbTables.SingleOrDefault(t => t.Name.ToLower() == ((NameAlias)cmbFormulaTables.SelectedItem).Name.ToLower());
+            var fields = selectedTable?.Fields.Select(f => f.Name).ToList();
+            fields.Insert(0, "*");
+            cmbFormulaFields.DataSource = null;
+            cmbFormulaFields.DataSource = fields;
         }
     }
     internal class FieldDto
@@ -182,5 +170,12 @@ namespace QueryBuilder
             this.Name = $"{functionField.Function}({functionField.Name})";
             this.Alias = functionField.Alias;
         }
+        public FieldDto(SelectField selectField)
+        {
+            this.OrginalItem = selectField;
+            this.Name = $"{selectField?.Function?.ToString()}({selectField?.Function?.Name})";
+            this.Alias = selectField.Alias;
+        }
+
     }
 }

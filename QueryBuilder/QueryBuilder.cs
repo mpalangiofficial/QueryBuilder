@@ -228,7 +228,6 @@ namespace QueryBuilder
         private void selectConfig_Changed(object sender, EventArgs e)
         {
             this.QueryModel.SelectFields = selectConfig.SelectedFields;
-            this.QueryModel.SelectedFunctionFields = selectConfig.SelectedFunctionFields;
             Refresh();
         }
         private void SetUsedTables()

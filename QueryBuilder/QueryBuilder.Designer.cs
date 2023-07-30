@@ -269,7 +269,6 @@
             this.selectConfig.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
             this.selectConfig.Name = "selectConfig";
             this.selectConfig.SelectedFields = null;
-            this.selectConfig.SelectedFunctionFields = null;
             this.selectConfig.Size = new System.Drawing.Size(399, 49);
             this.selectConfig.TabIndex = 10;
             this.selectConfig.ToolTip = null;

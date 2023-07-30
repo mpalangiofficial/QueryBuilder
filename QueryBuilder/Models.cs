@@ -97,6 +97,7 @@ namespace QueryBuilder
     {
         public string Name { get; set; }
         public string Alias { get; set; }
+        public bool HasAlias => !string.IsNullOrEmpty(Alias);
         public override string ToString() => string.IsNullOrEmpty(Alias) ? $"{Name}" : $"{Name} as {Alias}";
         public override bool Equals(object obj)
         {
@@ -105,6 +106,8 @@ namespace QueryBuilder
             var eObj = obj as NameAlias;
             return eObj.Name == this.Name && eObj.Alias == this.Alias;
         }
+
+        public NameAlias DeepCopy() => new NameAlias() { Name = this.Name, Alias = this.Alias };
     }
     public class Join
     {
@@ -156,6 +159,30 @@ namespace QueryBuilder
             Alias = this.Alias
         };
     }
+
+    public class AggregationFunction
+    {
+        public string Name { get; set; }
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        public static AggregationFunction Count => new AggregationFunction() { Name = "Count" };
+        public static AggregationFunction Sum => new AggregationFunction() { Name = "Sum" };
+        public static AggregationFunction Max => new AggregationFunction() { Name = "Max" };
+        public static AggregationFunction Min => new AggregationFunction() { Name = "Min" };
+        public static AggregationFunction Avg => new AggregationFunction() { Name = "Avg" };
+        public static List< AggregationFunction> Functions => new List<AggregationFunction>() { Count,Sum,Max,Min,Avg };
+        public override bool Equals(object obj)
+        {
+            if (this == obj) return true;
+            if (obj == null || GetType() != obj.GetType()) return false;
+            var eObj = obj as AggregationFunction;
+            return this.Name.Equals(eObj.Name);
+        }
+    }
+
     public class OrderByField
     {
         public string Field { get; set; }
@@ -166,13 +193,55 @@ namespace QueryBuilder
         Asc = 0,
         Desc = 1
     }
+
+    public class SelectField
+    {
+        public NameAlias TableName { get; set; }
+        public NameAlias FieldName { get; set; }
+        public NameAlias OtherTableName { get; set; }
+        public NameAlias OtherFieldName { get; set; }
+        public bool HasFunction { get; set; }
+        public AggregationFunction Function { get; set; }
+        public bool IsTempField { get; set; }
+        public bool UsedOtherField { get; set; }
+        public SelectField OtherField { get; set; }
+        public Operator Operator{ get; set; }
+        public string Alias { get; set; }
+        public override string ToString()
+        {
+            var result = string.Empty;
+            if (this.HasFunction)
+            {
+            }
+            else
+            {
+                string tableName = this.TableName.HasAlias ? this.TableName.Alias : this.TableName.Name;
+                result = $"{tableName}.{this.FieldName.Name}";
+            }
+
+            return result;
+        }
+    }
+
+    public class Operator
+    {
+        public string Name { get; set; }
+        public string Symbol { get; set; }
+        public static Operator Sum => new Operator() { Name = "Sum", Symbol = "+" };
+        public static Operator Mines => new Operator() { Name = "Mines", Symbol = "-" };
+        public static Operator Multiple => new Operator() { Name = "Multiple", Symbol = "*" };
+        public static Operator Divid => new Operator() { Name = "Divid", Symbol = "/" };
+        public static List<Operator> Operators => new List<Operator>() { Multiple, Sum, Mines, Divid };
+        public override string ToString() => Symbol;
+
+    }
+
     public class QueryModel
     {
         public NameAlias StartTable { get; set; }
         public List<Join> Joins { get; set; }
         public BaseWhere Where { get; set; }
-        public List<NameAlias> SelectFields { get; set; }
-        public List<FunctionField> SelectedFunctionFields { get; set; }
+        public List<SelectField> SelectFields { get; set; }
         public Query GenerateQuery(IDbConnection connection, Compiler compiler)
         {
             var factory = new QueryFactory(connection, compiler);
@@ -202,21 +271,26 @@ namespace QueryBuilder
                 query.Where(this.Where.FilterExpression);
             }
 
-            if (this.SelectFields != null && this.SelectFields.Count > 0)
+            if (this.SelectFields != null && this.SelectFields.Where(sf => !(sf.IsTempField || sf.HasFunction)).ToList().Count > 0)
             {
-                var fields = this.SelectFields.Select(f => f.ToString()).ToArray();
+                
+                var fields = this.SelectFields.Where(sf=>!(sf.IsTempField || sf.HasFunction)).Select(f => f.ToString()).ToArray();
                 query.Select(fields);
             }
 
-            if (this.SelectedFunctionFields != null && this.SelectedFunctionFields.Count > 0)
+            if (this.SelectFields != null && this.SelectFields.Where(sf=>!sf.IsTempField && sf.HasFunction).ToList().Count > 0)
             {
-                foreach (var selectedFunctionField in this.SelectedFunctionFields)
+                foreach (var selectedFunctionField in this.SelectFields.Where(sf => !sf.IsTempField && sf.HasFunction).ToList())
                 {
-                    query.SelectRaw(selectedFunctionField.ToString());
+                    string tableName = string.IsNullOrEmpty(selectedFunctionField.TableName.Alias)
+                        ? selectedFunctionField.TableName.Name
+                        : selectedFunctionField.TableName.Alias;
+                    query.SelectRaw($"{selectedFunctionField.Function.ToString()}([{tableName}].[{selectedFunctionField.FieldName.Name}])");
+                    //query.SelectRaw(selectedFunctionField.ToString());
                 }
-                if (this.SelectFields != null && this.SelectFields.Count > 0)
+                if (this.SelectFields != null && this.SelectFields.Where(sf => !(sf.IsTempField || sf.HasFunction)).ToList().Count > 0)
                 {
-                    SelectFields.ForEach(sf => query.GroupBy(sf.Name));
+                    this.SelectFields.Where(sf => !(sf.IsTempField || sf.HasFunction)).ToList().ForEach(sf => query.GroupBy(sf.FieldName.Name));
                 }
             }
 
