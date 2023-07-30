@@ -31,6 +31,7 @@ namespace QueryBuilder
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RuleGroupControl));
             this.tlpRuleGroup = new System.Windows.Forms.TableLayoutPanel();
             this.pnlOperations = new System.Windows.Forms.Panel();
             this.btnOr = new System.Windows.Forms.Button();
@@ -129,10 +130,10 @@ namespace QueryBuilder
             // 
             // btnAddRuleGroup
             // 
-            this.btnAddRuleGroup.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.btnAddRuleGroup.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnAddRuleGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnAddRuleGroup.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRuleGroup.Location = new System.Drawing.Point(157, 3);
+            this.btnAddRuleGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddRuleGroup.Location = new System.Drawing.Point(183, 3);
             this.btnAddRuleGroup.Name = "btnAddRuleGroup";
             this.btnAddRuleGroup.Size = new System.Drawing.Size(85, 24);
             this.btnAddRuleGroup.TabIndex = 1;
@@ -143,22 +144,22 @@ namespace QueryBuilder
             // btnDelete
             // 
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDelete.BackColor = System.Drawing.Color.IndianRed;
-            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnDelete.Location = new System.Drawing.Point(248, 3);
+            this.btnDelete.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
+            this.btnDelete.Location = new System.Drawing.Point(274, 3);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(50, 24);
+            this.btnDelete.Size = new System.Drawing.Size(24, 24);
             this.btnDelete.TabIndex = 0;
-            this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnAddRule
             // 
-            this.btnAddRule.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.btnAddRule.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnAddRule.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnAddRule.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAddRule.Location = new System.Drawing.Point(97, 3);
+            this.btnAddRule.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddRule.Location = new System.Drawing.Point(123, 3);
             this.btnAddRule.Name = "btnAddRule";
             this.btnAddRule.Size = new System.Drawing.Size(54, 24);
             this.btnAddRule.TabIndex = 0;

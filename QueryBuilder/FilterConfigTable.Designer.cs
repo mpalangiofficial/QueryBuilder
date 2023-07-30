@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnFilterCaption = new System.Windows.Forms.Button();
             this.btnAddFilter = new System.Windows.Forms.Button();
+            this.btnFilterCaption = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,18 +52,8 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(430, 70);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(430, 55);
             this.tableLayoutPanel1.TabIndex = 1;
-            // 
-            // btnFilterCaption
-            // 
-            this.btnFilterCaption.Location = new System.Drawing.Point(5, 15);
-            this.btnFilterCaption.Margin = new System.Windows.Forms.Padding(5, 15, 3, 3);
-            this.btnFilterCaption.Name = "btnFilterCaption";
-            this.btnFilterCaption.Size = new System.Drawing.Size(75, 36);
-            this.btnFilterCaption.TabIndex = 4;
-            this.btnFilterCaption.Text = "Filter";
-            this.btnFilterCaption.UseVisualStyleBackColor = true;
             // 
             // btnAddFilter
             // 
@@ -71,8 +61,8 @@
             this.btnAddFilter.FlatAppearance.BorderSize = 0;
             this.btnAddFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddFilter.Location = new System.Drawing.Point(88, 15);
-            this.btnAddFilter.Margin = new System.Windows.Forms.Padding(5, 15, 3, 3);
+            this.btnAddFilter.Location = new System.Drawing.Point(88, 8);
+            this.btnAddFilter.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnAddFilter.Name = "btnAddFilter";
             this.btnAddFilter.Size = new System.Drawing.Size(36, 36);
             this.btnAddFilter.TabIndex = 6;
@@ -80,13 +70,23 @@
             this.btnAddFilter.UseVisualStyleBackColor = false;
             this.btnAddFilter.Click += new System.EventHandler(this.btnAddFilter_Click);
             // 
+            // btnFilterCaption
+            // 
+            this.btnFilterCaption.Location = new System.Drawing.Point(5, 8);
+            this.btnFilterCaption.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
+            this.btnFilterCaption.Name = "btnFilterCaption";
+            this.btnFilterCaption.Size = new System.Drawing.Size(75, 36);
+            this.btnFilterCaption.TabIndex = 4;
+            this.btnFilterCaption.Text = "Filter";
+            this.btnFilterCaption.UseVisualStyleBackColor = true;
+            // 
             // FilterConfigTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "FilterConfigTable";
-            this.Size = new System.Drawing.Size(430, 70);
+            this.Size = new System.Drawing.Size(430, 55);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

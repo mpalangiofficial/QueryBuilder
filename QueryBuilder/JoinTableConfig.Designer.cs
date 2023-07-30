@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JoinTableConfig));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnJoinedTable = new System.Windows.Forms.Button();
             this.btnAddJoin = new System.Windows.Forms.Button();
@@ -55,17 +56,17 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(430, 70);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(430, 55);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // btnJoinedTable
             // 
             this.btnJoinedTable.AutoSize = true;
-            this.btnJoinedTable.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+            this.btnJoinedTable.BackColor = System.Drawing.Color.LightBlue;
             this.btnJoinedTable.FlatAppearance.BorderColor = System.Drawing.Color.LightGray;
             this.btnJoinedTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnJoinedTable.Location = new System.Drawing.Point(132, 15);
-            this.btnJoinedTable.Margin = new System.Windows.Forms.Padding(5, 15, 3, 3);
+            this.btnJoinedTable.Location = new System.Drawing.Point(132, 8);
+            this.btnJoinedTable.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnJoinedTable.Name = "btnJoinedTable";
             this.btnJoinedTable.Size = new System.Drawing.Size(12, 36);
             this.btnJoinedTable.TabIndex = 6;
@@ -78,8 +79,8 @@
             this.btnAddJoin.FlatAppearance.BorderSize = 0;
             this.btnAddJoin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddJoin.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddJoin.Location = new System.Drawing.Point(88, 15);
-            this.btnAddJoin.Margin = new System.Windows.Forms.Padding(5, 15, 3, 3);
+            this.btnAddJoin.Location = new System.Drawing.Point(88, 8);
+            this.btnAddJoin.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnAddJoin.Name = "btnAddJoin";
             this.btnAddJoin.Size = new System.Drawing.Size(36, 36);
             this.btnAddJoin.TabIndex = 5;
@@ -89,8 +90,8 @@
             // 
             // btnJoinCaption
             // 
-            this.btnJoinCaption.Location = new System.Drawing.Point(5, 15);
-            this.btnJoinCaption.Margin = new System.Windows.Forms.Padding(5, 15, 3, 3);
+            this.btnJoinCaption.Location = new System.Drawing.Point(5, 8);
+            this.btnJoinCaption.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnJoinCaption.Name = "btnJoinCaption";
             this.btnJoinCaption.Size = new System.Drawing.Size(75, 36);
             this.btnJoinCaption.TabIndex = 4;
@@ -103,12 +104,12 @@
             this.btnRemoveJoin.FlatAppearance.BorderSize = 0;
             this.btnRemoveJoin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveJoin.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveJoin.Location = new System.Drawing.Point(404, 15);
-            this.btnRemoveJoin.Margin = new System.Windows.Forms.Padding(5, 15, 3, 3);
+            this.btnRemoveJoin.Image = ((System.Drawing.Image)(resources.GetObject("btnRemoveJoin.Image")));
+            this.btnRemoveJoin.Location = new System.Drawing.Point(404, 8);
+            this.btnRemoveJoin.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnRemoveJoin.Name = "btnRemoveJoin";
             this.btnRemoveJoin.Size = new System.Drawing.Size(23, 36);
             this.btnRemoveJoin.TabIndex = 9;
-            this.btnRemoveJoin.Text = "-";
             this.btnRemoveJoin.UseVisualStyleBackColor = false;
             this.btnRemoveJoin.Visible = false;
             this.btnRemoveJoin.Click += new System.EventHandler(this.btnRemoveJoin_Click);
@@ -120,7 +121,7 @@
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "JoinTableConfig";
-            this.Size = new System.Drawing.Size(430, 70);
+            this.Size = new System.Drawing.Size(430, 55);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

@@ -67,8 +67,8 @@ namespace QueryBuilder
             this.tlpFilterForm.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpFilterForm.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpFilterForm.Controls.Add(this.rootRuleGroupControl, 0, 0);
-            this.tlpFilterForm.Controls.Add(this.btnOk, 2, 1);
-            this.tlpFilterForm.Controls.Add(this.btnCancel, 1, 1);
+            this.tlpFilterForm.Controls.Add(this.btnCancel, 2, 1);
+            this.tlpFilterForm.Controls.Add(this.btnOk, 1, 1);
             this.tlpFilterForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpFilterForm.Location = new System.Drawing.Point(0, 0);
             this.tlpFilterForm.Name = "tlpFilterForm";
@@ -80,7 +80,7 @@ namespace QueryBuilder
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(575, 527);
+            this.btnOk.Location = new System.Drawing.Point(509, 527);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(60, 25);
             this.btnOk.TabIndex = 1;
@@ -91,7 +91,7 @@ namespace QueryBuilder
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(509, 527);
+            this.btnCancel.Location = new System.Drawing.Point(575, 527);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(60, 25);
             this.btnCancel.TabIndex = 1;

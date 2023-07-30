@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.CSharp.RuntimeBinder;
+using QueryBuilder.DatabaseSchema;
+using SqlKata.Compilers;
+using SqlKata.Execution;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -8,13 +12,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using Dapper;
-using Microsoft.CSharp.RuntimeBinder;
-using QueryBuilder.DatabaseSchema;
-using SqlKata;
-using SqlKata.Compilers;
-using SqlKata.Execution;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace QueryBuilder
 {
@@ -23,18 +21,19 @@ namespace QueryBuilder
         public QueryModel QueryModel { get; private set; } = new QueryModel() { Joins = new List<Join>() };
         public string ConnectionString { get; set; } = "Password=ffc-pr-02;Persist Security Info=True;User ID=sa;Initial Catalog=northwind;Data Source=.";
         private IList<DbTableModel> _dbTables;
+        private string[] columnNames;
+        private IEnumerable<dynamic> queryResult;
         public QueryBuilder()
         {
             InitializeComponent();
             dgResult.AutoGenerateColumns = false;
-            btnRun.FlatStyle = FlatStyle.Flat;
-            btnRun.FlatAppearance.BorderColor = Color.LightGray;
-            btnRun.FlatAppearance.BorderSize = 1;
-            btnRun.ForeColor = Color.DarkGray;
 
-            IDataSchema dataSchema = new DataSchemaWithDatabaseSchemaReader();
-            _dbTables = dataSchema.GetSchema(ConnectionString, "");
+            loadDbSchema();
 
+            ApplyDBTablesAndUsedTables();
+        }
+        private void ApplyDBTablesAndUsedTables()
+        {
             var usedTables = UsedTables();
 
             joinTableConfig.DbTables = _dbTables.ToList();
@@ -45,6 +44,14 @@ namespace QueryBuilder
 
             selectConfig.DbTables = _dbTables.ToList();
             selectConfig.UsedTables = usedTables;
+
+            sortConfig.DbTables = _dbTables.ToList();
+            sortConfig.UsedTables = usedTables;
+        }
+        private void loadDbSchema()
+        {
+            IDataSchema dataSchema = new DataSchemaWithDatabaseSchemaReader();
+            _dbTables = dataSchema.GetSchema(ConnectionString, "");
         }
         private void tlpQueryBuilder_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
         {
@@ -96,9 +103,8 @@ namespace QueryBuilder
             JoinTableConfig joinTableConfig = (JoinTableConfig)sender;
             QueryModel.Joins.Add(joinTableConfig.Join);
             var joinTableConfigIndex = tlpQueryBuilderFlow.GetRow(joinTableConfig);
-            Shiftdown(joinTableConfigIndex);
 
-            var rowStyle = new RowStyle(SizeType.Absolute, 70F);
+            var rowStyle = new RowStyle(SizeType.Absolute, 55F);
             var joinObj = new JoinTableConfig();
             joinObj.AddedJoin += new EventHandler(joinTableConfig_AddedJoin);
             joinObj.RemovingJoin += new EventHandler(this.joinTableConfig_RemovingJoin);
@@ -106,11 +112,13 @@ namespace QueryBuilder
             joinObj.DbTables = this._dbTables.ToList();
             joinObj.ToolTip = this.toolTipName;
             tlpQueryBuilderFlow.RowStyles.Insert(2, rowStyle);
+            ShiftDown(joinTableConfigIndex);
             tlpQueryBuilderFlow.Controls.Add(joinObj, 1, joinTableConfigIndex + 1);
+            joinObj.Dock = DockStyle.Fill;
             SetUsedTables();
-            refresh();
+            Refresh();
         }
-        private void Shiftdown(int selectIndex)
+        private void ShiftDown(int selectIndex)
         {
             for (int i = tlpQueryBuilderFlow.RowCount - 1; i > selectIndex; i--)
             {
@@ -149,17 +157,17 @@ namespace QueryBuilder
             tlpQueryBuilderFlow.RowStyles.RemoveAt(joinTableConfigIndex);
             ShiftAbove(joinTableConfigIndex);
             SetUsedTables();
-            refresh();
+            Refresh();
         }
-        private void refresh()
+        private void Refresh()
         {
             try
             {
                 var query = QueryModel.GenerateQuery(new SqlConnection(ConnectionString), new FFSqlServerCompiler());
-                var queryResult = query.Get();
+                queryResult = query.Get();
 
                 var d = queryResult.First();
-                var columnNames = ((IDictionary<string, object>)d).Keys.ToArray();
+                columnNames = ((IDictionary<string, object>)d).Keys.ToArray();
                 dgResult.Columns.Clear();
                 foreach (var columnName in columnNames)
                 {
@@ -181,7 +189,70 @@ namespace QueryBuilder
                 MessageBox.Show(exception.Message);
             }
 
+            LoadChart();
             //MessageBox.Show("query model changed!");
+        }
+
+        private void LoadChart()
+        {
+            if (cmbChartTypes.Items.Count < 1)
+            {
+                cmbChartTypes.Items.Add(SeriesChartType.Pie);
+                cmbChartTypes.Items.Add(SeriesChartType.Bar);
+                cmbChartTypes.SelectedIndex = 0;
+            }
+            cmbXValueMember.Items.Clear();
+            cmbYValueMember.Items.Clear();
+            foreach (var columnName in columnNames)
+            {
+                cmbXValueMember.Items.Add(columnName);
+                cmbYValueMember.Items.Add(columnName);
+            }
+
+            cmbXValueMember.SelectedIndex = cmbYValueMember.SelectedIndex = 0;
+
+        }
+
+        private void startTableConfig_Changed(object sender, EventArgs e)
+        {
+            var startTableConfig = (StartTableConfig)sender;
+            this.QueryModel.StartTable = startTableConfig.Table;
+            SetUsedTables();
+            Refresh();
+        }
+        private void filterConfigTable_Changed(object sender, EventArgs e)
+        {
+            this.QueryModel.Where = filterConfigTable.Where;
+            Refresh();
+        }
+        private void selectConfig_Changed(object sender, EventArgs e)
+        {
+            this.QueryModel.SelectFields = selectConfig.SelectedFields;
+            this.QueryModel.SelectedFunctionFields = selectConfig.SelectedFunctionFields;
+            Refresh();
+        }
+        private void SetUsedTables()
+        {
+            List<NameAlias> usedTables = UsedTables();
+            foreach (var control in tlpQueryBuilderFlow.Controls)
+            {
+                if (control is JoinTableConfig config) config.UsedTables = usedTables;
+            }
+
+            sortConfig.UsedTables = usedTables;
+            filterConfigTable.UsedTables = usedTables;
+            selectConfig.UsedTables = usedTables;
+        }
+        private List<NameAlias> UsedTables()
+        {
+            var result = new List<NameAlias>();
+            if (QueryModel.StartTable != null) result.Add(QueryModel.StartTable);
+            if (QueryModel?.Joins?.Count > 0)
+            {
+                QueryModel.Joins.ForEach(join => result.Add(join.Table));
+            }
+
+            return result;
         }
         public static object GetProperty(object o, string member)
         {
@@ -208,49 +279,33 @@ namespace QueryBuilder
                 return o.GetType().GetProperty(member, BindingFlags.Public | BindingFlags.Instance).GetValue(o, null);
             }
         }
-        private void startTableConfig_Changed(object sender, EventArgs e)
-        {
-            var startTableConfig = (StartTableConfig)sender;
-            this.QueryModel.StartTable = startTableConfig.Table;
-            SetUsedTables();
-            refresh();
-        }
 
-        private void SetUsedTables()
+        private void btnRefreshChart_Click(object sender, EventArgs e)
         {
-            List<NameAlias> usedTables = UsedTables();
-            foreach (var control in tlpQueryBuilderFlow.Controls)
+            try
             {
-                if (control is JoinTableConfig config) config.UsedTables = usedTables;
+                List<ChartModel> data = new List<ChartModel>();
+
+                foreach (var o in queryResult)
+                {
+                    var item = (IDictionary<string, object>)o;
+                    data.Add(new ChartModel(){Title = item[cmbXValueMember.SelectedItem.ToString()]?.ToString()??String.Empty ,Value = Convert.ToInt32(item[cmbYValueMember.SelectedItem.ToString()]) });
+                }
+                chart1.Series.Clear();
+                chart1.ChartAreas.Clear();
+                chart1.ChartAreas.Add(new ChartArea());
+                chart1.DataSource = data;
+                chart1.Series.Add("Series1");
+                chart1.Series["Series1"].XValueMember = nameof(ChartModel.Title);
+                chart1.Series["Series1"].YValueMembers = nameof(ChartModel.Value);
+                chart1.Series["Series1"].ChartType = (SeriesChartType)cmbChartTypes.SelectedItem;
+                chart1.BackColor = Color.WhiteSmoke;
+                chart1.Series["Series1"].Color = Color.DodgerBlue;
             }
-
-            filterConfigTable.UsedTables = usedTables;
-            selectConfig.UsedTables = usedTables;
-        }
-
-        private List<NameAlias> UsedTables()
-        {
-            var result = new List<NameAlias>();
-            if (QueryModel.StartTable != null) result.Add(QueryModel.StartTable);
-            if (QueryModel?.Joins?.Count > 0)
+            catch (Exception ex)
             {
-                QueryModel.Joins.ForEach(join => result.Add(join.Table));
+                Console.WriteLine(ex);
             }
-
-            return result;
-        }
-
-        private void filterConfigTable_Changed(object sender, EventArgs e)
-        {
-            this.QueryModel.Where = filterConfigTable.Where;
-            refresh();
-        }
-
-        private void selectConfig_Changed(object sender, EventArgs e)
-        {
-            this.QueryModel.SelectFields = selectConfig.SelectedFields;
-            this.QueryModel.SelectedFunctionFields = selectConfig.SelectedFunctionFields;
-            refresh();
         }
     }
 }

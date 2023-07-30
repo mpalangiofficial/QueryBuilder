@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RuleControl));
             this.panel1 = new System.Windows.Forms.Panel();
             this.tlpRule = new System.Windows.Forms.TableLayoutPanel();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.cmbTables = new System.Windows.Forms.ComboBox();
-            this.cmbOperations = new System.Windows.Forms.ComboBox();
             this.txtExpectedValue = new System.Windows.Forms.TextBox();
+            this.cmbOperations = new System.Windows.Forms.ComboBox();
+            this.cmbTables = new System.Windows.Forms.ComboBox();
             this.cmbFields = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.tlpRule.SuspendLayout();
@@ -75,56 +76,66 @@
             // btnDelete
             // 
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDelete.BackColor = System.Drawing.Color.IndianRed;
-            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnDelete.Location = new System.Drawing.Point(445, 3);
+            this.btnDelete.BackColor = System.Drawing.Color.Transparent;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
+            this.btnDelete.Location = new System.Drawing.Point(484, 3);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(65, 25);
+            this.btnDelete.Size = new System.Drawing.Size(23, 25);
             this.btnDelete.TabIndex = 0;
-            this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // cmbTables
-            // 
-            this.cmbTables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTables.FormattingEnabled = true;
-            this.cmbTables.Location = new System.Drawing.Point(3, 5);
-            this.cmbTables.Name = "cmbTables";
-            this.cmbTables.Size = new System.Drawing.Size(106, 21);
-            this.cmbTables.TabIndex = 1;
-            this.cmbTables.SelectedIndexChanged += new System.EventHandler(this.cmbTables_SelectedIndexChanged);
-            // 
-            // cmbOperations
-            // 
-            this.cmbOperations.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbOperations.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbOperations.FormattingEnabled = true;
-            this.cmbOperations.Location = new System.Drawing.Point(227, 5);
-            this.cmbOperations.Name = "cmbOperations";
-            this.cmbOperations.Size = new System.Drawing.Size(106, 21);
-            this.cmbOperations.TabIndex = 1;
-            this.cmbOperations.SelectedIndexChanged += new System.EventHandler(this.cmbOperations_SelectedIndexChanged);
             // 
             // txtExpectedValue
             // 
             this.txtExpectedValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtExpectedValue.Location = new System.Drawing.Point(339, 6);
+            this.txtExpectedValue.Location = new System.Drawing.Point(375, 6);
             this.txtExpectedValue.Name = "txtExpectedValue";
             this.txtExpectedValue.Size = new System.Drawing.Size(100, 20);
             this.txtExpectedValue.TabIndex = 2;
             this.txtExpectedValue.TextChanged += new System.EventHandler(this.txtExpectedValue_TextChanged);
             // 
+            // cmbOperations
+            // 
+            this.cmbOperations.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbOperations.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.cmbOperations.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbOperations.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbOperations.FormattingEnabled = true;
+            this.cmbOperations.Location = new System.Drawing.Point(251, 5);
+            this.cmbOperations.Name = "cmbOperations";
+            this.cmbOperations.Size = new System.Drawing.Size(118, 21);
+            this.cmbOperations.TabIndex = 1;
+            this.cmbOperations.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cmbTables_DrawItem);
+            this.cmbOperations.SelectedIndexChanged += new System.EventHandler(this.cmbOperations_SelectedIndexChanged);
+            // 
+            // cmbTables
+            // 
+            this.cmbTables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbTables.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.cmbTables.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTables.FormattingEnabled = true;
+            this.cmbTables.Location = new System.Drawing.Point(3, 5);
+            this.cmbTables.Name = "cmbTables";
+            this.cmbTables.Size = new System.Drawing.Size(118, 21);
+            this.cmbTables.TabIndex = 1;
+            this.cmbTables.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cmbTables_DrawItem);
+            this.cmbTables.SelectedIndexChanged += new System.EventHandler(this.cmbTables_SelectedIndexChanged);
+            // 
             // cmbFields
             // 
             this.cmbFields.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbFields.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.cmbFields.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmbFields.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFields.FormattingEnabled = true;
-            this.cmbFields.Location = new System.Drawing.Point(115, 5);
+            this.cmbFields.Location = new System.Drawing.Point(127, 5);
             this.cmbFields.Name = "cmbFields";
-            this.cmbFields.Size = new System.Drawing.Size(106, 21);
+            this.cmbFields.Size = new System.Drawing.Size(118, 21);
             this.cmbFields.TabIndex = 1;
+            this.cmbFields.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cmbTables_DrawItem);
             this.cmbFields.SelectedIndexChanged += new System.EventHandler(this.cmbFields_SelectedIndexChanged);
             // 
             // RuleControl

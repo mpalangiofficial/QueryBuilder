@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QueryBuilder.DatabaseSchema;
+using SqlKata;
 
 namespace QueryBuilder
 {
@@ -42,13 +43,14 @@ namespace QueryBuilder
             selectForm.DbTables = this.DbTables;
             selectForm.UsedTables = this.UsedTables;
             selectForm.SelectedFields = this.SelectedFields;
-            selectForm.SelectedFunctionFields = this.SelectedFunctionFields;
+            selectForm.SelectedFunctionFields = this.SelectedFunctionFields?.Select(ff=>ff.DeepCopy()).ToList();
             selectForm.Location= new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
             if (selectForm.ShowDialog(button) == DialogResult.OK)
             {
                 this.SelectedFields = selectForm.SelectedFields;
-                this.SelectedFunctionFields = selectForm.SelectedFunctionFields;
+                this.SelectedFunctionFields = selectForm.SelectedFunctionFields.Select(ff=>ff.DeepCopy()).ToList();
                 txtFields.Text = string.Join("; ", selectForm.SelectedFields)+"; "+string.Join("; ",selectForm.SelectedFunctionFields);
+                if (txtFields.Text[0] == ';') txtFields.Text = txtFields.Text.Substring(1).Trim();
                 this.Changed?.Invoke(this,EventArgs.Empty);
             }
         }

@@ -1,6 +1,7 @@
 ﻿using QueryBuilder.DatabaseSchema;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -25,7 +26,7 @@ namespace QueryBuilder
         {
             dgTables.DataSource = null;
 
-            dgTables.DataSource = TableNames.Where(table=>table.Name.ToLower().Contains(txtFilter.Text.ToLower())).ToList();
+            dgTables.DataSource = TableNames.Where(table => table.Name.ToLower().Contains(txtFilter.Text.ToLower())).ToList();
             dgTables.Refresh();
         }
 
@@ -38,7 +39,7 @@ namespace QueryBuilder
         {
             if (e.RowIndex % 2 == 0)
             {
-                dgTables.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGray;
+                dgTables.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
             }
             else
             {
@@ -64,9 +65,26 @@ namespace QueryBuilder
         {
             this.txtFilter.Focus();
         }
-    }
 
-    public class TableItemview : Label
-    {
+        private void txtFilter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (dgTables.SelectedRows?.Count > 0)
+            {
+                var index = dgTables.SelectedRows[0].Index;
+                switch (e.KeyCode)
+                {
+                    case Keys.Up:
+                        if (index > 0) dgTables.Rows[index - 1].Selected = true;
+                        break;
+                    case Keys.Down:
+                        if ((index + 1) < dgTables.Rows.Count) dgTables.Rows[index + 1].Selected = true;
+                        break;
+                    case Keys.Enter:
+                        SelectedTable = (DbTableModel)dgTables.Rows[index].DataBoundItem;
+                        this.DialogResult = DialogResult.OK;
+                        break;
+                }
+            }
+        }
     }
 }

@@ -14,7 +14,8 @@ namespace QueryBuilder
         public Guid RuleId { get; set; }
         public List<DbTableModel> DbTables { get; set; }
         public List<NameAlias> UsedTables { get; set; }
-        public LogicalWhere Where { get; set; } = new LogicalWhere() { WhereRules = new List<BaseWhere>() };
+        public LogicalWhere Where { get; set; } = new LogicalWhere()
+        { WhereRules = new List<BaseWhere>(), OperationLogical = OperationLogical.And };
         public bool IsRootCondition { get; set; } = false;
 
         private OperationLogical? _operationLogical;
@@ -116,6 +117,8 @@ namespace QueryBuilder
                     this.Where.WhereRules.Remove(rule);
                 }
                 this.Where.WhereRules.Add(ruleControl.Where);
+                if (this.Where.WhereRules.Count > 1 && this.OperationLogicalQuery is null)
+                    this.OperationLogicalQuery = OperationLogical.And;
             }
             this.Changed?.Invoke(this, EventArgs.Empty);
         }

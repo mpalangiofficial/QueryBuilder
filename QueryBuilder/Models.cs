@@ -9,6 +9,12 @@ using SqlKata.Execution;
 
 namespace QueryBuilder
 {
+    public class ChartModel
+    {
+        public string Title { get; set; }
+        public int Value { get; set; }
+    }
+
     public abstract class BaseWhere
     {
         public Guid RuleId { get; set; }
@@ -19,13 +25,51 @@ namespace QueryBuilder
     {
         public NameAlias Table { get; set; }
         public NameAlias Field { get; set; }
-        public string Operation { get; set; }
+        public WhereOperation Operation { get; set; }
         public object ExpectedValue { get; set; }
 
         public override Query FilterExpression(Query query)
         {
+            Query result = null;
             var tableName = string.IsNullOrEmpty(Table.Alias) ? Table.Name : Table.Alias;
-            return query.Where($"{tableName}.{Field.Name}", Operation, ExpectedValue);
+            switch (Operation)
+            {
+                case WhereOperation.Equal:
+                    result = query.Where($"{tableName}.{Field.Name}", "=", ExpectedValue);
+                    break;
+                case WhereOperation.Notequal:
+                    result = query.Where($"{tableName}.{Field.Name}", "<>", ExpectedValue);
+                    break;
+                case WhereOperation.More:
+                    result = query.Where($"{tableName}.{Field.Name}", ">", ExpectedValue);
+                    break;
+                case WhereOperation.Less:
+                    result = query.Where($"{tableName}.{Field.Name}", "<", ExpectedValue);
+                    break;
+                case WhereOperation.MoreAndEqual:
+                    result = query.Where($"{tableName}.{Field.Name}", ">=", ExpectedValue);
+                    break;
+                case WhereOperation.LessAndEqual:
+                    result = query.Where($"{tableName}.{Field.Name}", "<=", ExpectedValue);
+                    break;
+                case WhereOperation.StartWith:
+                    result = query.WhereLike($"{tableName}.{Field.Name}", $"{ExpectedValue}%");
+                    break;
+                case WhereOperation.EndWith:
+                    result = query.WhereLike($"{tableName}.{Field.Name}", $"%{ExpectedValue}");
+                    break;
+                case WhereOperation.Contain:
+                    result = query.WhereLike($"{tableName}.{Field.Name}", $"%{ExpectedValue}%");
+                    break;
+                case WhereOperation.IsNull:
+                    result = query.WhereNull($"{tableName}.{Field.Name}");
+                    break;
+                case WhereOperation.IsNotNull:
+                    result = query.WhereNotNull($"{tableName}.{Field.Name}");
+                    break;
+
+            }
+            return result;
         }
     }
     public class LogicalWhere : BaseWhere
@@ -104,6 +148,13 @@ namespace QueryBuilder
             var name = $"[{segment[0]}].{segment[1]}";
             return string.IsNullOrEmpty(Alias) ? $"{Function}({name})" : $"{Function}({name}) as {Alias}";
         }
+
+        public FunctionField DeepCopy() => new FunctionField()
+        {
+            Function = this.Function,
+            Name = this.Name,
+            Alias = this.Alias
+        };
     }
     public class OrderByField
     {

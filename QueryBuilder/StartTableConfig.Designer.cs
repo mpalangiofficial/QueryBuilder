@@ -59,13 +59,13 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(426, 70);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(426, 55);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // btnSelectTable
             // 
-            this.btnSelectTable.Location = new System.Drawing.Point(5, 15);
-            this.btnSelectTable.Margin = new System.Windows.Forms.Padding(5, 15, 3, 3);
+            this.btnSelectTable.Location = new System.Drawing.Point(5, 8);
+            this.btnSelectTable.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnSelectTable.Name = "btnSelectTable";
             this.btnSelectTable.Size = new System.Drawing.Size(75, 36);
             this.btnSelectTable.TabIndex = 1;
@@ -78,8 +78,8 @@
             this.btnStartTable.FlatAppearance.BorderSize = 0;
             this.btnStartTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStartTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStartTable.Location = new System.Drawing.Point(88, 15);
-            this.btnStartTable.Margin = new System.Windows.Forms.Padding(5, 15, 3, 3);
+            this.btnStartTable.Location = new System.Drawing.Point(88, 8);
+            this.btnStartTable.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnStartTable.Name = "btnStartTable";
             this.btnStartTable.Size = new System.Drawing.Size(23, 36);
             this.btnStartTable.TabIndex = 1;
@@ -93,8 +93,8 @@
             this.btnSelectedTable.BackColor = System.Drawing.Color.LightGoldenrodYellow;
             this.btnSelectedTable.FlatAppearance.BorderColor = System.Drawing.Color.LightGray;
             this.btnSelectedTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSelectedTable.Location = new System.Drawing.Point(119, 15);
-            this.btnSelectedTable.Margin = new System.Windows.Forms.Padding(5, 15, 3, 3);
+            this.btnSelectedTable.Location = new System.Drawing.Point(119, 8);
+            this.btnSelectedTable.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnSelectedTable.Name = "btnSelectedTable";
             this.btnSelectedTable.Size = new System.Drawing.Size(12, 36);
             this.btnSelectedTable.TabIndex = 1;
@@ -107,12 +107,12 @@
             this.btnAddAlias.BackColor = System.Drawing.Color.Transparent;
             this.btnAddAlias.FlatAppearance.BorderSize = 0;
             this.btnAddAlias.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddAlias.Location = new System.Drawing.Point(134, 19);
-            this.btnAddAlias.Margin = new System.Windows.Forms.Padding(0, 19, 0, 3);
+            this.btnAddAlias.Location = new System.Drawing.Point(134, 12);
+            this.btnAddAlias.Margin = new System.Windows.Forms.Padding(0, 12, 0, 3);
             this.btnAddAlias.Name = "btnAddAlias";
-            this.btnAddAlias.Size = new System.Drawing.Size(29, 26);
+            this.btnAddAlias.Size = new System.Drawing.Size(26, 26);
             this.btnAddAlias.TabIndex = 1;
-            this.btnAddAlias.Text = "As";
+            this.btnAddAlias.Text = "as";
             this.btnAddAlias.UseVisualStyleBackColor = false;
             this.btnAddAlias.Visible = false;
             this.btnAddAlias.Click += new System.EventHandler(this.btnAddAlias_Click);
@@ -121,7 +121,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(182, 19);
+            this.label1.Location = new System.Drawing.Point(179, 19);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 19, 3, 0);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
@@ -134,7 +134,7 @@
             // 
             this.lblAlias.AutoSize = true;
             this.lblAlias.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblAlias.Location = new System.Drawing.Point(166, 19);
+            this.lblAlias.Location = new System.Drawing.Point(163, 19);
             this.lblAlias.Margin = new System.Windows.Forms.Padding(3, 19, 3, 0);
             this.lblAlias.Name = "lblAlias";
             this.lblAlias.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
@@ -150,7 +150,7 @@
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "StartTableConfig";
-            this.Size = new System.Drawing.Size(426, 70);
+            this.Size = new System.Drawing.Size(426, 55);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

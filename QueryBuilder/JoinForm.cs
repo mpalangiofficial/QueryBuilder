@@ -17,9 +17,15 @@ namespace QueryBuilder
             get => _rightTable;
             set
             {
-                _rightTable = value;
-                txtRightTableName.Text = _rightTable?.Name ?? string.Empty;
-                txtRightTableAlias.Text = _rightTable?.Alias ?? string.Empty;
+                if (_rightTable is null|| !_rightTable.Equals(value))
+                {
+                    _rightTable = value;
+                    txtRightTableName.Text = _rightTable?.Name ?? string.Empty;
+                    txtRightTableAlias.Text = _rightTable?.Alias ?? string.Empty;
+                    dgJoinOns.DataSource = null;
+                    Join.JoinOns.Clear();
+                    ManageEnableControls();
+                }
             }
         }
         public Join Join { get; set; }
@@ -30,23 +36,24 @@ namespace QueryBuilder
             DialogResult = DialogResult.Cancel;
             dgJoinOns.AutoGenerateColumns = false;
             loadDgJoinOns();
+            ManageEnableControls();
         }
         private void loadDgJoinOns()
         {
             dgJoinOns.DataSource = null;
             dgJoinOns.DataSource = Join.JoinOns.Select(x => new JoinOn()
             {
-                RightTable = new NameAlias() { Name = x.RightTable.Name, Alias = string.Empty },
-                RightField = new NameAlias() { Name = x.RightField.Name, Alias = string.Empty },
-                LeftField = new NameAlias() { Name = x.LeftField.Name, Alias = string.Empty },
-                LeftTable = new NameAlias() { Name = x.LeftTable.Name, Alias = string.Empty }
+                RightTable = new NameAlias() { Name = x.RightTable.Name, Alias = x.RightTable.Alias },
+                RightField = new NameAlias() { Name = x.RightField.Name, Alias = x.RightField.Alias },
+                LeftField = new NameAlias() { Name = x.LeftField.Name, Alias = x.LeftField.Alias },
+                LeftTable = new NameAlias() { Name = x.LeftTable.Name, Alias = x.LeftTable.Alias }
             }).ToList();
 
             dgJoinOns.Refresh();
         }
         private void btnSelectTable_Click(object sender, EventArgs e)
         {
-            var button = (Button)sender;
+            var button = btnSelectTable;
             var selectTableForm = new SelectTableForm(DbTables);
             var screenCoordinates = button.PointToScreen(Point.Empty);
             selectTableForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
@@ -58,30 +65,40 @@ namespace QueryBuilder
         }
         private void btnAddJoinOn_Click(object sender, EventArgs e)
         {
-            var button = (Button)sender;
-            JoinOnForm joinOnForm = new JoinOnForm();
-            var screenCoordinates = button.PointToScreen(Point.Empty);
-            joinOnForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
-
-            joinOnForm.UsedTables = this.UsedTables;
-            joinOnForm.DbTables = this.DbTables;
-            joinOnForm.RightTable = RightTable;
-            if (joinOnForm.ShowDialog(button) == DialogResult.OK)
+            if (RightTable != null)
             {
-                if (Join.JoinOns.Exists(jo => jo.Equals(joinOnForm.JoinOn)))
+                var button = (Button)sender;
+                JoinOnForm joinOnForm = new JoinOnForm();
+                var screenCoordinates = button.PointToScreen(Point.Empty);
+                joinOnForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
+
+                joinOnForm.UsedTables = this.UsedTables;
+                joinOnForm.DbTables = this.DbTables;
+                joinOnForm.RightTable = RightTable;
+                if (joinOnForm.ShowDialog(button) == DialogResult.OK)
                 {
-                    MessageBox.Show("this item exists.");
+                    if (Join.JoinOns.Exists(jo => jo.Equals(joinOnForm.JoinOn)))
+                    {
+                        MessageBox.Show("this item exists.");
+                    }
+                    else
+                    {
+                        Join.JoinOns.Add(joinOnForm.JoinOn);
+                    }
+
+                    loadDgJoinOns();
+                    ManageEnableControls();
                 }
-                else
-                { Join.JoinOns.Add(joinOnForm.JoinOn); }
-                loadDgJoinOns();
             }
         }
         private void btnOk_Click(object sender, EventArgs e)
         {
-            this.Join.Table = RightTable;
-            this.Join.JoinType = string.Empty;
-            this.DialogResult = DialogResult.OK;
+            if (validated())
+            {
+                this.Join.Table = RightTable;
+                this.Join.JoinType = string.Empty;
+                this.DialogResult = DialogResult.OK;
+            }
         }
         private void JoinForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -99,6 +116,7 @@ namespace QueryBuilder
                     var removeItem = Join.JoinOns.FirstOrDefault(j => j.Equals(item));
                     Join.JoinOns.Remove(removeItem);
                     loadDgJoinOns();
+                    ManageEnableControls();
                 }
             }
             else if (e.ColumnIndex == 4 && e.RowIndex >= 0)
@@ -126,10 +144,30 @@ namespace QueryBuilder
             }
 
         }
-
         private void txtAlias_TextChanged(object sender, EventArgs e)
         {
-            if (RightTable != null) RightTable.Alias = txtRightTableAlias.Text;
+
+        }
+
+        private bool validated()
+        {
+            bool result = true;
+            result &= !string.IsNullOrEmpty(RightTable?.Name);
+            result &= Join.JoinOns.Count > 0;
+            return result;
+        }
+
+        private void ManageEnableControls()
+        {
+            btnOk.Enabled = validated();
+            btnAddJoinOn.Enabled = RightTable != null;
+        }
+
+        private void txtRightTableAlias_Leave(object sender, EventArgs e)
+        {
+            if (RightTable != null)
+                RightTable = new NameAlias() { Name = RightTable.Name, Alias = txtRightTableAlias.Text };
+            ManageEnableControls();
         }
     }
     public enum FormStatus

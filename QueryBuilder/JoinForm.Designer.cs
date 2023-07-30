@@ -29,11 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JoinForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tlpJoin = new System.Windows.Forms.TableLayoutPanel();
-            this.txtRightTableName = new System.Windows.Forms.TextBox();
-            this.btnSelectTable = new System.Windows.Forms.Button();
-            this.btnAddJoinOn = new System.Windows.Forms.Button();
             this.dgJoinOns = new System.Windows.Forms.DataGridView();
             this.LeftTableColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LeftFieldColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,68 +38,45 @@
             this.RightFieldColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.edit = new System.Windows.Forms.DataGridViewImageColumn();
             this.Remove = new System.Windows.Forms.DataGridViewImageColumn();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnOk = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtRightTableAlias = new System.Windows.Forms.TextBox();
+            this.tlpCommandButton = new System.Windows.Forms.TableLayoutPanel();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnAddJoinOn = new System.Windows.Forms.Button();
+            this.txtRightTableName = new System.Windows.Forms.TextBox();
+            this.lblRightTableName = new System.Windows.Forms.Label();
+            this.btnSelectTable = new System.Windows.Forms.Button();
             this.tlpJoin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgJoinOns)).BeginInit();
+            this.tlpCommandButton.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpJoin
             // 
-            this.tlpJoin.ColumnCount = 4;
-            this.tlpJoin.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlpJoin.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpJoin.ColumnCount = 3;
+            this.tlpJoin.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tlpJoin.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpJoin.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpJoin.Controls.Add(this.dgJoinOns, 0, 3);
+            this.tlpJoin.Controls.Add(this.label1, 0, 1);
+            this.tlpJoin.Controls.Add(this.txtRightTableAlias, 1, 1);
+            this.tlpJoin.Controls.Add(this.tlpCommandButton, 0, 4);
+            this.tlpJoin.Controls.Add(this.btnAddJoinOn, 0, 2);
             this.tlpJoin.Controls.Add(this.txtRightTableName, 1, 0);
-            this.tlpJoin.Controls.Add(this.btnSelectTable, 0, 0);
-            this.tlpJoin.Controls.Add(this.btnAddJoinOn, 0, 1);
-            this.tlpJoin.Controls.Add(this.dgJoinOns, 0, 2);
-            this.tlpJoin.Controls.Add(this.btnCancel, 3, 1);
-            this.tlpJoin.Controls.Add(this.btnOk, 3, 0);
-            this.tlpJoin.Controls.Add(this.label1, 1, 1);
-            this.tlpJoin.Controls.Add(this.txtRightTableAlias, 2, 1);
+            this.tlpJoin.Controls.Add(this.lblRightTableName, 0, 0);
+            this.tlpJoin.Controls.Add(this.btnSelectTable, 2, 0);
             this.tlpJoin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpJoin.Location = new System.Drawing.Point(0, 0);
             this.tlpJoin.Name = "tlpJoin";
-            this.tlpJoin.RowCount = 3;
+            this.tlpJoin.RowCount = 5;
+            this.tlpJoin.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpJoin.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpJoin.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpJoin.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpJoin.Size = new System.Drawing.Size(494, 330);
+            this.tlpJoin.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tlpJoin.Size = new System.Drawing.Size(488, 330);
             this.tlpJoin.TabIndex = 1;
-            // 
-            // txtRightTableName
-            // 
-            this.txtRightTableName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tlpJoin.SetColumnSpan(this.txtRightTableName, 2);
-            this.txtRightTableName.Location = new System.Drawing.Point(84, 5);
-            this.txtRightTableName.Name = "txtRightTableName";
-            this.txtRightTableName.ReadOnly = true;
-            this.txtRightTableName.Size = new System.Drawing.Size(341, 20);
-            this.txtRightTableName.TabIndex = 0;
-            // 
-            // btnSelectTable
-            // 
-            this.btnSelectTable.Location = new System.Drawing.Point(3, 3);
-            this.btnSelectTable.Name = "btnSelectTable";
-            this.btnSelectTable.Size = new System.Drawing.Size(75, 25);
-            this.btnSelectTable.TabIndex = 1;
-            this.btnSelectTable.Text = "Select Table";
-            this.btnSelectTable.UseVisualStyleBackColor = true;
-            this.btnSelectTable.Click += new System.EventHandler(this.btnSelectTable_Click);
-            // 
-            // btnAddJoinOn
-            // 
-            this.btnAddJoinOn.Location = new System.Drawing.Point(3, 34);
-            this.btnAddJoinOn.Name = "btnAddJoinOn";
-            this.btnAddJoinOn.Size = new System.Drawing.Size(70, 25);
-            this.btnAddJoinOn.TabIndex = 2;
-            this.btnAddJoinOn.Text = "Add JoinOn";
-            this.btnAddJoinOn.UseVisualStyleBackColor = true;
-            this.btnAddJoinOn.Click += new System.EventHandler(this.btnAddJoinOn_Click);
             // 
             // dgJoinOns
             // 
@@ -119,17 +93,18 @@
             this.RightFieldColumn,
             this.edit,
             this.Remove});
-            this.tlpJoin.SetColumnSpan(this.dgJoinOns, 4);
+            this.tlpJoin.SetColumnSpan(this.dgJoinOns, 3);
             this.dgJoinOns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgJoinOns.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgJoinOns.Location = new System.Drawing.Point(3, 65);
+            this.dgJoinOns.Location = new System.Drawing.Point(3, 82);
+            this.dgJoinOns.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.dgJoinOns.Name = "dgJoinOns";
             this.dgJoinOns.ReadOnly = true;
             this.dgJoinOns.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgJoinOns.RowHeadersVisible = false;
             this.dgJoinOns.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgJoinOns.ShowRowErrors = false;
-            this.dgJoinOns.Size = new System.Drawing.Size(488, 262);
+            this.dgJoinOns.Size = new System.Drawing.Size(482, 205);
             this.dgJoinOns.TabIndex = 3;
             this.dgJoinOns.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgJoinOns_CellContentClick);
             // 
@@ -172,10 +147,10 @@
             // 
             // Remove
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Transparent;
-            dataGridViewCellStyle4.NullValue = ((object)(resources.GetObject("dataGridViewCellStyle4.NullValue")));
-            this.Remove.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Transparent;
+            dataGridViewCellStyle1.NullValue = null;
+            this.Remove.DefaultCellStyle = dataGridViewCellStyle1;
             this.Remove.HeaderText = "";
             this.Remove.Image = ((System.Drawing.Image)(resources.GetObject("Remove.Image")));
             this.Remove.Name = "Remove";
@@ -183,34 +158,14 @@
             this.Remove.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Remove.Width = 40;
             // 
-            // btnCancel
-            // 
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(431, 34);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(60, 25);
-            this.btnCancel.TabIndex = 1;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // btnOk
-            // 
-            this.btnOk.Location = new System.Drawing.Point(431, 3);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(60, 25);
-            this.btnOk.TabIndex = 1;
-            this.btnOk.Text = "Ok";
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(96, 31);
+            this.label1.Location = new System.Drawing.Point(15, 26);
             this.label1.Margin = new System.Windows.Forms.Padding(15, 0, 3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 31);
+            this.label1.Size = new System.Drawing.Size(62, 26);
             this.label1.TabIndex = 4;
             this.label1.Text = "alias:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -218,11 +173,100 @@
             // txtRightTableAlias
             // 
             this.txtRightTableAlias.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRightTableAlias.Location = new System.Drawing.Point(133, 36);
+            this.txtRightTableAlias.Location = new System.Drawing.Point(83, 29);
             this.txtRightTableAlias.Name = "txtRightTableAlias";
-            this.txtRightTableAlias.Size = new System.Drawing.Size(292, 20);
+            this.txtRightTableAlias.Size = new System.Drawing.Size(321, 20);
             this.txtRightTableAlias.TabIndex = 5;
             this.txtRightTableAlias.TextChanged += new System.EventHandler(this.txtAlias_TextChanged);
+            this.txtRightTableAlias.Leave += new System.EventHandler(this.txtRightTableAlias_Leave);
+            // 
+            // tlpCommandButton
+            // 
+            this.tlpCommandButton.ColumnCount = 3;
+            this.tlpJoin.SetColumnSpan(this.tlpCommandButton, 3);
+            this.tlpCommandButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpCommandButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpCommandButton.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpCommandButton.Controls.Add(this.btnOk, 1, 0);
+            this.tlpCommandButton.Controls.Add(this.btnCancel, 2, 0);
+            this.tlpCommandButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpCommandButton.Location = new System.Drawing.Point(3, 293);
+            this.tlpCommandButton.Name = "tlpCommandButton";
+            this.tlpCommandButton.RowCount = 1;
+            this.tlpCommandButton.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpCommandButton.Size = new System.Drawing.Size(482, 34);
+            this.tlpCommandButton.TabIndex = 6;
+            // 
+            // btnOk
+            // 
+            this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOk.Location = new System.Drawing.Point(353, 3);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(60, 25);
+            this.btnOk.TabIndex = 1;
+            this.btnOk.Text = "Ok";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.Location = new System.Drawing.Point(419, 3);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(60, 25);
+            this.btnCancel.TabIndex = 1;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // btnAddJoinOn
+            // 
+            this.tlpJoin.SetColumnSpan(this.btnAddJoinOn, 2);
+            this.btnAddJoinOn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnAddJoinOn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddJoinOn.Location = new System.Drawing.Point(3, 57);
+            this.btnAddJoinOn.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.btnAddJoinOn.Name = "btnAddJoinOn";
+            this.btnAddJoinOn.Size = new System.Drawing.Size(112, 25);
+            this.btnAddJoinOn.TabIndex = 2;
+            this.btnAddJoinOn.Text = "Add JoinOn";
+            this.btnAddJoinOn.UseVisualStyleBackColor = true;
+            this.btnAddJoinOn.Click += new System.EventHandler(this.btnAddJoinOn_Click);
+            // 
+            // txtRightTableName
+            // 
+            this.txtRightTableName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtRightTableName.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.txtRightTableName.Location = new System.Drawing.Point(83, 3);
+            this.txtRightTableName.Name = "txtRightTableName";
+            this.txtRightTableName.ReadOnly = true;
+            this.txtRightTableName.Size = new System.Drawing.Size(321, 20);
+            this.txtRightTableName.TabIndex = 0;
+            this.txtRightTableName.DoubleClick += new System.EventHandler(this.btnSelectTable_Click);
+            // 
+            // lblRightTableName
+            // 
+            this.lblRightTableName.AutoSize = true;
+            this.lblRightTableName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblRightTableName.Location = new System.Drawing.Point(3, 0);
+            this.lblRightTableName.Name = "lblRightTableName";
+            this.lblRightTableName.Size = new System.Drawing.Size(74, 26);
+            this.lblRightTableName.TabIndex = 7;
+            this.lblRightTableName.Text = "Name:";
+            this.lblRightTableName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // btnSelectTable
+            // 
+            this.btnSelectTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnSelectTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSelectTable.Location = new System.Drawing.Point(410, 3);
+            this.btnSelectTable.Name = "btnSelectTable";
+            this.tlpJoin.SetRowSpan(this.btnSelectTable, 2);
+            this.btnSelectTable.Size = new System.Drawing.Size(75, 46);
+            this.btnSelectTable.TabIndex = 1;
+            this.btnSelectTable.Text = "Select Table";
+            this.btnSelectTable.UseVisualStyleBackColor = true;
+            this.btnSelectTable.Click += new System.EventHandler(this.btnSelectTable_Click);
             // 
             // JoinForm
             // 
@@ -231,7 +275,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(494, 330);
+            this.ClientSize = new System.Drawing.Size(488, 330);
             this.Controls.Add(this.tlpJoin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -240,11 +284,12 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "JoinForm";
+            this.Text = "Join Form";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.JoinForm_FormClosing);
             this.tlpJoin.ResumeLayout(false);
             this.tlpJoin.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgJoinOns)).EndInit();
+            this.tlpCommandButton.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -266,5 +311,7 @@
         private System.Windows.Forms.DataGridViewImageColumn Remove;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtRightTableAlias;
+        private System.Windows.Forms.TableLayoutPanel tlpCommandButton;
+        private System.Windows.Forms.Label lblRightTableName;
     }
 }

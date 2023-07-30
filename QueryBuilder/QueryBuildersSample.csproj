@@ -51,8 +51,24 @@
     <Reference Include="SqlKata.Execution, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SqlKata.Execution.2.4.0\lib\netstandard2.0\SqlKata.Execution.dll</HintPath>
     </Reference>
+    <Reference Include="syncfusion.chart.base">
+      <HintPath>..\..\..\..\Documents\syncfusion\syncfusion.chart.base.dll</HintPath>
+    </Reference>
+    <Reference Include="syncfusion.chart.windows">
+      <HintPath>..\..\..\..\Documents\syncfusion\syncfusion.chart.windows.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Edit.Windows">
+      <HintPath>..\..\..\..\Documents\syncfusion\Syncfusion.Edit.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="syncfusion.shared.base">
+      <HintPath>..\..\..\..\Documents\syncfusion\syncfusion.shared.base.dll</HintPath>
+    </Reference>
+    <Reference Include="syncfusion.shared.windows">
+      <HintPath>..\..\..\..\Documents\syncfusion\syncfusion.shared.windows.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -71,9 +87,6 @@
     <Compile Include="DatabaseSchema\GetStringSegmentHelper.cs" />
     <Compile Include="DatabaseSchema\IDataSchema.cs" />
     <Compile Include="DatabaseSchema\KeyValueModel.cs" />
-    <Compile Include="FarineLayout.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="FilterConfigTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -157,11 +170,23 @@
     <Compile Include="SelectForm.Designer.cs">
       <DependentUpon>SelectForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SelectSortFieldForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectSortFieldForm.Designer.cs">
+      <DependentUpon>SelectSortFieldForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SelectTableForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SelectTableForm.Designer.cs">
       <DependentUpon>SelectTableForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SortConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SortConfig.Designer.cs">
+      <DependentUpon>SortConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="StartTableConfig.cs">
       <SubType>UserControl</SubType>
@@ -169,12 +194,6 @@
     <Compile Include="StartTableConfig.Designer.cs">
       <DependentUpon>StartTableConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="StartTableConfig_back.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <EmbeddedResource Include="FarineLayout.resx">
-      <DependentUpon>FarineLayout.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FilterConfigTable.resx">
       <DependentUpon>FilterConfigTable.cs</DependentUpon>
     </EmbeddedResource>
@@ -224,14 +243,17 @@
     <EmbeddedResource Include="SelectForm.resx">
       <DependentUpon>SelectForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SelectSortFieldForm.resx">
+      <DependentUpon>SelectSortFieldForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SelectTableForm.resx">
       <DependentUpon>SelectTableForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SortConfig.resx">
+      <DependentUpon>SortConfig.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StartTableConfig.resx">
       <DependentUpon>StartTableConfig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StartTableConfig_back.resx">
-      <DependentUpon>StartTableConfig_back.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

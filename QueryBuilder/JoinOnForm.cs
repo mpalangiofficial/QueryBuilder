@@ -126,7 +126,7 @@ namespace QueryBuilder
             if (_isEdit)
             {
                 RightTable = JoinOn.RightTable;
-                var rightTable = DbTables.SingleOrDefault(t => t.Name.ToLower() == RightTable.Name);
+                var rightTable = DbTables.SingleOrDefault(t => t.Name.ToLower() == RightTable.Name.ToLower());
                 cmbRightFields.SelectedItem =
                     rightTable.Fields.FirstOrDefault(f => f.Name.ToLower() == JoinOn.RightField.Name.ToLower());
                 var leftTable = DbTables.FirstOrDefault(t => t.Name.ToLower() == JoinOn.LeftTable.Name.ToLower());

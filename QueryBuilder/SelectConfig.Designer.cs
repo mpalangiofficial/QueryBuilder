@@ -37,10 +37,11 @@
             // 
             // tlpSelectFields
             // 
+            this.tlpSelectFields.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tlpSelectFields.ColumnCount = 3;
             this.tlpSelectFields.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpSelectFields.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tlpSelectFields.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpSelectFields.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpSelectFields.Controls.Add(this.btnAddSelect, 0, 0);
             this.tlpSelectFields.Controls.Add(this.btnSelectCaption, 0, 0);
             this.tlpSelectFields.Controls.Add(this.txtFields, 2, 0);
@@ -49,7 +50,7 @@
             this.tlpSelectFields.Name = "tlpSelectFields";
             this.tlpSelectFields.RowCount = 1;
             this.tlpSelectFields.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpSelectFields.Size = new System.Drawing.Size(513, 70);
+            this.tlpSelectFields.Size = new System.Drawing.Size(426, 55);
             this.tlpSelectFields.TabIndex = 1;
             // 
             // btnAddSelect
@@ -58,8 +59,8 @@
             this.btnAddSelect.FlatAppearance.BorderSize = 0;
             this.btnAddSelect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddSelect.Location = new System.Drawing.Point(88, 15);
-            this.btnAddSelect.Margin = new System.Windows.Forms.Padding(5, 15, 3, 3);
+            this.btnAddSelect.Location = new System.Drawing.Point(88, 8);
+            this.btnAddSelect.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnAddSelect.Name = "btnAddSelect";
             this.btnAddSelect.Size = new System.Drawing.Size(36, 36);
             this.btnAddSelect.TabIndex = 5;
@@ -69,8 +70,8 @@
             // 
             // btnSelectCaption
             // 
-            this.btnSelectCaption.Location = new System.Drawing.Point(5, 15);
-            this.btnSelectCaption.Margin = new System.Windows.Forms.Padding(5, 15, 3, 3);
+            this.btnSelectCaption.Location = new System.Drawing.Point(5, 8);
+            this.btnSelectCaption.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnSelectCaption.Name = "btnSelectCaption";
             this.btnSelectCaption.Size = new System.Drawing.Size(75, 36);
             this.btnSelectCaption.TabIndex = 4;
@@ -79,13 +80,14 @@
             // 
             // txtFields
             // 
-            this.txtFields.BackColor = System.Drawing.SystemColors.Info;
+            this.txtFields.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.txtFields.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtFields.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtFields.Location = new System.Drawing.Point(130, 3);
             this.txtFields.Multiline = true;
             this.txtFields.Name = "txtFields";
             this.txtFields.ReadOnly = true;
-            this.txtFields.Size = new System.Drawing.Size(380, 64);
+            this.txtFields.Size = new System.Drawing.Size(293, 49);
             this.txtFields.TabIndex = 6;
             // 
             // SelectConfig
@@ -94,7 +96,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tlpSelectFields);
             this.Name = "SelectConfig";
-            this.Size = new System.Drawing.Size(513, 70);
+            this.Size = new System.Drawing.Size(426, 55);
             this.tlpSelectFields.ResumeLayout(false);
             this.tlpSelectFields.PerformLayout();
             this.ResumeLayout(false);

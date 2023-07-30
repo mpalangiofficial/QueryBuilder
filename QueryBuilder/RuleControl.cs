@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using QueryBuilder.DatabaseSchema;
@@ -52,14 +53,15 @@ namespace QueryBuilder
         {
             try
             {
+                
                 Where = new SimpleWhere()
                 {
                     RuleId = this.RuleId,
-                    ExpectedValue = txtExpectedValue?.Text??String.Empty,
+                    ExpectedValue = txtExpectedValue?.Text ?? String.Empty,
                     Table = (NameAlias)cmbTables.SelectedItem,
-                    Field = new NameAlias() { Name = ((DbFieldModel)cmbFields?.SelectedItem)?.Name??String.Empty },
-                    Operation = "="
-                    
+                    Field = new NameAlias() { Name = cmbFields?.SelectedItem?.ToString() ?? String.Empty },
+                    Operation = (WhereOperation)cmbOperations.SelectedItem
+
                 };
                 this.Changed?.Invoke(this, EventArgs.Empty);
             }
@@ -72,10 +74,9 @@ namespace QueryBuilder
         private void cmbTables_SelectedIndexChanged(object sender, EventArgs e)
         {
             cmbFields.Items.Clear();
-            cmbFields.ValueMember = nameof(DbFieldModel.Name);
-            cmbFields.DisplayMember = nameof(DbFieldModel.Name);
-            var selectedTable = DbTables.SingleOrDefault(t=>t.Name== ((NameAlias)cmbTables.SelectedItem).Name);
-            selectedTable.Fields.ToList().ForEach(field => cmbFields.Items.Add(field));
+            var fields = DbTables.SingleOrDefault(t => t.Name == ((NameAlias)cmbTables.SelectedItem).Name)?.Fields.Select(f => f.Name).ToList();
+            cmbFields.DataSource = null;
+            cmbFields.DataSource = fields;
             cmbFields.SelectedIndex = 0;
         }
 
@@ -88,12 +89,40 @@ namespace QueryBuilder
         {
             createWhere();
         }
+
+        private void cmbTables_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            ComboBox cmb = (ComboBox)sender;
+            if (cmb == null) return;
+
+            int index = e.Index >= 0 ? e.Index : -1;
+            Brush brush = (e.State & DrawItemState.Selected) > 0 ? SystemBrushes.HighlightText : new SolidBrush(cmb.ForeColor);
+            e.DrawBackground();
+
+            if (index != -1)
+            {
+                e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+                e.Graphics.DrawString(cmb.Items[index].ToString(), e.Font, brush, e.Bounds, StringFormat.GenericDefault);
+            }
+
+            e.DrawFocusRectangle();
+        }
     }
 
     public enum WhereOperation
     {
-        equal,
-        more,
-        less
+
+        Equal,
+        Notequal,
+        More,
+        Less,
+        MoreAndEqual,
+        LessAndEqual,
+        StartWith,
+        EndWith,
+        Contain,
+        IsNull,
+        IsNotNull
+
     }
 }

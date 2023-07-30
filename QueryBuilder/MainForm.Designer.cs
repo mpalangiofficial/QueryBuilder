@@ -33,12 +33,13 @@
             // 
             // queryBuilder1
             // 
-            this.queryBuilder1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.queryBuilder1.Location = new System.Drawing.Point(70, 53);
+            this.queryBuilder1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.queryBuilder1.ConnectionString = "Password=ffc-pr-02;Persist Security Info=True;User ID=sa;Initial Catalog=northwin" +
+    "d;Data Source=.";
+            this.queryBuilder1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queryBuilder1.Location = new System.Drawing.Point(0, 0);
             this.queryBuilder1.Name = "queryBuilder1";
-            this.queryBuilder1.Size = new System.Drawing.Size(882, 486);
+            this.queryBuilder1.Size = new System.Drawing.Size(1061, 587);
             this.queryBuilder1.TabIndex = 1;
             // 
             // MainForm
@@ -50,7 +51,7 @@
             this.Controls.Add(this.queryBuilder1);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Main Form";
+            this.Text = "Query builder";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
 
