@@ -80,6 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AggregationFunction.cs" />
     <Compile Include="DatabaseSchema\DataSchemaWithDatabaseSchemaReader.cs" />
     <Compile Include="DatabaseSchema\DbFieldModel.cs" />
     <Compile Include="DatabaseSchema\DbTableMappers.cs" />
@@ -130,7 +131,21 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models.cs" />
+    <Compile Include="Models\BaseWhere.cs" />
+    <Compile Include="Models\ChartModel.cs" />
+    <Compile Include="Models\FunctionField.cs" />
+    <Compile Include="Models\Join.cs" />
+    <Compile Include="Models\JoinOn.cs" />
+    <Compile Include="Models\LogicalWhere.cs" />
+    <Compile Include="Models\QueryModel.cs" />
+    <Compile Include="Models\NameAlias.cs" />
+    <Compile Include="Models\OperationLogical.cs" />
+    <Compile Include="Models\Operator.cs" />
+    <Compile Include="Models\OrderByField.cs" />
+    <Compile Include="Models\OrderByType.cs" />
+    <Compile Include="Models\SelectField.cs" />
+    <Compile Include="Models\SelectFieldsHandlers.cs" />
+    <Compile Include="Models\SimpleWhere.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryBuilder.cs">

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QueryBuilder.DatabaseSchema;
+using QueryBuilder.Models;
 
 namespace QueryBuilder
 {
@@ -15,7 +16,6 @@ namespace QueryBuilder
     {
         private List<NameAlias> _usedTables;
         private List<SelectField> _selectedFields = new List<SelectField>();
-        private List<FunctionField> _selectedFunctionFields = new List<FunctionField>();
         public List<DbTableModel> DbTables { set; get; }
 
         public List<SelectField> SelectedFields
@@ -98,8 +98,27 @@ namespace QueryBuilder
             selectField.TableName = table;
             selectField.FieldName = new NameAlias() { Name = cmbFields.SelectedItem.ToString() };
             selectField.Alias = txtAlias.Text;
+            selectField.IsTempField = chkIsTempField.Checked;
             selectField.HasFunction = chkUsedFunction.Checked;
             selectField.Function = chkUsedFunction.Checked ? (AggregationFunction)cmbFunction.SelectedItem : null;
+            selectField.UsedOtherField = chkFormula.Checked && chkUseOtherField.Checked;
+            if (!(cmbOtherField.SelectedItem is null))
+                selectField.OtherField = (SelectField)((FieldDto)cmbOtherField.SelectedItem).OrginalItem;
+            selectField.IsFormulaField = chkFormula.Checked;
+            selectField.Operator = (Operator)cmbOperators.SelectedItem;
+            if (this.chkFormula.Checked)
+            {
+                if (false)
+                {
+                }
+                else
+                {
+                    var OtherTable = (NameAlias)cmbFormulaTables.SelectedItem;
+                    selectField.OtherTableName = OtherTable;
+                    selectField.OtherFieldName = new NameAlias() { Name = cmbFormulaFields.SelectedItem.ToString() };
+                }
+            }
+
             SelectedFields.Add(selectField);
             refresh();
             resetForm();
@@ -107,15 +126,23 @@ namespace QueryBuilder
 
         private void resetForm()
         {
-            MessageBox.Show("Reset form");
+            cmbFunction.SelectedIndex = cmbFormulaTables.SelectedIndex = cmbOtherField.SelectedIndex = this.cmbTables.SelectedIndex = 0;
+
+            chkUsedFunction.Checked = this.chkUseOtherField.Checked = this.chkIsTempField.Checked = this.chkFormula.Checked = false;
+            txtAlias.Text = string.Empty;
+            //MessageBox.Show("Reset form");
         }
 
         private void refresh()
         {
             dgFields.DataSource = null;
             //todo fix
-            var source = SelectedFields.Select(sf => new FieldDto(sf));
-            dgFields.DataSource = source.ToList();
+            var source = SelectedFields?.Select(sf => new FieldDto(sf))?.ToList();
+            dgFields.DataSource = source;
+
+            cmbOtherField.DataSource = null;
+            cmbOtherField.DataSource = source;
+            cmbOtherField.DisplayMember = nameof(FieldDto.Name);
         }
 
         private void dgFields_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -139,7 +166,9 @@ namespace QueryBuilder
 
         private void chkFormula_CheckedChanged(object sender, EventArgs e)
         {
-            cmbFormulaTables.Visible = cmbFormulaFields.Visible = cmbOperators.Visible = chkFormula.Checked;
+            cmbOperators.Visible = chkUseOtherField.Visible = chkFormula.Checked;
+            cmbFormulaTables.Visible = cmbFormulaFields.Visible = chkFormula.Checked && !chkUseOtherField.Checked;
+            cmbOtherField.Visible = chkFormula.Checked && chkUseOtherField.Checked;
         }
 
         private void cmbFormulaTables_SelectedIndexChanged(object sender, EventArgs e)
@@ -150,6 +179,12 @@ namespace QueryBuilder
             fields.Insert(0, "*");
             cmbFormulaFields.DataSource = null;
             cmbFormulaFields.DataSource = fields;
+        }
+
+        private void chkUseOtherField_CheckedChanged(object sender, EventArgs e)
+        {
+            cmbFormulaTables.Visible = cmbFormulaFields.Visible = chkFormula.Checked && !chkUseOtherField.Checked;
+            cmbOtherField.Visible = chkFormula.Checked && chkUseOtherField.Checked;
         }
     }
     internal class FieldDto
@@ -173,7 +208,7 @@ namespace QueryBuilder
         public FieldDto(SelectField selectField)
         {
             this.OrginalItem = selectField;
-            this.Name = $"{selectField?.Function?.ToString()}({selectField?.Function?.Name})";
+            this.Name = selectField.ToString();
             this.Alias = selectField.Alias;
         }
 

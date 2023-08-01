@@ -47,7 +47,6 @@ namespace QueryBuilder
             {
                 this.SelectedFields = selectForm.SelectedFields;
                 txtFields.Text = string.Join("; ", selectForm.SelectedFields.Where(s=>!s.IsTempField).ToList());
-                if (txtFields.Text[0] == ';') txtFields.Text = txtFields.Text.Substring(1).Trim();
                 this.Changed?.Invoke(this,EventArgs.Empty);
             }
         }
