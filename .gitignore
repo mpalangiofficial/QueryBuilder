@@ -37,6 +37,8 @@ node_modules/
 # Ignore macOS specific files
 .DS_Store
 
-QueryBuilder/obj/
-QueryBuilder/bin/
+*/obj/
+*/bin/
+
+*.suo
 
