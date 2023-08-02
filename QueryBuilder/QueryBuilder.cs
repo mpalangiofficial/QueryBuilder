@@ -164,6 +164,9 @@ namespace QueryBuilder
             try
             {
                 var query = QueryModel.GenerateQuery(new SqlConnection(ConnectionString), new FFSqlServerCompiler());
+                
+                txtScript.Text = new FFSqlServerCompiler().Compile(query).Sql;
+                
                 queryResult = query.Get();
 
                 var d = queryResult.First();
@@ -179,10 +182,6 @@ namespace QueryBuilder
                 }
                 dgResult.DataSource = null;
                 dgResult.DataSource = queryResult.ToList();
-
-
-                txtScript.Text = new FFSqlServerCompiler().Compile(query).Sql;
-
             }
             catch (Exception exception)
             {
@@ -228,7 +227,6 @@ namespace QueryBuilder
         private void selectConfig_Changed(object sender, EventArgs e)
         {
             this.QueryModel.SelectFields = selectConfig.SelectedFields;
-            this.QueryModel.SelectedFunctionFields = selectConfig.SelectedFunctionFields;
             Refresh();
         }
         private void SetUsedTables()

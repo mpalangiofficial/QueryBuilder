@@ -8,23 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QueryBuilder.DatabaseSchema;
+using QueryBuilder.Models;
 
 namespace QueryBuilder
 {
     public partial class SelectForm : Form
     {
         private List<NameAlias> _usedTables;
-        private List<NameAlias> _selectedFields = new List<NameAlias>();
-        private List<FunctionField> _selectedFunctionFields = new List<FunctionField>();
+        private List<SelectField> _selectedFields = new List<SelectField>();
         public List<DbTableModel> DbTables { set; get; }
 
-        public List<NameAlias> SelectedFields
+        public List<SelectField> SelectedFields
         {
             get => _selectedFields;
             set
             {
                 if (value is null)
-                    _selectedFields = new List<NameAlias>();
+                    _selectedFields = new List<SelectField>();
                 else
                     _selectedFields = value;
 
@@ -32,19 +32,6 @@ namespace QueryBuilder
             }
         }
 
-        public List<FunctionField> SelectedFunctionFields
-        {
-            get => _selectedFunctionFields;
-            set
-            {
-                if (value is null)
-                    _selectedFunctionFields = new List<FunctionField>();
-                else
-                    _selectedFunctionFields = value;
-                refresh();
-            }
-
-        }
 
         public List<NameAlias> UsedTables
         {
@@ -57,6 +44,10 @@ namespace QueryBuilder
                     this.cmbTables.DataSource = value;
                     cmbTables.DisplayMember = nameof(NameAlias.ToString);
                     cmbTables.SelectedIndex = 0;
+
+                    this.cmbFormulaTables.DataSource = value.Select(ut => ut.DeepCopy()).ToList();
+                    cmbFormulaTables.DisplayMember = nameof(NameAlias.ToString);
+                    cmbFormulaTables.SelectedIndex = 0;
                 }
             }
             get => _usedTables;
@@ -67,10 +58,15 @@ namespace QueryBuilder
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
-            var functions = new string[] { "Count", "Sum","Max","Min" ,"Avg"};
-            cmbFunction.DataSource = functions;
+
+            cmbFunction.DataSource = AggregationFunction.Functions;
+            cmbFunction.DisplayMember = nameof(AggregationFunction.Name);
             cmbFunction.SelectedIndex = 0;
             dgFields.AutoGenerateColumns = false;
+            var operators = Operator.Operators;
+            cmbOperators.DisplayMember = nameof(Operator.Symbol);
+            cmbOperators.DataSource = operators;
+            cmbFormulaTables.Visible = cmbFormulaFields.Visible = cmbOperators.Visible = false;
         }
 
         private void SelectForm_Load(object sender, EventArgs e)
@@ -97,45 +93,57 @@ namespace QueryBuilder
         {
             var table = (NameAlias)cmbTables.SelectedItem;
             var tableName = string.IsNullOrEmpty(table.Alias) ? table.Name : table.Alias;
-            if (chkUsedFunction.Checked)
-            {
-                if (string.IsNullOrEmpty(txtAlias.Text) || cmbFields.SelectedIndex == 0)
-                {
-                    MessageBox.Show("please, select a field, or set alias for function field");
-                }
-                else
-                {
-                    var functionField = new FunctionField()
-                    {
-                        Name = $"{tableName}.{cmbFields.SelectedItem.ToString()}", Alias = txtAlias.Text,
-                        Function = cmbFunction.SelectedItem.ToString()
-                    };
-                    SelectedFunctionFields.Add(functionField);
-                }
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(txtAlias.Text) && cmbFields.SelectedIndex == 0)
-                {
-                    MessageBox.Show("you can't set alias for set of field");
-                }
-                else
 
+            var selectField = new SelectField();
+            selectField.TableName = table;
+            selectField.FieldName = new NameAlias() { Name = cmbFields.SelectedItem.ToString() };
+            selectField.Alias = txtAlias.Text;
+            selectField.IsTempField = chkIsTempField.Checked;
+
+            selectField.HasFunction = chkUsedFunction.Checked;
+            selectField.Function = chkUsedFunction.Checked ? (AggregationFunction)cmbFunction.SelectedItem : null;
+
+            selectField.IsFormulaField = chkFormula.Checked;
+            if (selectField.IsFormulaField)
+            {
+                selectField.Operator = (Operator)cmbOperators.SelectedItem;
+                selectField.UsedOtherField = chkUseOtherField.Checked;
+                if (selectField.UsedOtherField)
                 {
-                    var field = new NameAlias()
-                        { Name = $"{tableName}.{cmbFields.SelectedItem.ToString()}", Alias = txtAlias.Text };
-                    SelectedFields.Add(field);
+                    selectField.OtherField = !(cmbOtherField.SelectedItem is null) ? (SelectField)((FieldDto)cmbOtherField.SelectedItem).OrginalItem : null;
+                }
+                else
+                {
+                    var OtherTable = (NameAlias)cmbFormulaTables.SelectedItem;
+                    selectField.OtherTableName = OtherTable;
+                    selectField.OtherFieldName = new NameAlias()
+                    { Name = cmbFormulaFields.SelectedItem.ToString() };
                 }
             }
+
+            SelectedFields.Add(selectField);
             refresh();
+            resetForm();
+        }
+
+        private void resetForm()
+        {
+            cmbFunction.SelectedIndex = cmbFormulaTables.SelectedIndex = cmbOtherField.SelectedIndex = this.cmbTables.SelectedIndex = 0;
+
+            chkUsedFunction.Checked = this.chkUseOtherField.Checked = this.chkIsTempField.Checked = this.chkFormula.Checked = false;
+            txtAlias.Text = string.Empty;
         }
 
         private void refresh()
         {
             dgFields.DataSource = null;
-            var source = SelectedFields.Select(sf => new FieldDto(sf)).Concat(SelectedFunctionFields.Select(ff => new FieldDto(ff))
-                .ToList());
-            dgFields.DataSource = source.ToList();
+            //todo fix
+            var source = SelectedFields?.Select(sf => new FieldDto(sf))?.ToList();
+            dgFields.DataSource = source;
+
+            cmbOtherField.DataSource = null;
+            cmbOtherField.DataSource = source;
+            cmbOtherField.DisplayMember = nameof(FieldDto.Name);
         }
 
         private void dgFields_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -145,15 +153,8 @@ namespace QueryBuilder
                 if (dgFields.Rows[e.RowIndex].Cells[e.ColumnIndex].GetType() == typeof(DataGridViewImageCell))
                 {
                     var item = (FieldDto)dgFields.Rows[e.RowIndex].DataBoundItem;
-                    if (item.OrginalItem.GetType() == typeof(NameAlias))
-                    {
-                        SelectedFields.Remove((NameAlias)item.OrginalItem);
-                    }
-                    else if (item.OrginalItem.GetType() == typeof(FunctionField))
-                    {
-                        SelectedFunctionFields.Remove((FunctionField)item.OrginalItem);
-                    }
 
+                    SelectedFields.Remove((SelectField)item.OrginalItem);
                     refresh();
                 }
             }
@@ -162,6 +163,29 @@ namespace QueryBuilder
         private void chkUsedFunction_CheckedChanged(object sender, EventArgs e)
         {
             cmbFunction.Visible = chkUsedFunction.Checked;
+        }
+
+        private void chkFormula_CheckedChanged(object sender, EventArgs e)
+        {
+            cmbOperators.Visible = chkUseOtherField.Visible = chkFormula.Checked;
+            cmbFormulaTables.Visible = cmbFormulaFields.Visible = chkFormula.Checked && !chkUseOtherField.Checked;
+            cmbOtherField.Visible = chkFormula.Checked && chkUseOtherField.Checked;
+        }
+
+        private void cmbFormulaTables_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedTable =
+                DbTables.SingleOrDefault(t => t.Name.ToLower() == ((NameAlias)cmbFormulaTables.SelectedItem).Name.ToLower());
+            var fields = selectedTable?.Fields.Select(f => f.Name).ToList();
+            fields.Insert(0, "*");
+            cmbFormulaFields.DataSource = null;
+            cmbFormulaFields.DataSource = fields;
+        }
+
+        private void chkUseOtherField_CheckedChanged(object sender, EventArgs e)
+        {
+            cmbFormulaTables.Visible = cmbFormulaFields.Visible = chkFormula.Checked && !chkUseOtherField.Checked;
+            cmbOtherField.Visible = chkFormula.Checked && chkUseOtherField.Checked;
         }
     }
     internal class FieldDto
@@ -182,5 +206,12 @@ namespace QueryBuilder
             this.Name = $"{functionField.Function}({functionField.Name})";
             this.Alias = functionField.Alias;
         }
+        public FieldDto(SelectField selectField)
+        {
+            this.OrginalItem = selectField;
+            this.Name = selectField.ToString();
+            this.Alias = selectField.Alias;
+        }
+
     }
 }
