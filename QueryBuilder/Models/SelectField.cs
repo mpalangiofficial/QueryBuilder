@@ -36,12 +36,12 @@ namespace QueryBuilder
             {
                 if (this.UsedOtherField)
                 {
-                    result = $"{tableName}.{this.FieldName.Name} {Operator.ToString()}( {this.OtherField.GetFieldRaw()}) ";
+                    result = $"[{tableName}].[{this.FieldName.Name}] {Operator.ToString()}( {this.OtherField.GetFieldRaw()}) ";
                 }
                 else
                 {
                     string OtherTableName = this.OtherTableName.HasAlias ? this.OtherTableName.Alias : this.OtherTableName.Name;
-                    result = $"{tableName}.{this.FieldName.Name} {Operator.ToString()} {OtherTableName}.{OtherFieldName.Name} ";
+                    result = $"[{tableName}].[{this.FieldName.Name}] {Operator.ToString()} [{OtherTableName}].[{OtherFieldName.Name}] ";
                 }
             }
             else

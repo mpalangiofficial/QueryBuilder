@@ -99,23 +99,25 @@ namespace QueryBuilder
             selectField.FieldName = new NameAlias() { Name = cmbFields.SelectedItem.ToString() };
             selectField.Alias = txtAlias.Text;
             selectField.IsTempField = chkIsTempField.Checked;
+
             selectField.HasFunction = chkUsedFunction.Checked;
             selectField.Function = chkUsedFunction.Checked ? (AggregationFunction)cmbFunction.SelectedItem : null;
-            selectField.UsedOtherField = chkFormula.Checked && chkUseOtherField.Checked;
-            if (!(cmbOtherField.SelectedItem is null))
-                selectField.OtherField = (SelectField)((FieldDto)cmbOtherField.SelectedItem).OrginalItem;
+
             selectField.IsFormulaField = chkFormula.Checked;
-            selectField.Operator = (Operator)cmbOperators.SelectedItem;
-            if (this.chkFormula.Checked)
+            if (selectField.IsFormulaField)
             {
-                if (false)
+                selectField.Operator = (Operator)cmbOperators.SelectedItem;
+                selectField.UsedOtherField = chkUseOtherField.Checked;
+                if (selectField.UsedOtherField)
                 {
+                    selectField.OtherField = !(cmbOtherField.SelectedItem is null) ? (SelectField)((FieldDto)cmbOtherField.SelectedItem).OrginalItem : null;
                 }
                 else
                 {
                     var OtherTable = (NameAlias)cmbFormulaTables.SelectedItem;
                     selectField.OtherTableName = OtherTable;
-                    selectField.OtherFieldName = new NameAlias() { Name = cmbFormulaFields.SelectedItem.ToString() };
+                    selectField.OtherFieldName = new NameAlias()
+                    { Name = cmbFormulaFields.SelectedItem.ToString() };
                 }
             }
 
@@ -130,7 +132,6 @@ namespace QueryBuilder
 
             chkUsedFunction.Checked = this.chkUseOtherField.Checked = this.chkIsTempField.Checked = this.chkFormula.Checked = false;
             txtAlias.Text = string.Empty;
-            //MessageBox.Show("Reset form");
         }
 
         private void refresh()

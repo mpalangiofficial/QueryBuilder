@@ -51,53 +51,11 @@ namespace QueryBuilder
                     .NoFormulaAggregateSelectedFieldsHandle(this.SelectFields)
                     .FormulaNotUsedOtherFieldNoAggregateSelectedFieldsHandle(this.SelectFields)
                     .FormulaUsedOtherFieldNoAggregateSelectedFieldsHandle(this.SelectFields)
-                    .FormulaNotUsedOtherFieldAggregateSelectedFieldsHandle(this.SelectFields);
-
-
-
-
-            bool hasGroupBy = SelectFields?.Any(sf => sf.HasFunction) ?? false;
-            var groupByFields = SelectFields?.Where(sf => hasGroupBy && !sf.HasFunction).ToList();
-            if (groupByFields != null && groupByFields.Count > 0)
-            {
-                foreach (var sf in groupByFields)
-                {
-                    string tableName = sf.TableName.HasAlias
-                        ? sf.TableName.Alias
-                        : sf.TableName.Name;
-                    if (sf.IsFormulaField)
-                    {
-                        string otherTableName;
-                        if (sf.UsedOtherField)
-                        {
-                            if (sf.OtherField.IsFormulaField)
-                            {
-                            }
-                            else
-                            {
-                                otherTableName = sf.OtherField.TableName.HasAlias
-                                    ? sf.OtherField.TableName.Alias
-                                    : sf.OtherField.TableName.Name;
-                                query.GroupByRaw(
-                                    $"([{tableName}].[{sf.FieldName.Name}] {sf.Operator.ToString()} [{otherTableName}].[{sf.OtherField.FieldName.Name}]) ");
-                            }
-                        }
-                        else
-                        {
-                            otherTableName = sf.OtherTableName.HasAlias
-                                ? sf.OtherTableName.Alias
-                                : sf.OtherTableName.Name;
-                            query.GroupByRaw(
-                                $"([{tableName}].[{sf.FieldName.Name}] {sf.Operator.ToString()} [{otherTableName}].[{sf.OtherFieldName.Name}]) ");
-                        }
-                    }
-                    else
-                    {
-                        query.GroupBy($"{tableName}.{sf.FieldName.Name}");
-                    }
-                }
-
-            }
+                    .FormulaNotUsedOtherFieldAggregateSelectedFieldsHandle(this.SelectFields)
+                    .FormulaUsedOtherFieldAggregateSelectedFieldsHandle(this.SelectFields)
+                    .FormulaAggUsedOtherFieldAggregateSelectedFieldsHandle(this.SelectFields)
+                    .GroupByHandler(this.SelectFields);
+            
             return query;
         }
     }

@@ -103,7 +103,7 @@
             this.tlpSelectForm.SetColumnSpan(this.cmbTables, 2);
             this.cmbTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTables.FormattingEnabled = true;
-            this.cmbTables.Location = new System.Drawing.Point(94, 3);
+            this.cmbTables.Location = new System.Drawing.Point(94, 6);
             this.cmbTables.Name = "cmbTables";
             this.cmbTables.Size = new System.Drawing.Size(193, 21);
             this.cmbTables.TabIndex = 1;
@@ -115,7 +115,7 @@
             this.lblFields.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblFields.Location = new System.Drawing.Point(3, 0);
             this.lblFields.Name = "lblFields";
-            this.lblFields.Size = new System.Drawing.Size(85, 27);
+            this.lblFields.Size = new System.Drawing.Size(85, 34);
             this.lblFields.TabIndex = 2;
             this.lblFields.Text = "Fields:";
             this.lblFields.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -125,7 +125,7 @@
             this.cmbFields.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbFields.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFields.FormattingEnabled = true;
-            this.cmbFields.Location = new System.Drawing.Point(293, 3);
+            this.cmbFields.Location = new System.Drawing.Point(293, 6);
             this.cmbFields.Name = "cmbFields";
             this.cmbFields.Size = new System.Drawing.Size(125, 21);
             this.cmbFields.TabIndex = 3;
@@ -134,7 +134,7 @@
             // 
             this.lblAs.AutoSize = true;
             this.lblAs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblAs.Location = new System.Drawing.Point(3, 108);
+            this.lblAs.Location = new System.Drawing.Point(3, 115);
             this.lblAs.Name = "lblAs";
             this.lblAs.Size = new System.Drawing.Size(85, 26);
             this.lblAs.TabIndex = 4;
@@ -146,7 +146,7 @@
             this.btnAddField.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnAddField.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnAddField.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddField.Location = new System.Drawing.Point(424, 101);
+            this.btnAddField.Location = new System.Drawing.Point(424, 108);
             this.btnAddField.Margin = new System.Windows.Forms.Padding(3, 10, 6, 3);
             this.btnAddField.Name = "btnAddField";
             this.tlpSelectForm.SetRowSpan(this.btnAddField, 2);
@@ -171,12 +171,12 @@
             this.dgFields.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgFields.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgFields.GridColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dgFields.Location = new System.Drawing.Point(3, 137);
+            this.dgFields.Location = new System.Drawing.Point(3, 144);
             this.dgFields.MultiSelect = false;
             this.dgFields.Name = "dgFields";
             this.dgFields.ReadOnly = true;
             this.dgFields.RowHeadersVisible = false;
-            this.dgFields.Size = new System.Drawing.Size(457, 270);
+            this.dgFields.Size = new System.Drawing.Size(457, 263);
             this.dgFields.TabIndex = 7;
             this.dgFields.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgFields_CellContentClick);
             // 
@@ -250,7 +250,7 @@
             // chkUsedFunction
             // 
             this.chkUsedFunction.AutoSize = true;
-            this.chkUsedFunction.Location = new System.Drawing.Point(3, 84);
+            this.chkUsedFunction.Location = new System.Drawing.Point(3, 91);
             this.chkUsedFunction.Name = "chkUsedFunction";
             this.chkUsedFunction.Size = new System.Drawing.Size(84, 17);
             this.chkUsedFunction.TabIndex = 9;
@@ -263,7 +263,7 @@
             this.tlpSelectForm.SetColumnSpan(this.cmbFunction, 2);
             this.cmbFunction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFunction.FormattingEnabled = true;
-            this.cmbFunction.Location = new System.Drawing.Point(94, 84);
+            this.cmbFunction.Location = new System.Drawing.Point(94, 91);
             this.cmbFunction.Name = "cmbFunction";
             this.cmbFunction.Size = new System.Drawing.Size(118, 21);
             this.cmbFunction.TabIndex = 10;
@@ -272,7 +272,7 @@
             // chkFormula
             // 
             this.chkFormula.AutoSize = true;
-            this.chkFormula.Location = new System.Drawing.Point(3, 30);
+            this.chkFormula.Location = new System.Drawing.Point(3, 37);
             this.chkFormula.Name = "chkFormula";
             this.chkFormula.Size = new System.Drawing.Size(85, 17);
             this.chkFormula.TabIndex = 9;
@@ -284,9 +284,10 @@
             // 
             this.cmbOperators.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cmbOperators.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbOperators.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbOperators.Location = new System.Drawing.Point(424, 3);
             this.cmbOperators.Name = "cmbOperators";
-            this.cmbOperators.Size = new System.Drawing.Size(36, 21);
+            this.cmbOperators.Size = new System.Drawing.Size(36, 28);
             this.cmbOperators.TabIndex = 0;
             // 
             // cmbFormulaTables
@@ -295,7 +296,7 @@
             this.tlpSelectForm.SetColumnSpan(this.cmbFormulaTables, 2);
             this.cmbFormulaTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFormulaTables.FormattingEnabled = true;
-            this.cmbFormulaTables.Location = new System.Drawing.Point(94, 30);
+            this.cmbFormulaTables.Location = new System.Drawing.Point(94, 37);
             this.cmbFormulaTables.Name = "cmbFormulaTables";
             this.cmbFormulaTables.Size = new System.Drawing.Size(193, 21);
             this.cmbFormulaTables.TabIndex = 1;
@@ -306,7 +307,7 @@
             this.cmbFormulaFields.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbFormulaFields.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFormulaFields.FormattingEnabled = true;
-            this.cmbFormulaFields.Location = new System.Drawing.Point(293, 30);
+            this.cmbFormulaFields.Location = new System.Drawing.Point(293, 37);
             this.cmbFormulaFields.Name = "cmbFormulaFields";
             this.cmbFormulaFields.Size = new System.Drawing.Size(125, 21);
             this.cmbFormulaFields.TabIndex = 3;
@@ -315,7 +316,7 @@
             // 
             this.txtAlias.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpSelectForm.SetColumnSpan(this.txtAlias, 2);
-            this.txtAlias.Location = new System.Drawing.Point(94, 111);
+            this.txtAlias.Location = new System.Drawing.Point(94, 118);
             this.txtAlias.Name = "txtAlias";
             this.txtAlias.Size = new System.Drawing.Size(193, 20);
             this.txtAlias.TabIndex = 5;
@@ -323,7 +324,7 @@
             // chkUseOtherField
             // 
             this.chkUseOtherField.AutoSize = true;
-            this.chkUseOtherField.Location = new System.Drawing.Point(94, 57);
+            this.chkUseOtherField.Location = new System.Drawing.Point(94, 64);
             this.chkUseOtherField.Name = "chkUseOtherField";
             this.chkUseOtherField.Size = new System.Drawing.Size(100, 17);
             this.chkUseOtherField.TabIndex = 9;
@@ -338,7 +339,7 @@
             this.tlpSelectForm.SetColumnSpan(this.cmbOtherField, 2);
             this.cmbOtherField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbOtherField.FormattingEnabled = true;
-            this.cmbOtherField.Location = new System.Drawing.Point(225, 57);
+            this.cmbOtherField.Location = new System.Drawing.Point(225, 64);
             this.cmbOtherField.Name = "cmbOtherField";
             this.cmbOtherField.Size = new System.Drawing.Size(193, 21);
             this.cmbOtherField.TabIndex = 11;
@@ -347,7 +348,7 @@
             // chkIsTempField
             // 
             this.chkIsTempField.AutoSize = true;
-            this.chkIsTempField.Location = new System.Drawing.Point(293, 111);
+            this.chkIsTempField.Location = new System.Drawing.Point(293, 118);
             this.chkIsTempField.Name = "chkIsTempField";
             this.chkIsTempField.Size = new System.Drawing.Size(89, 17);
             this.chkIsTempField.TabIndex = 9;

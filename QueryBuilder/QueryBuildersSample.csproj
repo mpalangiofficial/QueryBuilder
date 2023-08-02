@@ -144,7 +144,7 @@
     <Compile Include="Models\OrderByField.cs" />
     <Compile Include="Models\OrderByType.cs" />
     <Compile Include="Models\SelectField.cs" />
-    <Compile Include="Models\SelectFieldsHandlers.cs" />
+    <Compile Include="Helpers\SelectFieldsHandlers.cs" />
     <Compile Include="Models\SimpleWhere.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

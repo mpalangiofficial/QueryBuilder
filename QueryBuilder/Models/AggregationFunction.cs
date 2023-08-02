@@ -2,7 +2,7 @@
 
 namespace QueryBuilder.Models
 {
-    public class AggregationFunction
+    public  class AggregationFunction
     {
         public string Name { get; set; }
         public override string ToString()

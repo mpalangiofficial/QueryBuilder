@@ -43,7 +43,7 @@ namespace QueryBuilder
             List<SelectField> selectFields)
         {
             var fields = selectFields?.Where(sf =>
-                                                    !sf.IsTempField && 
+                                                    !sf.IsTempField &&
                                                     sf.IsFormulaField &&
                                                     !sf.UsedOtherField &&
                                                     !sf.HasFunction)?.ToList();
@@ -93,7 +93,7 @@ namespace QueryBuilder
             var formulaFunctionFields = selectFields?.Where(sf =>
                 !sf.IsTempField &&
                 sf.IsFormulaField &&
-                sf.UsedOtherField &&
+                !sf.UsedOtherField &&
                 sf.HasFunction).ToList();
             if (formulaFunctionFields?.Count > 0)
             {
@@ -107,6 +107,111 @@ namespace QueryBuilder
                         : sf.OtherTableName.Name;
                     query.SelectRaw($"{sf.Function.ToString()}([{tableName}].[{sf.FieldName.Name}] {sf.Operator.ToString()} [{otherTableName}].[{sf.OtherFieldName.Name}]) as {sf.Alias}");
                 });
+            }
+
+            return query;
+        }
+        public static Query FormulaUsedOtherFieldAggregateSelectedFieldsHandle(this Query query,
+            List<SelectField> selectFields)
+        {
+            var formulaFunctionFields = selectFields?.Where(sf =>
+                !sf.IsTempField &&
+                sf.IsFormulaField &&
+                sf.UsedOtherField &&
+                !sf.OtherField.HasFunction &&
+                sf.HasFunction).ToList();
+            if (formulaFunctionFields?.Count > 0)
+            {
+                formulaFunctionFields.ForEach(sf =>
+                {
+                    string tableName = sf.TableName.HasAlias
+                        ? sf.TableName.Alias
+                        : sf.TableName.Name;
+                    query.SelectRaw($"{sf.Function.ToString()}([{tableName}].[{sf.FieldName.Name}] {sf.Operator.ToString()} {sf.OtherField.GetFieldRaw()}) as {sf.Alias}");
+                });
+            }
+
+            return query;
+        }
+        public static Query FormulaAggUsedOtherFieldAggregateSelectedFieldsHandle(this Query query,
+            List<SelectField> selectFields)
+        {
+            var formulaFunctionFields = selectFields?.Where(sf =>
+                !sf.IsTempField &&
+                sf.IsFormulaField &&
+                sf.UsedOtherField &&
+                sf.OtherField.HasFunction &&
+                sf.HasFunction).ToList();
+            if (formulaFunctionFields?.Count > 0)
+            {
+                formulaFunctionFields.ForEach(sf =>
+                {
+                    string tableName = sf.TableName.HasAlias
+                        ? sf.TableName.Alias
+                        : sf.TableName.Name;
+                    string leftOperand = $"{sf.Function.ToString()}([{tableName}].[{sf.FieldName.Name}])";
+                    string rightOperand = $"{sf.OtherField.Function.ToString()}({sf.OtherField.GetFieldRaw()}) ";
+                    if (sf.Operator.IsReverse)
+                    { query.SelectRaw($"({rightOperand} {sf.Operator.ToString()} {leftOperand})as {sf.Alias} "); }
+                    else
+                    { query.SelectRaw($"({leftOperand} {sf.Operator.ToString()} {rightOperand})as {sf.Alias} "); }
+                });
+            }
+
+            return query;
+        }
+    }
+
+    public static class GroupByHandlers
+    {
+        public static Query GroupByHandler(this Query query,
+            List<SelectField> selectFields)
+        {
+            bool hasGroupBy = selectFields?.Any(sf => sf.HasFunction) ?? false;
+            var groupByFields = selectFields?.Where(sf =>
+                !sf.HasFunction &&
+                !sf.IsTempField).ToList();
+            if (hasGroupBy && groupByFields?.Count > 0)
+            {
+                foreach (var sf in groupByFields)
+                {
+                    string tableName = sf.TableName.HasAlias
+                        ? sf.TableName.Alias
+                        : sf.TableName.Name;
+                    if (sf.IsFormulaField)
+                    {
+                        string otherTableName;
+                        if (sf.UsedOtherField)
+                        {
+                            if (sf.OtherField.IsFormulaField)
+                            {
+                                query.GroupByRaw(
+                                    $"([{tableName}].[{sf.FieldName.Name}] {sf.Operator.ToString()} ({sf.OtherField.GetFieldRaw()})) ");
+                            }
+                            else
+                            {
+                                otherTableName = sf.OtherField.TableName.HasAlias
+                                    ? sf.OtherField.TableName.Alias
+                                    : sf.OtherField.TableName.Name;
+                                query.GroupByRaw(
+                                    $"([{tableName}].[{sf.FieldName.Name}] {sf.Operator.ToString()} [{otherTableName}].[{sf.OtherField.FieldName.Name}]) ");
+                            }
+                        }
+                        else
+                        {
+                            otherTableName = sf.OtherTableName.HasAlias
+                                ? sf.OtherTableName.Alias
+                                : sf.OtherTableName.Name;
+                            query.GroupByRaw(
+                                $"([{tableName}].[{sf.FieldName.Name}] {sf.Operator.ToString()} [{otherTableName}].[{sf.OtherFieldName.Name}]) ");
+                        }
+                    }
+                    else
+                    {
+                        query.GroupBy($"{tableName}.{sf.FieldName.Name}");
+                    }
+                }
+
             }
 
             return query;
