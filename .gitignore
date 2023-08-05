@@ -37,8 +37,8 @@ node_modules/
 # Ignore macOS specific files
 .DS_Store
 
-*/obj/
-*/bin/
+*/obj/Debug/
+*/bin/*
 
 *.suo
 

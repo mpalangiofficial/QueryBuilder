@@ -305,5 +305,11 @@ namespace QueryBuilder
                 Console.WriteLine(ex);
             }
         }
+
+        private void sortConfig_Changed(object sender, EventArgs e)
+        {
+            this.QueryModel.SortFields = sortConfig.OrderByFields;
+            Refresh();
+        }
     }
 }

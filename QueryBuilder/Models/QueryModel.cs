@@ -15,6 +15,7 @@ namespace QueryBuilder
         public List<Join> Joins { get; set; }
         public BaseWhere Where { get; set; }
         public List<SelectField> SelectFields { get; set; }
+        public List<OrderByField> SortFields { get; set; }
         public Query GenerateQuery(IDbConnection connection, Compiler compiler)
         {
             var factory = new QueryFactory(connection, compiler);
@@ -55,7 +56,9 @@ namespace QueryBuilder
                     .FormulaUsedOtherFieldAggregateSelectedFieldsHandle(this.SelectFields)
                     .FormulaAggUsedOtherFieldAggregateSelectedFieldsHandle(this.SelectFields)
                     .GroupByHandler(this.SelectFields);
-            
+
+            if (this.SortFields?.Count > 0) { query.OrderByHandler(this.SortFields); }
+
             return query;
         }
     }
