@@ -329,11 +329,12 @@
             this.sortConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sortConfig.Location = new System.Drawing.Point(48, 223);
             this.sortConfig.Name = "sortConfig";
-            this.sortConfig.SelectedFields = null;
+            this.sortConfig.OrderByFields = null;
             this.sortConfig.Size = new System.Drawing.Size(406, 49);
             this.sortConfig.TabIndex = 12;
             this.sortConfig.ToolTip = null;
             this.sortConfig.UsedTables = null;
+            this.sortConfig.Changed += new System.EventHandler(this.sortConfig_Changed);
             // 
             // tableLayoutPanel1
             // 

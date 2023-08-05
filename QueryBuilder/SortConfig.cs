@@ -21,7 +21,7 @@ namespace QueryBuilder
             }
         }
         public event EventHandler Changed;
-        public List<NameAlias> SelectedFields { get; set; }
+        public List<OrderByField> OrderByFields { get; set; }
         public SortConfig()
         {
             InitializeComponent();
@@ -35,12 +35,12 @@ namespace QueryBuilder
             SelectSortFieldForm selectSortFieldForm = new SelectSortFieldForm();
             selectSortFieldForm.DbTables = this.DbTables;
             selectSortFieldForm.UsedTables = this.UsedTables;
-            selectSortFieldForm.SelectedFields = this.SelectedFields;
+            selectSortFieldForm.OrderByFields = this.OrderByFields;
             selectSortFieldForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y-selectSortFieldForm.Height/2);
             if (selectSortFieldForm.ShowDialog(button) == DialogResult.OK)
             {
-                this.SelectedFields = selectSortFieldForm.SelectedFields;
-                txtSortFields.Text = string.Join("; ", selectSortFieldForm.SelectedFields) ;
+                this.OrderByFields = selectSortFieldForm.OrderByFields;
+                txtSortFields.Text = string.Join("; ", selectSortFieldForm.OrderByFields) ;
                 this.Changed?.Invoke(this, EventArgs.Empty);
             }
         }

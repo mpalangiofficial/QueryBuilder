@@ -217,4 +217,23 @@ namespace QueryBuilder
             return query;
         }
     }
+
+    public static class OrderByHandlers
+    {
+        public static Query OrderByHandler(this Query query, List<OrderByField> orderByFields)
+        {
+            foreach (var orderByField in orderByFields)
+            {
+                if (orderByField.OrderByType == OrderByType.Asc)
+                {
+                    query.OrderBy(orderByField.GetOrderByString());
+                }
+                else if (orderByField.OrderByType == OrderByType.Desc)
+                {
+                    query.OrderByDesc(orderByField.GetOrderByString());
+                }
+            }
+            return query;
+        }
+    }
 }
