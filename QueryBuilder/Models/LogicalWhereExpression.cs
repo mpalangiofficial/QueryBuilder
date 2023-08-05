@@ -3,9 +3,9 @@ using SqlKata;
 
 namespace QueryBuilder
 {
-    public class LogicalWhere : BaseWhere
+    public class LogicalWhereExpression : BaseWhereExpression
     {
-        public List<BaseWhere> WhereRules { get; set; }
+        public List<BaseWhereExpression> WhereRules { get; set; }
         public OperationLogical OperationLogical { get; set; }
         public override Query FilterExpression(Query query)
         {

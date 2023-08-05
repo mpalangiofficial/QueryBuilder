@@ -258,7 +258,7 @@
             this.filterConfigTable.Size = new System.Drawing.Size(406, 49);
             this.filterConfigTable.TabIndex = 9;
             this.filterConfigTable.UsedTables = null;
-            this.filterConfigTable.Where = null;
+            this.filterConfigTable.WhereExpression = null;
             this.filterConfigTable.Changed += new System.EventHandler(this.filterConfigTable_Changed);
             // 
             // selectConfig

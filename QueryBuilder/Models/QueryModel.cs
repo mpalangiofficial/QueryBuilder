@@ -13,7 +13,7 @@ namespace QueryBuilder
     {
         public NameAlias StartTable { get; set; }
         public List<Join> Joins { get; set; }
-        public BaseWhere Where { get; set; }
+        public BaseWhereExpression WhereExpression { get; set; }
         public List<SelectField> SelectFields { get; set; }
         public List<OrderByField> SortFields { get; set; }
         public Query GenerateQuery(IDbConnection connection, Compiler compiler)
@@ -40,9 +40,9 @@ namespace QueryBuilder
                 }
             }
 
-            if (this.Where != null)
+            if (this.WhereExpression != null)
             {
-                query.Where(this.Where.FilterExpression);
+                query.Where(this.WhereExpression.FilterExpression);
             }
 
 

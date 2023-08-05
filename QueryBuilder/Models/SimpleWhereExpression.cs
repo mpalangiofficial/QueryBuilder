@@ -2,7 +2,7 @@
 
 namespace QueryBuilder
 {
-    public class SimpleWhere : BaseWhere
+    public class SimpleWhereExpression : BaseWhereExpression
     {
         public NameAlias Table { get; set; }
         public NameAlias Field { get; set; }
@@ -18,7 +18,7 @@ namespace QueryBuilder
                 case WhereOperation.Equal:
                     result = query.Where($"{tableName}.{Field.Name}", "=", ExpectedValue);
                     break;
-                case WhereOperation.Notequal:
+                case WhereOperation.NotEqual:
                     result = query.Where($"{tableName}.{Field.Name}", "<>", ExpectedValue);
                     break;
                 case WhereOperation.More:
@@ -52,5 +52,11 @@ namespace QueryBuilder
             }
             return result;
         }
+
+        //public static SimpleWhereExpression GetNewInstance() => new SimpleWhereExpression()
+        //{
+        //    ExpectedValue = null,
+        //    Table = 
+        //};
     }
 }

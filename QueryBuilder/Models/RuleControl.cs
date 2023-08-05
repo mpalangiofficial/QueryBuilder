@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Newtonsoft.Json.Serialization;
 using QueryBuilder.DatabaseSchema;
 
 namespace QueryBuilder
@@ -11,9 +12,10 @@ namespace QueryBuilder
     {
         public Guid RuleId { get; set; }
         private List<DbTableModel> _dbTables;
+        private BaseWhereExpression _whereExpression;
         public event EventHandler Changed;
         public event EventHandler Removed;
-
+        private bool _loadInProgress = false;
         public List<DbTableModel> DbTables
         {
             get => _dbTables;
@@ -28,17 +30,30 @@ namespace QueryBuilder
         }
 
         public List<NameAlias> UsedTables { get; set; }
-        public BaseWhere Where { get; set; }
+
+        public BaseWhereExpression WhereExpression
+        {
+            get => _whereExpression;
+            set => _whereExpression = value;
+
+        }
+
         public RuleControl()
         {
+            _loadInProgress = true;
             InitializeComponent();
-            Where = new SimpleWhere();
             WhereOperation[] whereOperations = (WhereOperation[])Enum.GetValues(typeof(WhereOperation));
             whereOperations.ToList().ForEach(wo => cmbOperations.Items.Add(wo));
             cmbOperations.SelectedIndex = 0;
+            WhereExpression = new SimpleWhereExpression();
             this.RuleId = Guid.NewGuid();
         }
 
+        public RuleControl(SimpleWhereExpression whereExpression) : this()
+        {
+            RuleId = whereExpression.RuleId;
+            WhereExpression = whereExpression;
+        }
         private void btnDelete_Click(object sender, EventArgs e)
         {
             Removed?.Invoke(this, e);
@@ -51,33 +66,38 @@ namespace QueryBuilder
 
         private void createWhere()
         {
-            try
+            if (!_loadInProgress)
             {
-                
-                Where = new SimpleWhere()
+                try
                 {
-                    RuleId = this.RuleId,
-                    ExpectedValue = txtExpectedValue?.Text ?? String.Empty,
-                    Table = (NameAlias)cmbTables.SelectedItem,
-                    Field = new NameAlias() { Name = cmbFields?.SelectedItem?.ToString() ?? String.Empty },
-                    Operation = (WhereOperation)cmbOperations.SelectedItem
 
-                };
-                this.Changed?.Invoke(this, EventArgs.Empty);
-            }
-            catch (Exception exception)
-            {
-                //todo fix and resolve
+                    WhereExpression = new SimpleWhereExpression()
+                    {
+                        RuleId = this.RuleId,
+                        ExpectedValue = txtExpectedValue?.Text ?? String.Empty,
+                        Table = (NameAlias)cmbTables.SelectedItem,
+                        Field = new NameAlias() { Name = cmbFields?.SelectedItem?.ToString() ?? String.Empty },
+                        Operation = (WhereOperation)cmbOperations.SelectedItem
+
+                    };
+                    this.Changed?.Invoke(this, EventArgs.Empty);
+                }
+                catch (Exception exception)
+                {
+                    //todo fix and resolve
+                }
             }
         }
 
         private void cmbTables_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cmbFields.Items.Clear();
-            var fields = DbTables.SingleOrDefault(t => t.Name == ((NameAlias)cmbTables.SelectedItem).Name)?.Fields.Select(f => f.Name).ToList();
-            cmbFields.DataSource = null;
-            cmbFields.DataSource = fields;
-            cmbFields.SelectedIndex = 0;
+            if (cmbTables.SelectedItem != null)
+            {
+                var fields = DbTables.SingleOrDefault(t => t.Name == ((NameAlias)cmbTables.SelectedItem).Name)?.Fields.Select(f => f.Name).ToList();
+                cmbFields.DataSource = null;
+                cmbFields.DataSource = fields;
+                cmbFields.SelectedIndex = 0;
+            }
         }
 
         private void cmbOperations_SelectedIndexChanged(object sender, EventArgs e)
@@ -107,22 +127,23 @@ namespace QueryBuilder
 
             e.DrawFocusRectangle();
         }
-    }
 
-    public enum WhereOperation
-    {
+        private void RuleControl_Load(object sender, EventArgs e)
+        {
+            var whereExpression = WhereExpression == null ? null : WhereExpression as SimpleWhereExpression;
 
-        Equal,
-        Notequal,
-        More,
-        Less,
-        MoreAndEqual,
-        LessAndEqual,
-        StartWith,
-        EndWith,
-        Contain,
-        IsNull,
-        IsNotNull
+            try
+            {
+                cmbTables.SelectedItem = whereExpression?.Table;
+                cmbFields.SelectedItem = whereExpression?.Field?.Name;
+                cmbOperations.SelectedItem = whereExpression?.Operation;
+                txtExpectedValue.Text = whereExpression?.ExpectedValue?.ToString();
+            }
+            catch (Exception exception)
+            {
 
+            }
+            _loadInProgress = false;
+        }
     }
 }

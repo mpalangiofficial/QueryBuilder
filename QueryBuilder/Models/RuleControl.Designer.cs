@@ -146,6 +146,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "RuleControl";
             this.Size = new System.Drawing.Size(515, 34);
+            this.Load += new System.EventHandler(this.RuleControl_Load);
             this.panel1.ResumeLayout(false);
             this.tlpRule.ResumeLayout(false);
             this.tlpRule.PerformLayout();

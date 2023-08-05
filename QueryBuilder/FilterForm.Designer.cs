@@ -30,7 +30,7 @@ namespace QueryBuilder
         /// </summary>
         private void InitializeComponent()
         {
-            LogicalWhere logicalWhere1 = new LogicalWhere();
+            LogicalWhereExpression logicalWhere1 = new LogicalWhereExpression();
             this.rootRuleGroupControl = new RuleGroupControl();
             this.tlpFilterForm = new System.Windows.Forms.TableLayoutPanel();
             this.btnOk = new System.Windows.Forms.Button();
@@ -56,7 +56,7 @@ namespace QueryBuilder
             logicalWhere1.OperationLogical = OperationLogical.Or;
             logicalWhere1.RuleId = new System.Guid("00000000-0000-0000-0000-000000000000");
             logicalWhere1.WhereRules = null;
-            this.rootRuleGroupControl.Where = logicalWhere1;
+            this.rootRuleGroupControl.WhereExpression = logicalWhere1;
             this.rootRuleGroupControl.Changed += new System.EventHandler(this.rootRuleGroupControl_Changed);
             this.rootRuleGroupControl.Load += new System.EventHandler(this.rootRuleGroupControl_Load);
             // 

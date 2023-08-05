@@ -22,7 +22,7 @@ namespace QueryBuilder
             }
         }
 
-        public BaseWhere Where { get; set; }
+        public BaseWhereExpression WhereExpression { get; set; }
         public FilterConfigTable()
         {
             InitializeComponent();
@@ -36,9 +36,10 @@ namespace QueryBuilder
             filterForm.DbTables = this.DbTables;
             var screenCoordinates = button.PointToScreen(Point.Empty);
             filterForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
+            filterForm.WhereExpression = this.WhereExpression;
             if (filterForm.ShowDialog(button) == DialogResult.OK)
             {
-                this.Where = filterForm.Where;
+                this.WhereExpression = filterForm.WhereExpression;
                 this.Changed?.Invoke(this, EventArgs.Empty);
             }
         }

@@ -221,7 +221,7 @@ namespace QueryBuilder
         }
         private void filterConfigTable_Changed(object sender, EventArgs e)
         {
-            this.QueryModel.Where = filterConfigTable.Where;
+            this.QueryModel.WhereExpression = filterConfigTable.WhereExpression;
             Refresh();
         }
         private void selectConfig_Changed(object sender, EventArgs e)

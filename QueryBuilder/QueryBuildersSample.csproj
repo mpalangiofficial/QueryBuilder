@@ -131,12 +131,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\BaseWhere.cs" />
+    <Compile Include="Models\BaseWhereExpression.cs" />
     <Compile Include="Models\ChartModel.cs" />
     <Compile Include="Models\FunctionField.cs" />
     <Compile Include="Models\Join.cs" />
     <Compile Include="Models\JoinOn.cs" />
-    <Compile Include="Models\LogicalWhere.cs" />
+    <Compile Include="Models\LogicalWhereExpression.cs" />
     <Compile Include="Models\QueryModel.cs" />
     <Compile Include="Models\NameAlias.cs" />
     <Compile Include="Models\OperationLogical.cs" />
@@ -145,7 +145,7 @@
     <Compile Include="Models\OrderByType.cs" />
     <Compile Include="Models\SelectField.cs" />
     <Compile Include="Helpers\SelectFieldsHandlers.cs" />
-    <Compile Include="Models\SimpleWhere.cs" />
+    <Compile Include="Models\SimpleWhereExpression.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryBuilder.cs">
@@ -154,17 +154,11 @@
     <Compile Include="QueryBuilder.Designer.cs">
       <DependentUpon>QueryBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="QueryBuilder_back.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="QueryBuilder_back.Designer.cs">
-      <DependentUpon>QueryBuilder_back.cs</DependentUpon>
-    </Compile>
     <Compile Include="qu\FFSqlServerCompiler.cs" />
-    <Compile Include="RuleControl.cs">
+    <Compile Include="Models\RuleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RuleControl.Designer.cs">
+    <Compile Include="Models\RuleControl.Designer.cs">
       <DependentUpon>RuleControl.cs</DependentUpon>
     </Compile>
     <Compile Include="RuleGroupControl.cs">
@@ -209,6 +203,7 @@
     <Compile Include="StartTableConfig.Designer.cs">
       <DependentUpon>StartTableConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\WhereOperation.cs" />
     <EmbeddedResource Include="FilterConfigTable.resx">
       <DependentUpon>FilterConfigTable.cs</DependentUpon>
     </EmbeddedResource>
@@ -243,10 +238,7 @@
     <EmbeddedResource Include="QueryBuilder.resx">
       <DependentUpon>QueryBuilder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="QueryBuilder_back.resx">
-      <DependentUpon>QueryBuilder_back.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RuleControl.resx">
+    <EmbeddedResource Include="Models\RuleControl.resx">
       <DependentUpon>RuleControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RuleGroupControl.resx">

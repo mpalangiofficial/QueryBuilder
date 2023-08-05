@@ -14,11 +14,52 @@ namespace QueryBuilder
         public Guid RuleId { get; set; }
         public List<DbTableModel> DbTables { get; set; }
         public List<NameAlias> UsedTables { get; set; }
-        public LogicalWhere Where { get; set; } = new LogicalWhere()
-        { WhereRules = new List<BaseWhere>(), OperationLogical = OperationLogical.And };
+
+        private LogicalWhereExpression _whereExpression = new LogicalWhereExpression() { WhereRules = new List<BaseWhereExpression>(), OperationLogical = OperationLogical.And };
+        public LogicalWhereExpression WhereExpression
+        {
+            get => _whereExpression;
+            set
+            {
+                _whereExpression = value is null
+                    ? new LogicalWhereExpression() { WhereRules = new List<BaseWhereExpression>(), OperationLogical = OperationLogical.And }
+                    : value;
+               }
+        }
+
+        public void LoadRules()
+        {
+            this.OperationLogicalQuery = _whereExpression.OperationLogical;
+            _whereExpression?.WhereRules?.ForEach(wr =>
+            {
+                if (wr is SimpleWhereExpression)
+                {
+                    var rowStyle = new RowStyle(SizeType.Absolute, 50F);
+                    var cnt = tlpRules.RowStyles.Count;
+                    tlpRules.RowStyles.Insert(cnt - 1, rowStyle);
+
+                    RuleControl ruleControl = new RuleControl(wr as SimpleWhereExpression);
+                    ruleControl.UsedTables = this.UsedTables;
+                    ruleControl.DbTables = this.DbTables;
+                    ruleControl.Removed += new EventHandler(rule_removed);
+                    ruleControl.Changed += new EventHandler(rule_changed);
+
+                    tlpRules.Controls.Add(ruleControl, 0, cnt - 1);
+                    ruleControl.Dock = DockStyle.Top;
+                }
+                else if (wr is LogicalWhereExpression)
+                {
+
+                }
+            });
+
+            MessageBox.Show("load rules");
+        }
+
         public bool IsRootCondition { get; set; } = false;
 
         private OperationLogical? _operationLogical;
+
         public OperationLogical? OperationLogicalQuery
         {
             get => _operationLogical;
@@ -30,15 +71,16 @@ namespace QueryBuilder
                 {
                     case OperationLogical.And:
                         btnAnd.BackColor = Color.MidnightBlue;
-                        this.Where.OperationLogical = OperationLogical.And;
+                        this.WhereExpression.OperationLogical = OperationLogical.And;
                         break;
                     case OperationLogical.Or:
                         btnOr.BackColor = Color.MidnightBlue;
-                        this.Where.OperationLogical = OperationLogical.Or;
+                        this.WhereExpression.OperationLogical = OperationLogical.Or;
                         break;
                 }
             }
         }
+
         public RuleGroupControl()
         {
             InitializeComponent();
@@ -46,10 +88,14 @@ namespace QueryBuilder
             OperationLogicalQuery = OperationLogical.And;
             RuleId = Guid.NewGuid();
         }
+
+        public RuleGroupControl(LogicalWhereExpression whereExpression)
+        {
+
+        }
         private void btnAnd_Click(object sender, EventArgs e)
         {
             this.OperationLogicalQuery = OperationLogical.And;
-
         }
         private void btnOr_Click(object sender, EventArgs e)
         {
@@ -64,7 +110,6 @@ namespace QueryBuilder
         private void RuleGroupControl_Load(object sender, EventArgs e)
         {
             btnDelete.Visible = !IsRootCondition;
-
         }
 
         private void btnAddRule_Click(object sender, EventArgs e)
@@ -72,11 +117,13 @@ namespace QueryBuilder
             var rowStyle = new RowStyle(SizeType.Absolute, 50F);
             var cnt = tlpRules.RowStyles.Count;
             tlpRules.RowStyles.Insert(cnt - 1, rowStyle);
+
             RuleControl ruleControl = new RuleControl();
             ruleControl.UsedTables = this.UsedTables;
             ruleControl.DbTables = this.DbTables;
             ruleControl.Removed += new EventHandler(rule_removed);
             ruleControl.Changed += new EventHandler(rule_changed);
+
             tlpRules.Controls.Add(ruleControl, 0, cnt - 1);
             ruleControl.Dock = DockStyle.Top;
         }
@@ -104,20 +151,20 @@ namespace QueryBuilder
         private void rule_changed(object sender, EventArgs e)
         {
             RuleControl ruleControl = (RuleControl)sender;
-            if (Where?.WhereRules == null)
+            if (WhereExpression?.WhereRules == null)
             {
-                Where.WhereRules = new List<BaseWhere>();
-                this.Where.WhereRules.Add(ruleControl.Where);
+                WhereExpression.WhereRules = new List<BaseWhereExpression>();
+                this.WhereExpression.WhereRules.Add(ruleControl.WhereExpression);
             }
             else
             {
-                var rule = Where.WhereRules.FirstOrDefault(w => w.RuleId == ruleControl.Where.RuleId);
+                var rule = WhereExpression.WhereRules.FirstOrDefault(w => w.RuleId == ruleControl.WhereExpression.RuleId);
                 if (rule != null)
                 {
-                    this.Where.WhereRules.Remove(rule);
+                    this.WhereExpression.WhereRules.Remove(rule);
                 }
-                this.Where.WhereRules.Add(ruleControl.Where);
-                if (this.Where.WhereRules.Count > 1 && this.OperationLogicalQuery is null)
+                this.WhereExpression.WhereRules.Add(ruleControl.WhereExpression);
+                if (this.WhereExpression.WhereRules.Count > 1 && this.OperationLogicalQuery is null)
                     this.OperationLogicalQuery = OperationLogical.And;
             }
             this.Changed?.Invoke(this, EventArgs.Empty);
@@ -125,25 +172,25 @@ namespace QueryBuilder
         private void ruleGroup_removed(object sender, EventArgs e)
         {
             RuleGroupControl ruleGroupControl = (RuleGroupControl)sender;
-            if (Where?.WhereRules == null) Where.WhereRules = new List<BaseWhere>();
-            this.Where.WhereRules.Add(ruleGroupControl.Where);
+            if (WhereExpression?.WhereRules == null) WhereExpression.WhereRules = new List<BaseWhereExpression>();
+            this.WhereExpression.WhereRules.Add(ruleGroupControl.WhereExpression);
             MessageBox.Show("Remove rule group");
         }
 
         private void ruleGroup_changed(object sender, EventArgs e)
         {
             RuleGroupControl ruleGroupControl = (RuleGroupControl)sender;
-            if (Where?.WhereRules == null)
+            if (WhereExpression?.WhereRules == null)
             {
-                Where.WhereRules = new List<BaseWhere>();
-                this.Where.WhereRules.Add(ruleGroupControl.Where);
+                WhereExpression.WhereRules = new List<BaseWhereExpression>();
+                this.WhereExpression.WhereRules.Add(ruleGroupControl.WhereExpression);
             }
             else
             {
-                var rule = Where.WhereRules.FirstOrDefault(w => w.RuleId == ruleGroupControl.Where.RuleId);
+                var rule = WhereExpression.WhereRules.FirstOrDefault(w => w.RuleId == ruleGroupControl.WhereExpression.RuleId);
                 if (rule != null)
-                    this.Where.WhereRules.Remove(rule);
-                this.Where.WhereRules.Add(ruleGroupControl.Where);
+                    this.WhereExpression.WhereRules.Remove(rule);
+                this.WhereExpression.WhereRules.Add(ruleGroupControl.WhereExpression);
             }
             this.Changed?.Invoke(this, EventArgs.Empty);
         }
