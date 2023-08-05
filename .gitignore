@@ -1,5 +1,44 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+﻿# Ignore build output
+bin/
+obj/
 
-/packages
+# Ignore NuGet packages folder
+packages/
+
+# Ignore user-specific Visual Studio files
+*.suo
+*.user
+*.vs/
+_UpgradeReport_Files/
+
+# Ignore build artifacts
+*.exe
+*.dll
+*.pdb
+*.cache
+*.tmp
+
+# Ignore ReSharper files
+_ReSharper.*/
+
+# Ignore .NET Core build folders
+[Bb]in/
+[Oo]bj/
+
+# Ignore Node.js dependencies
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore Visual Studio Code settings folder
+.vscode/
+
+# Ignore macOS specific files
+.DS_Store
+
+*/obj/
+*/bin/
+
+*.suo
+
