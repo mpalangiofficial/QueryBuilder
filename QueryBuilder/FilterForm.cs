@@ -17,10 +17,8 @@ namespace QueryBuilder
             set
             {
                 _whereExpression = value;
-
             }
         }
-
         private void loadRules()
         {
             this.rootRuleGroupControl.WhereExpression = this.WhereExpression as LogicalWhereExpression;

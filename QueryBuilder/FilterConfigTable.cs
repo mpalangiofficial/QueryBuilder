@@ -36,7 +36,7 @@ namespace QueryBuilder
             filterForm.DbTables = this.DbTables;
             var screenCoordinates = button.PointToScreen(Point.Empty);
             filterForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
-            filterForm.WhereExpression = this.WhereExpression;
+            filterForm.WhereExpression = this.WhereExpression?.ShallowCopy();
             if (filterForm.ShowDialog(button) == DialogResult.OK)
             {
                 this.WhereExpression = filterForm.WhereExpression;

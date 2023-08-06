@@ -81,7 +81,7 @@
             this.btnStartTable.Location = new System.Drawing.Point(88, 8);
             this.btnStartTable.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnStartTable.Name = "btnStartTable";
-            this.btnStartTable.Size = new System.Drawing.Size(23, 36);
+            this.btnStartTable.Size = new System.Drawing.Size(36, 36);
             this.btnStartTable.TabIndex = 1;
             this.btnStartTable.Text = "+";
             this.btnStartTable.UseVisualStyleBackColor = false;
@@ -93,7 +93,7 @@
             this.btnSelectedTable.BackColor = System.Drawing.Color.LightGoldenrodYellow;
             this.btnSelectedTable.FlatAppearance.BorderColor = System.Drawing.Color.LightGray;
             this.btnSelectedTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSelectedTable.Location = new System.Drawing.Point(119, 8);
+            this.btnSelectedTable.Location = new System.Drawing.Point(132, 8);
             this.btnSelectedTable.Margin = new System.Windows.Forms.Padding(5, 8, 3, 3);
             this.btnSelectedTable.Name = "btnSelectedTable";
             this.btnSelectedTable.Size = new System.Drawing.Size(12, 36);
@@ -107,7 +107,7 @@
             this.btnAddAlias.BackColor = System.Drawing.Color.Transparent;
             this.btnAddAlias.FlatAppearance.BorderSize = 0;
             this.btnAddAlias.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddAlias.Location = new System.Drawing.Point(134, 12);
+            this.btnAddAlias.Location = new System.Drawing.Point(147, 12);
             this.btnAddAlias.Margin = new System.Windows.Forms.Padding(0, 12, 0, 3);
             this.btnAddAlias.Name = "btnAddAlias";
             this.btnAddAlias.Size = new System.Drawing.Size(26, 26);
@@ -121,7 +121,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(179, 19);
+            this.label1.Location = new System.Drawing.Point(182, 19);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 19, 3, 0);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
@@ -134,13 +134,13 @@
             // 
             this.lblAlias.AutoSize = true;
             this.lblAlias.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblAlias.Location = new System.Drawing.Point(163, 19);
-            this.lblAlias.Margin = new System.Windows.Forms.Padding(3, 19, 3, 0);
+            this.lblAlias.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAlias.Location = new System.Drawing.Point(176, 10);
+            this.lblAlias.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.lblAlias.Name = "lblAlias";
             this.lblAlias.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.lblAlias.Size = new System.Drawing.Size(10, 19);
+            this.lblAlias.Size = new System.Drawing.Size(0, 21);
             this.lblAlias.TabIndex = 2;
-            this.lblAlias.Text = " ";
             this.lblAlias.Visible = false;
             // 
             // StartTableConfig

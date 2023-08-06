@@ -53,10 +53,13 @@ namespace QueryBuilder
             return result;
         }
 
-        //public static SimpleWhereExpression GetNewInstance() => new SimpleWhereExpression()
-        //{
-        //    ExpectedValue = null,
-        //    Table = 
-        //};
+        public override BaseWhereExpression ShallowCopy() => new SimpleWhereExpression()
+        {
+            ExpectedValue = this.ExpectedValue,
+            Table = this.Table?.ShallowCopy(),
+            Field = this.Field?.ShallowCopy(),
+            Operation = this.Operation,
+            RuleId = RuleId
+        };
     }
 }

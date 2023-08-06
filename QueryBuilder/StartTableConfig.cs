@@ -47,7 +47,7 @@ namespace QueryBuilder
             popupForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
             if (popupForm.ShowDialog(button) == DialogResult.OK)
             {
-                this.Table.Alias = lblAlias.Text = popupForm.Alias;
+                this.Table.Alias = lblAlias.Text = popupForm.Alias.Trim();
                 this.Changed?.Invoke(this, e);
             }
         }

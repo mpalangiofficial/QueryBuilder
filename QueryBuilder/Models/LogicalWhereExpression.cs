@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SqlKata;
 
 namespace QueryBuilder
@@ -18,5 +19,12 @@ namespace QueryBuilder
             }
             return query;
         }
+
+        public override BaseWhereExpression ShallowCopy() => new LogicalWhereExpression()
+        {
+            OperationLogical = this.OperationLogical,
+            WhereRules = this.WhereRules?.Select(wr=>wr.ShallowCopy()).ToList()
+        };
+
     }
 }
