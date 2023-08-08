@@ -3,10 +3,10 @@ using System.Windows.Forms;
 
 namespace QueryBuilder
 {
-    public partial class GetAliaseForm : Form
+    public partial class GetAliasForm : Form
     {
         public string Alias { get; private set; }
-        public GetAliaseForm(string alias = "")
+        public GetAliasForm(string alias = "")
         {
             DialogResult = DialogResult.Cancel;
             InitializeComponent();

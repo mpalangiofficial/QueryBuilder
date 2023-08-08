@@ -28,19 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.queryBuilder1 = new QueryBuilder.QueryBuilder();
+            this.queryBuilder = new QueryBuilder.Controls.QueryBuilder();
             this.SuspendLayout();
             // 
-            // queryBuilder1
+            // queryBuilder
             // 
-            this.queryBuilder1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.queryBuilder1.ConnectionString = "Password=ffc-pr-02;Persist Security Info=True;User ID=sa;Initial Catalog=northwin" +
+            this.queryBuilder.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.queryBuilder.ConnectionString = "Password=ffc-pr-02;Persist Security Info=True;User ID=sa;Initial Catalog=northwin" +
     "d;Data Source=.";
-            this.queryBuilder1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.queryBuilder1.Location = new System.Drawing.Point(0, 0);
-            this.queryBuilder1.Name = "queryBuilder1";
-            this.queryBuilder1.Size = new System.Drawing.Size(1061, 587);
-            this.queryBuilder1.TabIndex = 1;
+            this.queryBuilder.Location = new System.Drawing.Point(0, 0);
+            this.queryBuilder.Name = "queryBuilder";
+            this.queryBuilder.Size = new System.Drawing.Size(1061, 587);
+            this.queryBuilder.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -48,7 +47,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(1061, 587);
-            this.Controls.Add(this.queryBuilder1);
+            this.Controls.Add(this.queryBuilder);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Query builder";
@@ -58,7 +57,7 @@
         }
 
         #endregion
-        private QueryBuilder.QueryBuilder queryBuilder1;
+        private QueryBuilder.Controls.QueryBuilder queryBuilder;
     }
 }
 

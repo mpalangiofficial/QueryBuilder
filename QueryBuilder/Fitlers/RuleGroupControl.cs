@@ -38,8 +38,8 @@ namespace QueryBuilder
                     RuleControl ruleControl = new RuleControl(expression);
                     ruleControl.UsedTables = this.UsedTables;
                     ruleControl.DbTables = this.DbTables;
-                    ruleControl.Removed += new EventHandler(rule_removed);
-                    ruleControl.Changed += new EventHandler(rule_changed);
+                    ruleControl.Removed += rule_removed;
+                    ruleControl.Changed += rule_changed;
 
                     tlpRules.Controls.Add(ruleControl, 0, cnt);
                     ruleControl.Dock = DockStyle.Top;
@@ -53,15 +53,14 @@ namespace QueryBuilder
                     ruleGroupControl.WhereExpression = logicalWhereExpression;
                     ruleGroupControl.UsedTables = this.UsedTables;
                     ruleGroupControl.DbTables = this.DbTables;
-                    ruleGroupControl.Removed += new EventHandler(ruleGroup_removed);
-                    ruleGroupControl.Changed += new EventHandler(ruleGroup_changed);
+                    ruleGroupControl.Removed += ruleGroup_removed;
+                    ruleGroupControl.Changed += ruleGroup_changed;
                     tlpRules.Controls.Add(ruleGroupControl, 0, cnt);
                     ruleGroupControl.Dock = DockStyle.Fill;
                     ruleGroupControl.LoadRules();
                 }
             });
         }
-
         public bool IsRootCondition { get; set; } = false;
 
         private OperationLogical? _operationLogical;

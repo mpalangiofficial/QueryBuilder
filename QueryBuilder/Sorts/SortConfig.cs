@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace QueryBuilder
@@ -35,7 +36,7 @@ namespace QueryBuilder
             SelectSortFieldForm selectSortFieldForm = new SelectSortFieldForm();
             selectSortFieldForm.DbTables = this.DbTables;
             selectSortFieldForm.UsedTables = this.UsedTables;
-            selectSortFieldForm.OrderByFields = this.OrderByFields;
+            selectSortFieldForm.OrderByFields = this.OrderByFields?.Select(obf=>obf.ShallowCopy()).ToList();
             selectSortFieldForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y-selectSortFieldForm.Height/2);
             if (selectSortFieldForm.ShowDialog(button) == DialogResult.OK)
             {

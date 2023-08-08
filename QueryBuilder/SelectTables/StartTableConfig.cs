@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -10,7 +11,8 @@ namespace QueryBuilder
     {
         public event EventHandler Changed;
         public ToolTip ToolTipName { get; set; }
-        public string ConnectionString { get; set; } = "Password=ffc-pr-02;Persist Security Info=True;User ID=sa;Initial Catalog=SRU;Data Source=192.168.100.196";
+        public List<DbTableModel> DbTables { get; set; }
+
         public NameAlias Table { get; private set; } = new NameAlias();
         public StartTableConfig()
         {
@@ -18,11 +20,9 @@ namespace QueryBuilder
         }
         private void btnSelectTable_Click(object sender, EventArgs e)
         {
-            IDataSchema dataSchema = new DataSchemaWithDatabaseSchemaReader();
-            var tables = dataSchema.GetSchema(ConnectionString, null);
-
+          
             var button = (Button)sender;
-            SelectTableForm popupForm = new SelectTableForm(tables.ToList());
+            SelectTableForm popupForm = new SelectTableForm(DbTables);
             var screenCoordinates = button.PointToScreen(Point.Empty);
             popupForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
             if (popupForm.ShowDialog(button) == DialogResult.OK)
@@ -42,7 +42,7 @@ namespace QueryBuilder
         private void btnAddAlias_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
-            GetAliaseForm popupForm = new GetAliaseForm(lblAlias.Text);
+            GetAliasForm popupForm = new GetAliasForm(lblAlias.Text);
             var screenCoordinates = button.PointToScreen(Point.Empty);
             popupForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
             if (popupForm.ShowDialog(button) == DialogResult.OK)

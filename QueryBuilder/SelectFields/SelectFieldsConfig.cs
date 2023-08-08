@@ -1,14 +1,10 @@
-﻿using System;
+﻿using QueryBuilder.DatabaseSchema;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using QueryBuilder.DatabaseSchema;
-using SqlKata;
 
 namespace QueryBuilder
 {
@@ -23,7 +19,7 @@ namespace QueryBuilder
             set
             {
                 _usedTables = value;
-                btnAddSelect.Enabled = _usedTables?.Count > 0 ? true : false;
+                btnAddSelect.Enabled = _usedTables?.Count > 0;
             }
         }
         public event EventHandler Changed;
@@ -41,7 +37,7 @@ namespace QueryBuilder
             SelectFieldsForm selectFieldsForm = new SelectFieldsForm();
             selectFieldsForm.DbTables = this.DbTables;
             selectFieldsForm.UsedTables = this.UsedTables;
-            selectFieldsForm.SelectedFields = this.SelectedFields;
+            selectFieldsForm.SelectedFields = this.SelectedFields?.Select(sf=>sf.ShallowCopy()).ToList();
             selectFieldsForm.Location= new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
             if (selectFieldsForm.ShowDialog(button) == DialogResult.OK)
             {

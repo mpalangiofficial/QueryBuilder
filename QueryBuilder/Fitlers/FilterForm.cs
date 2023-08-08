@@ -10,15 +10,8 @@ namespace QueryBuilder
         public List<DbTableModel> DbTables { get; set; }
         public List<NameAlias> UsedTables { get; set; }
 
-        private BaseWhereExpression _whereExpression;
-        public BaseWhereExpression WhereExpression
-        {
-            get => _whereExpression;
-            set
-            {
-                _whereExpression = value;
-            }
-        }
+        public BaseWhereExpression WhereExpression { get; set; }
+
         private void loadRules()
         {
             this.rootRuleGroupControl.WhereExpression = this.WhereExpression as LogicalWhereExpression;

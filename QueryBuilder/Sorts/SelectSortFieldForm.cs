@@ -1,14 +1,9 @@
-﻿using System;
+﻿using QueryBuilder.DatabaseSchema;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using QueryBuilder.DatabaseSchema;
-using Syncfusion.Windows.Forms.Chart;
 
 namespace QueryBuilder
 {
@@ -24,10 +19,7 @@ namespace QueryBuilder
             get => _orderByFields;
             set
             {
-                if (value is null)
-                    _orderByFields = new List<OrderByField>();
-                else
-                    _orderByFields = value;
+                _orderByFields = value ?? new List<OrderByField>();
                 refresh();
             }
         }
@@ -88,7 +80,7 @@ namespace QueryBuilder
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == 3)
             {
-                var removeItem = ((SelectSortFieldDto)dgOrderByFields?.Rows[e.RowIndex]?.DataBoundItem).OrginalItem;
+                var removeItem = ((SelectSortFieldDto)dgOrderByFields?.Rows[e.RowIndex]?.DataBoundItem)?.OriginalItem;
                 this.OrderByFields.Remove(removeItem);
                 refresh();
             }
@@ -101,7 +93,7 @@ namespace QueryBuilder
         public string Table { get; set; }
         public string FieldName { get; set; }
         public OrderByType OrderByType { get; set; }
-        public OrderByField OrginalItem { get; set; }
-        public static SelectSortFieldDto FromOrderByField(OrderByField orderByField) => new SelectSortFieldDto() { Table = orderByField.TableName.ToString(), FieldName = orderByField.FieldName, OrderByType = orderByField.OrderByType, OrginalItem = orderByField };
+        public OrderByField OriginalItem { get; set; }
+        public static SelectSortFieldDto FromOrderByField(OrderByField orderByField) => new SelectSortFieldDto() { Table = orderByField.TableName.ToString(), FieldName = orderByField.FieldName, OrderByType = orderByField.OrderByType, OriginalItem = orderByField };
     }
 }

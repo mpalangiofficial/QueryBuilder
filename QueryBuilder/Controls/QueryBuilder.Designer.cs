@@ -1,4 +1,4 @@
-﻿namespace QueryBuilder
+﻿namespace QueryBuilder.Controls
 {
     partial class QueryBuilder
     {
@@ -227,8 +227,6 @@
             // startTableConfig
             // 
             this.startTableConfig.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.startTableConfig.ConnectionString = "Password=ffc-pr-02;Persist Security Info=True;User ID=sa;Initial Catalog=northwin" +
-    "d;Data Source=.";
             this.startTableConfig.Dock = System.Windows.Forms.DockStyle.Fill;
             this.startTableConfig.Location = new System.Drawing.Point(48, 3);
             this.startTableConfig.Name = "startTableConfig";
@@ -261,7 +259,7 @@
             this.filterConfigTable.WhereExpression = null;
             this.filterConfigTable.Changed += new System.EventHandler(this.filterConfigTable_Changed);
             // 
-            // selectConfig
+            // _selectFieldsConfig
             // 
             this._selectFieldsConfig.DbTables = null;
             this._selectFieldsConfig.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -458,6 +456,7 @@
             this.Controls.Add(this.tlpQueryBuilder);
             this.Name = "QueryBuilder";
             this.Size = new System.Drawing.Size(1442, 554);
+            this.Load += new System.EventHandler(this.QueryBuilder_Load);
             this.tlpQueryBuilder.ResumeLayout(false);
             this.tlpQueryBuilder.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgResult)).EndInit();

@@ -2,7 +2,7 @@
 
 namespace QueryBuilder
 {
-    public class SelectField
+    public class SelectField:IClone<SelectField>
     {
         public NameAlias TableName { get; set; }
         public NameAlias FieldName { get; set; }
@@ -16,6 +16,23 @@ namespace QueryBuilder
         public SelectField OtherField { get; set; }
         public Operator Operator { get; set; }
         public string Alias { get; set; }
+        public SelectField ShallowCopy() => new SelectField()
+        {
+            TableName = this.TableName?.ShallowCopy(),
+            FieldName = this.FieldName?.ShallowCopy(),
+            OtherFieldName = this.OtherFieldName?.ShallowCopy(),
+            OtherTableName = this.OtherTableName?.ShallowCopy(),
+            HasFunction = this.HasFunction,
+            OtherField = this.OtherField?.ShallowCopy(),
+            Alias = this.Alias,
+            IsTempField = this.IsTempField,
+            Function = this.Function,
+            IsFormulaField = this.IsFormulaField,
+            Operator = this.Operator,
+            UsedOtherField = this.UsedOtherField
+        };
+        
+
         public override string ToString()
         {
             var result = string.Empty;

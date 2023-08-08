@@ -1,13 +1,10 @@
-﻿
+﻿using System.Collections.Generic;
+using System.Data;
 using SqlKata;
 using SqlKata.Compilers;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using SqlKata.Execution;
 
-namespace QueryBuilder
+namespace QueryBuilder.Controls.Models
 {
     public class QueryModel
     {

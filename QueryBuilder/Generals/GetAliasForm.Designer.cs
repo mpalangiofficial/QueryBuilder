@@ -1,6 +1,6 @@
 ﻿namespace QueryBuilder
 {
-    partial class GetAliaseForm
+    partial class GetAliasForm
     {
         /// <summary>
         /// Required designer variable.
@@ -86,7 +86,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "GetAliaseForm";
+            this.Name = "GetAliasForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

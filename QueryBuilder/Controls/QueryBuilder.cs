@@ -1,8 +1,4 @@
-﻿using Microsoft.CSharp.RuntimeBinder;
-using QueryBuilder.DatabaseSchema;
-using SqlKata.Compilers;
-using SqlKata.Execution;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -13,13 +9,18 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Microsoft.CSharp.RuntimeBinder;
+using QueryBuilder.Controls.Models;
+using QueryBuilder.DatabaseSchema;
+using SqlKata.Compilers;
+using SqlKata.Execution;
 
-namespace QueryBuilder
+namespace QueryBuilder.Controls
 {
     public partial class QueryBuilder : UserControl
     {
         public QueryModel QueryModel { get; private set; } = new QueryModel() { Joins = new List<Join>() };
-        public string ConnectionString { get; set; } = "Password=ffc-pr-02;Persist Security Info=True;User ID=sa;Initial Catalog=northwind;Data Source=.";
+        public string ConnectionString { get; set; }
         private IList<DbTableModel> _dbTables;
         private string[] columnNames;
         private IEnumerable<dynamic> queryResult;
@@ -28,13 +29,19 @@ namespace QueryBuilder
             InitializeComponent();
             dgResult.AutoGenerateColumns = false;
 
-            loadDbSchema();
 
+        }
+        private void QueryBuilder_Load(object sender, EventArgs e)
+        {
+
+            loadDbSchema();
             ApplyDBTablesAndUsedTables();
         }
         private void ApplyDBTablesAndUsedTables()
         {
             var usedTables = UsedTables();
+
+            startTableConfig.DbTables = _dbTables.ToList();
 
             joinTableConfig.DbTables = _dbTables.ToList();
             joinTableConfig.UsedTables = usedTables;
@@ -164,9 +171,9 @@ namespace QueryBuilder
             try
             {
                 var query = QueryModel.GenerateQuery(new SqlConnection(ConnectionString), new FFSqlServerCompiler());
-                
+
                 txtScript.Text = new FFSqlServerCompiler().Compile(query).Sql;
-                
+
                 queryResult = query.Get();
 
                 var d = queryResult.First();
@@ -189,28 +196,8 @@ namespace QueryBuilder
             }
 
             LoadChart();
-            //MessageBox.Show("query model changed!");
         }
 
-        private void LoadChart()
-        {
-            if (cmbChartTypes.Items.Count < 1)
-            {
-                cmbChartTypes.Items.Add(SeriesChartType.Pie);
-                cmbChartTypes.Items.Add(SeriesChartType.Bar);
-                cmbChartTypes.SelectedIndex = 0;
-            }
-            cmbXValueMember.Items.Clear();
-            cmbYValueMember.Items.Clear();
-            foreach (var columnName in columnNames)
-            {
-                cmbXValueMember.Items.Add(columnName);
-                cmbYValueMember.Items.Add(columnName);
-            }
-
-            cmbXValueMember.SelectedIndex = cmbYValueMember.SelectedIndex = 0;
-
-        }
 
         private void startTableConfig_Changed(object sender, EventArgs e)
         {
@@ -280,6 +267,11 @@ namespace QueryBuilder
 
         private void btnRefreshChart_Click(object sender, EventArgs e)
         {
+            refreshChart();
+        }
+
+        private void refreshChart()
+        {
             try
             {
                 List<ChartModel> data = new List<ChartModel>();
@@ -287,8 +279,13 @@ namespace QueryBuilder
                 foreach (var o in queryResult)
                 {
                     var item = (IDictionary<string, object>)o;
-                    data.Add(new ChartModel(){Title = item[cmbXValueMember.SelectedItem.ToString()]?.ToString()??String.Empty ,Value = Convert.ToInt32(item[cmbYValueMember.SelectedItem.ToString()]) });
+                    data.Add(new ChartModel()
+                    {
+                        Title = item[cmbXValueMember.SelectedItem.ToString()]?.ToString() ?? String.Empty,
+                        Value = Convert.ToInt32(item[cmbYValueMember.SelectedItem.ToString()])
+                    });
                 }
+
                 chart1.Series.Clear();
                 chart1.ChartAreas.Clear();
                 chart1.ChartAreas.Add(new ChartArea());
@@ -305,11 +302,37 @@ namespace QueryBuilder
                 Console.WriteLine(ex);
             }
         }
+        private void LoadChart()
+        {
+            if (cmbChartTypes.Items.Count < 1)
+            {
+                cmbChartTypes.Items.Add(SeriesChartType.Pie);
+                cmbChartTypes.Items.Add(SeriesChartType.Bar);
+                cmbChartTypes.SelectedIndex = 0;
+            }
+            cmbXValueMember.Items.Clear();
+            cmbYValueMember.Items.Clear();
+            foreach (var columnName in columnNames)
+            {
+                cmbXValueMember.Items.Add(columnName);
+                cmbYValueMember.Items.Add(columnName);
+            }
+
+            cmbXValueMember.SelectedIndex = 0;
+            cmbYValueMember.SelectedIndex = Math.Min(columnNames.Length - 1, 1);
+            if (columnNames.Length >= 2)
+            {
+                refreshChart();
+            }
+
+        }
 
         private void sortConfig_Changed(object sender, EventArgs e)
         {
             this.QueryModel.SortFields = sortConfig.OrderByFields;
             Refresh();
         }
+
+
     }
 }
