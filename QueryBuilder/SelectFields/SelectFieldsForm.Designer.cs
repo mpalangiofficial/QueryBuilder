@@ -1,6 +1,6 @@
 ﻿namespace QueryBuilder
 {
-    partial class SelectForm
+    partial class SelectFieldsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectFieldsForm));
             this.tlpSelectForm = new System.Windows.Forms.TableLayoutPanel();
             this.cmbTables = new System.Windows.Forms.ComboBox();
             this.lblFields = new System.Windows.Forms.Label();

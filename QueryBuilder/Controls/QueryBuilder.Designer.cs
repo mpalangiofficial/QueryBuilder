@@ -46,7 +46,7 @@
             this.startTableConfig = new StartTableConfig();
             this.button4 = new System.Windows.Forms.Button();
             this.filterConfigTable = new FilterConfigTable();
-            this.selectConfig = new SelectConfig();
+            this._selectFieldsConfig = new SelectFieldsConfig();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -151,7 +151,7 @@
             this.tlpQueryBuilderFlow.Controls.Add(this.startTableConfig, 1, 0);
             this.tlpQueryBuilderFlow.Controls.Add(this.button4, 0, 1);
             this.tlpQueryBuilderFlow.Controls.Add(this.filterConfigTable, 1, 2);
-            this.tlpQueryBuilderFlow.Controls.Add(this.selectConfig, 1, 3);
+            this.tlpQueryBuilderFlow.Controls.Add(this._selectFieldsConfig, 1, 3);
             this.tlpQueryBuilderFlow.Controls.Add(this.button5, 0, 4);
             this.tlpQueryBuilderFlow.Controls.Add(this.button6, 0, 5);
             this.tlpQueryBuilderFlow.Controls.Add(this.button7, 0, 6);
@@ -263,17 +263,17 @@
             // 
             // selectConfig
             // 
-            this.selectConfig.DbTables = null;
-            this.selectConfig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.selectConfig.Location = new System.Drawing.Point(48, 168);
-            this.selectConfig.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
-            this.selectConfig.Name = "selectConfig";
-            this.selectConfig.SelectedFields = null;
-            this.selectConfig.Size = new System.Drawing.Size(399, 49);
-            this.selectConfig.TabIndex = 10;
-            this.selectConfig.ToolTip = null;
-            this.selectConfig.UsedTables = null;
-            this.selectConfig.Changed += new System.EventHandler(this.selectConfig_Changed);
+            this._selectFieldsConfig.DbTables = null;
+            this._selectFieldsConfig.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._selectFieldsConfig.Location = new System.Drawing.Point(48, 168);
+            this._selectFieldsConfig.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
+            this._selectFieldsConfig.Name = "_selectFieldsConfig";
+            this._selectFieldsConfig.SelectedFields = null;
+            this._selectFieldsConfig.Size = new System.Drawing.Size(399, 49);
+            this._selectFieldsConfig.TabIndex = 10;
+            this._selectFieldsConfig.ToolTip = null;
+            this._selectFieldsConfig.UsedTables = null;
+            this._selectFieldsConfig.Changed += new System.EventHandler(this.selectConfig_Changed);
             // 
             // button5
             // 
@@ -486,7 +486,7 @@
         private System.Windows.Forms.Button button4;
         private FilterConfigTable filterConfigTable;
         private System.Windows.Forms.Button button1;
-        private SelectConfig selectConfig;
+        private SelectFieldsConfig _selectFieldsConfig;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;

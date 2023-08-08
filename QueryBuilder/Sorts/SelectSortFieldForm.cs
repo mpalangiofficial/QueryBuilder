@@ -17,7 +17,6 @@ namespace QueryBuilder
         private List<SelectSortFieldDto> _dgSource = new List<SelectSortFieldDto>();
         private List<NameAlias> _usedTables;
         private List<OrderByField> _orderByFields = new List<OrderByField>();
-        private List<FunctionField> _selectedFunctionFields = new List<FunctionField>();
         public List<DbTableModel> DbTables { set; get; }
 
         public List<OrderByField> OrderByFields

@@ -42,8 +42,8 @@ namespace QueryBuilder
             filterConfigTable.DbTables = _dbTables.ToList();
             filterConfigTable.UsedTables = usedTables;
 
-            selectConfig.DbTables = _dbTables.ToList();
-            selectConfig.UsedTables = usedTables;
+            _selectFieldsConfig.DbTables = _dbTables.ToList();
+            _selectFieldsConfig.UsedTables = usedTables;
 
             sortConfig.DbTables = _dbTables.ToList();
             sortConfig.UsedTables = usedTables;
@@ -226,7 +226,7 @@ namespace QueryBuilder
         }
         private void selectConfig_Changed(object sender, EventArgs e)
         {
-            this.QueryModel.SelectFields = selectConfig.SelectedFields;
+            this.QueryModel.SelectFields = _selectFieldsConfig.SelectedFields;
             Refresh();
         }
         private void SetUsedTables()
@@ -239,7 +239,7 @@ namespace QueryBuilder
 
             sortConfig.UsedTables = usedTables;
             filterConfigTable.UsedTables = usedTables;
-            selectConfig.UsedTables = usedTables;
+            _selectFieldsConfig.UsedTables = usedTables;
         }
         private List<NameAlias> UsedTables()
         {

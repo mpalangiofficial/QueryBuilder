@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using QueryBuilder.DatabaseSchema;
+﻿using QueryBuilder.DatabaseSchema;
 using QueryBuilder.Models;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace QueryBuilder
 {
-    public partial class SelectForm : Form
+    public partial class SelectFieldsForm : Form
     {
         private List<NameAlias> _usedTables;
         private List<SelectField> _selectedFields = new List<SelectField>();
@@ -46,7 +42,7 @@ namespace QueryBuilder
             get => _usedTables;
         }
 
-        public SelectForm()
+        public SelectFieldsForm()
         {
             InitializeComponent();
             DialogResult = DialogResult.Cancel;
@@ -202,19 +198,6 @@ namespace QueryBuilder
         public string Name { get; set; }
         public string Alias { get; set; }
         public object OrginalItem { get; set; }
-
-        public FieldDto(NameAlias nameAlias)
-        {
-            this.OrginalItem = nameAlias;
-            this.Name = nameAlias.Name;
-            this.Alias = nameAlias.Alias;
-        }
-        public FieldDto(FunctionField functionField)
-        {
-            this.OrginalItem = functionField;
-            this.Name = $"{functionField.Function}({functionField.Name})";
-            this.Alias = functionField.Alias;
-        }
         public FieldDto(SelectField selectField)
         {
             this.OrginalItem = selectField;

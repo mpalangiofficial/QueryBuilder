@@ -12,7 +12,7 @@ using SqlKata;
 
 namespace QueryBuilder
 {
-    public partial class SelectConfig : UserControl
+    public partial class SelectFieldsConfig : UserControl
     {
         public ToolTip ToolTip { get; set; }
         public List<DbTableModel> DbTables { get; set; }
@@ -28,7 +28,7 @@ namespace QueryBuilder
         }
         public event EventHandler Changed;
         public List<SelectField> SelectedFields { get; set; }
-        public SelectConfig()
+        public SelectFieldsConfig()
         {
             InitializeComponent();
         }
@@ -38,15 +38,15 @@ namespace QueryBuilder
             var button = (Button)sender;
             var screenCoordinates = button.PointToScreen(Point.Empty);
 
-            SelectForm selectForm = new SelectForm();
-            selectForm.DbTables = this.DbTables;
-            selectForm.UsedTables = this.UsedTables;
-            selectForm.SelectedFields = this.SelectedFields;
-            selectForm.Location= new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
-            if (selectForm.ShowDialog(button) == DialogResult.OK)
+            SelectFieldsForm selectFieldsForm = new SelectFieldsForm();
+            selectFieldsForm.DbTables = this.DbTables;
+            selectFieldsForm.UsedTables = this.UsedTables;
+            selectFieldsForm.SelectedFields = this.SelectedFields;
+            selectFieldsForm.Location= new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
+            if (selectFieldsForm.ShowDialog(button) == DialogResult.OK)
             {
-                this.SelectedFields = selectForm.SelectedFields;
-                txtFields.Text = string.Join("; ", selectForm.SelectedFields.Where(s=>!s.IsTempField).ToList());
+                this.SelectedFields = selectFieldsForm.SelectedFields;
+                txtFields.Text = string.Join("; ", selectFieldsForm.SelectedFields.Where(s=>!s.IsTempField).ToList());
                 this.Changed?.Invoke(this,EventArgs.Empty);
             }
         }

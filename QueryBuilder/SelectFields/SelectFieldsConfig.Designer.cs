@@ -1,6 +1,6 @@
 ﻿namespace QueryBuilder
 {
-    partial class SelectConfig
+    partial class SelectFieldsConfig
     {
         /// <summary> 
         /// Required designer variable.
@@ -75,7 +75,7 @@
             this.btnSelectCaption.Name = "btnSelectCaption";
             this.btnSelectCaption.Size = new System.Drawing.Size(75, 36);
             this.btnSelectCaption.TabIndex = 4;
-            this.btnSelectCaption.Text = "Select";
+            this.btnSelectCaption.Text = "Fields";
             this.btnSelectCaption.UseVisualStyleBackColor = true;
             // 
             // txtFields
@@ -95,7 +95,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tlpSelectFields);
-            this.Name = "SelectConfig";
+            this.Name = "SelectFieldsConfig";
             this.Size = new System.Drawing.Size(426, 55);
             this.tlpSelectFields.ResumeLayout(false);
             this.tlpSelectFields.PerformLayout();

@@ -80,7 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\AggregationFunction.cs" />
+    <Compile Include="SelectFields\Models\AggregationFunction.cs" />
     <Compile Include="DatabaseSchema\DataSchemaWithDatabaseSchemaReader.cs" />
     <Compile Include="DatabaseSchema\DbFieldModel.cs" />
     <Compile Include="DatabaseSchema\DbTableMappers.cs" />
@@ -88,41 +88,40 @@
     <Compile Include="DatabaseSchema\GetStringSegmentHelper.cs" />
     <Compile Include="DatabaseSchema\IDataSchema.cs" />
     <Compile Include="DatabaseSchema\KeyValueModel.cs" />
-    <Compile Include="FilterConfigTable.cs">
+    <Compile Include="Fitlers\FilterConfigTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FilterConfigTable.Designer.cs">
+    <Compile Include="Fitlers\FilterConfigTable.Designer.cs">
       <DependentUpon>FilterConfigTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="FilterForm.cs">
+    <Compile Include="Fitlers\FilterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FilterForm.Designer.cs">
+    <Compile Include="Fitlers\FilterForm.Designer.cs">
       <DependentUpon>FilterForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GetAliaseForm.cs">
+    <Compile Include="Generals\GetAliaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GetAliaseForm.Designer.cs">
+    <Compile Include="Generals\GetAliaseForm.Designer.cs">
       <DependentUpon>GetAliaseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ISource.cs" />
-    <Compile Include="JoinForm.cs">
+    <Compile Include="Joins\JoinForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="JoinForm.Designer.cs">
+    <Compile Include="Joins\JoinForm.Designer.cs">
       <DependentUpon>JoinForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="JoinOnForm.cs">
+    <Compile Include="Joins\JoinOnForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="JoinOnForm.Designer.cs">
+    <Compile Include="Joins\JoinOnForm.Designer.cs">
       <DependentUpon>JoinOnForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="JoinTableConfig.cs">
+    <Compile Include="Joins\JoinTableConfig.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="JoinTableConfig.Designer.cs">
+    <Compile Include="Joins\JoinTableConfig.Designer.cs">
       <DependentUpon>JoinTableConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
@@ -131,95 +130,94 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\BaseWhereExpression.cs" />
-    <Compile Include="Models\ChartModel.cs" />
-    <Compile Include="Models\FunctionField.cs" />
-    <Compile Include="Models\Join.cs" />
-    <Compile Include="Models\JoinOn.cs" />
-    <Compile Include="Models\LogicalWhereExpression.cs" />
-    <Compile Include="Models\QueryModel.cs" />
-    <Compile Include="Models\NameAlias.cs" />
-    <Compile Include="Models\OperationLogical.cs" />
-    <Compile Include="Models\Operator.cs" />
-    <Compile Include="Models\OrderByField.cs" />
-    <Compile Include="Models\OrderByType.cs" />
-    <Compile Include="Models\SelectField.cs" />
+    <Compile Include="Fitlers\Models\BaseWhereExpression.cs" />
+    <Compile Include="ChartModel.cs" />
+    <Compile Include="Joins\Join.cs" />
+    <Compile Include="Joins\JoinOn.cs" />
+    <Compile Include="Fitlers\Models\LogicalWhereExpression.cs" />
+    <Compile Include="Controls\Models\QueryModel.cs" />
+    <Compile Include="Generals\Models\NameAlias.cs" />
+    <Compile Include="Fitlers\Models\OperationLogical.cs" />
+    <Compile Include="SelectFields\Models\Operator.cs" />
+    <Compile Include="Sorts\Models\OrderByField.cs" />
+    <Compile Include="Sorts\Models\OrderByType.cs" />
+    <Compile Include="SelectFields\Models\SelectField.cs" />
     <Compile Include="Helpers\SelectFieldsHandlers.cs" />
-    <Compile Include="Models\SimpleWhereExpression.cs" />
+    <Compile Include="Fitlers\Models\SimpleWhereExpression.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryBuilder.cs">
+    <Compile Include="Controls\QueryBuilder.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="QueryBuilder.Designer.cs">
+    <Compile Include="Controls\QueryBuilder.Designer.cs">
       <DependentUpon>QueryBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="qu\FFSqlServerCompiler.cs" />
-    <Compile Include="Models\RuleControl.cs">
+    <Compile Include="Utilities\FFSqlServerCompiler.cs" />
+    <Compile Include="Fitlers\RuleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Models\RuleControl.Designer.cs">
+    <Compile Include="Fitlers\RuleControl.Designer.cs">
       <DependentUpon>RuleControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="RuleGroupControl.cs">
+    <Compile Include="Fitlers\RuleGroupControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RuleGroupControl.Designer.cs">
+    <Compile Include="Fitlers\RuleGroupControl.Designer.cs">
       <DependentUpon>RuleGroupControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="SelectConfig.cs">
+    <Compile Include="SelectFields\SelectFieldsConfig.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SelectConfig.Designer.cs">
-      <DependentUpon>SelectConfig.cs</DependentUpon>
+    <Compile Include="SelectFields\SelectFieldsConfig.Designer.cs">
+      <DependentUpon>SelectFieldsConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="SelectForm.cs">
+    <Compile Include="SelectFields\SelectFieldsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SelectForm.Designer.cs">
-      <DependentUpon>SelectForm.cs</DependentUpon>
+    <Compile Include="SelectFields\SelectFieldsForm.Designer.cs">
+      <DependentUpon>SelectFieldsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SelectSortFieldForm.cs">
+    <Compile Include="Sorts\SelectSortFieldForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SelectSortFieldForm.Designer.cs">
+    <Compile Include="Sorts\SelectSortFieldForm.Designer.cs">
       <DependentUpon>SelectSortFieldForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SelectTableForm.cs">
+    <Compile Include="SelectTables\SelectTableForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SelectTableForm.Designer.cs">
+    <Compile Include="SelectTables\SelectTableForm.Designer.cs">
       <DependentUpon>SelectTableForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SortConfig.cs">
+    <Compile Include="Sorts\SortConfig.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SortConfig.Designer.cs">
+    <Compile Include="Sorts\SortConfig.Designer.cs">
       <DependentUpon>SortConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="StartTableConfig.cs">
+    <Compile Include="SelectTables\StartTableConfig.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="StartTableConfig.Designer.cs">
+    <Compile Include="SelectTables\StartTableConfig.Designer.cs">
       <DependentUpon>StartTableConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\WhereOperation.cs" />
-    <EmbeddedResource Include="FilterConfigTable.resx">
+    <Compile Include="Fitlers\Models\WhereOperation.cs" />
+    <EmbeddedResource Include="Fitlers\FilterConfigTable.resx">
       <DependentUpon>FilterConfigTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FilterForm.resx">
+    <EmbeddedResource Include="Fitlers\FilterForm.resx">
       <DependentUpon>FilterForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GetAliaseForm.resx">
+    <EmbeddedResource Include="Generals\GetAliaseForm.resx">
       <DependentUpon>GetAliaseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoinForm.resx">
+    <EmbeddedResource Include="Joins\JoinForm.resx">
       <DependentUpon>JoinForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoinOnForm.resx">
+    <EmbeddedResource Include="Joins\JoinOnForm.resx">
       <DependentUpon>JoinOnForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoinTableConfig.resx">
+    <EmbeddedResource Include="Joins\JoinTableConfig.resx">
       <DependentUpon>JoinTableConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -235,31 +233,31 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="QueryBuilder.resx">
+    <EmbeddedResource Include="Controls\QueryBuilder.resx">
       <DependentUpon>QueryBuilder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Models\RuleControl.resx">
+    <EmbeddedResource Include="Fitlers\RuleControl.resx">
       <DependentUpon>RuleControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RuleGroupControl.resx">
+    <EmbeddedResource Include="Fitlers\RuleGroupControl.resx">
       <DependentUpon>RuleGroupControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectConfig.resx">
-      <DependentUpon>SelectConfig.cs</DependentUpon>
+    <EmbeddedResource Include="SelectFields\SelectFieldsConfig.resx">
+      <DependentUpon>SelectFieldsConfig.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectForm.resx">
-      <DependentUpon>SelectForm.cs</DependentUpon>
+    <EmbeddedResource Include="SelectFields\SelectFieldsForm.resx">
+      <DependentUpon>SelectFieldsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectSortFieldForm.resx">
+    <EmbeddedResource Include="Sorts\SelectSortFieldForm.resx">
       <DependentUpon>SelectSortFieldForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SelectTableForm.resx">
+    <EmbeddedResource Include="SelectTables\SelectTableForm.resx">
       <DependentUpon>SelectTableForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SortConfig.resx">
+    <EmbeddedResource Include="Sorts\SortConfig.resx">
       <DependentUpon>SortConfig.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StartTableConfig.resx">
+    <EmbeddedResource Include="SelectTables\StartTableConfig.resx">
       <DependentUpon>StartTableConfig.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
