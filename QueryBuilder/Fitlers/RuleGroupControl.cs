@@ -27,7 +27,7 @@ namespace QueryBuilder
             tlpRules.Controls.Clear();
             tlpRules.RowStyles.Clear();
             this.OperationLogicalQuery = _whereExpression.OperationLogical;
-            _whereExpression?.WhereRules?.ForEach(wr =>
+            _whereExpression?.WhereRules?.ToList()?.ForEach(wr =>
             {
                 if (wr is SimpleWhereExpression expression)
                 {

@@ -36,7 +36,7 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tableLayoutPanel1.ColumnCount = 7;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -57,7 +57,7 @@
             // 
             // btnAddFilter
             // 
-            this.btnAddFilter.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.btnAddFilter.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnAddFilter.FlatAppearance.BorderSize = 0;
             this.btnAddFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

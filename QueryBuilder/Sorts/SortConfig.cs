@@ -12,6 +12,8 @@ namespace QueryBuilder
         public ToolTip ToolTip { get; set; }
         public List<DbTableModel> DbTables { get; set; }
         private List<NameAlias> _usedTables;
+        private List<OrderByField> _orderByFields;
+
         public List<NameAlias> UsedTables
         {
             get => _usedTables;
@@ -22,7 +24,23 @@ namespace QueryBuilder
             }
         }
         public event EventHandler Changed;
-        public List<OrderByField> OrderByFields { get; set; }
+
+        public List<OrderByField> OrderByFields
+        {
+            get => _orderByFields;
+            private set
+            {
+                _orderByFields = value;
+                txtSortFields.Text =value is null?string.Empty: string.Join("; ", value);
+            }
+        }
+
+        public void SetOrderByFields(List<OrderByField> orderByFields,bool doRefresh=false)
+        {
+            this.OrderByFields = orderByFields;
+            if(doRefresh) this.Changed?.Invoke(this, EventArgs.Empty);
+        }
+
         public SortConfig()
         {
             InitializeComponent();
@@ -41,7 +59,6 @@ namespace QueryBuilder
             if (selectSortFieldForm.ShowDialog(button) == DialogResult.OK)
             {
                 this.OrderByFields = selectSortFieldForm.OrderByFields;
-                txtSortFields.Text = string.Join("; ", selectSortFieldForm.OrderByFields) ;
                 this.Changed?.Invoke(this, EventArgs.Empty);
             }
         }

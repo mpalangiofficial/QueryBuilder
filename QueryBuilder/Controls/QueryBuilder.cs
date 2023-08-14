@@ -31,6 +31,47 @@ namespace QueryBuilder.Controls
 
 
         }
+
+        public void SetQueryModel(QueryModel queryModel)
+        {
+            this.QueryModel = queryModel;
+
+            loadModel();
+        }
+
+        private void loadModel()
+        {
+            int stepCount = 1;
+
+            this.startTableConfig.SetTable(QueryModel.StartTable);
+           
+            var joinTableConfigs = this.tlpQueryBuilderFlow.Controls.OfType<JoinTableConfig>().ToList();
+            joinTableConfigs.ForEach(jtc =>
+            {
+                if (jtc.Join != null)
+                {
+                    joinTableConfig_RemovingJoin(jtc, EventArgs.Empty);
+                }
+            });
+            if (QueryModel.Joins?.Count > 0)
+            {
+                QueryModel.Joins.ForEach(join =>
+                {
+                    var joinTableConfig = this.tlpQueryBuilderFlow.Controls.OfType<JoinTableConfig>()?.FirstOrDefault(jtc => jtc.Join == null);
+                    joinTableConfig.SetJoin(join);
+                    AddEmptyJoin(joinTableConfig);
+                });
+
+            }
+           
+            this.filterConfigTable.SetWhereExpression(this.QueryModel?.WhereExpression);
+            this.selectFieldsConfig.SetSelectedFields(this.QueryModel.SelectFields);
+            this.sortConfig.SetOrderByFields(this.QueryModel.SortFields);
+            ApplyDBTablesAndUsedTables();
+            Refresh();
+
+        }
+
         private void QueryBuilder_Load(object sender, EventArgs e)
         {
 
@@ -49,8 +90,8 @@ namespace QueryBuilder.Controls
             filterConfigTable.DbTables = _dbTables.ToList();
             filterConfigTable.UsedTables = usedTables;
 
-            _selectFieldsConfig.DbTables = _dbTables.ToList();
-            _selectFieldsConfig.UsedTables = usedTables;
+            selectFieldsConfig.DbTables = _dbTables.ToList();
+            selectFieldsConfig.UsedTables = usedTables;
 
             sortConfig.DbTables = _dbTables.ToList();
             sortConfig.UsedTables = usedTables;
@@ -108,9 +149,18 @@ namespace QueryBuilder.Controls
         private void joinTableConfig_AddedJoin(object sender, EventArgs e)
         {
             JoinTableConfig joinTableConfig = (JoinTableConfig)sender;
-            QueryModel.Joins.Add(joinTableConfig.Join);
-            var joinTableConfigIndex = tlpQueryBuilderFlow.GetRow(joinTableConfig);
 
+            AddEmptyJoin(joinTableConfig);
+
+            SetUsedTables();
+            QueryModel.Joins.Add(joinTableConfig.Join);
+
+            Refresh();
+        }
+
+        private void AddEmptyJoin(JoinTableConfig joinTableConfig)
+        {
+            var joinTableConfigIndex = tlpQueryBuilderFlow.GetRow(joinTableConfig);
             var rowStyle = new RowStyle(SizeType.Absolute, 55F);
             var joinObj = new JoinTableConfig();
             joinObj.AddedJoin += new EventHandler(joinTableConfig_AddedJoin);
@@ -122,9 +172,8 @@ namespace QueryBuilder.Controls
             ShiftDown(joinTableConfigIndex);
             tlpQueryBuilderFlow.Controls.Add(joinObj, 1, joinTableConfigIndex + 1);
             joinObj.Dock = DockStyle.Fill;
-            SetUsedTables();
-            Refresh();
         }
+
         private void ShiftDown(int selectIndex)
         {
             for (int i = tlpQueryBuilderFlow.RowCount - 1; i > selectIndex; i--)
@@ -213,7 +262,7 @@ namespace QueryBuilder.Controls
         }
         private void selectConfig_Changed(object sender, EventArgs e)
         {
-            this.QueryModel.SelectFields = _selectFieldsConfig.SelectedFields;
+            this.QueryModel.SelectFields = selectFieldsConfig.SelectedFields;
             Refresh();
         }
         private void SetUsedTables()
@@ -226,7 +275,7 @@ namespace QueryBuilder.Controls
 
             sortConfig.UsedTables = usedTables;
             filterConfigTable.UsedTables = usedTables;
-            _selectFieldsConfig.UsedTables = usedTables;
+            selectFieldsConfig.UsedTables = usedTables;
         }
         private List<NameAlias> UsedTables()
         {
@@ -272,6 +321,7 @@ namespace QueryBuilder.Controls
 
         private void refreshChart()
         {
+            return;
             try
             {
                 List<ChartModel> data = new List<ChartModel>();

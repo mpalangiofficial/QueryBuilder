@@ -13,6 +13,8 @@ namespace QueryBuilder
         public ToolTip ToolTip { get; set; }
         public List<DbTableModel> DbTables { get; set; }
         private List<NameAlias> _usedTables;
+        private List<SelectField> _selectedFields;
+
         public List<NameAlias> UsedTables
         {
             get => _usedTables;
@@ -23,7 +25,24 @@ namespace QueryBuilder
             }
         }
         public event EventHandler Changed;
-        public List<SelectField> SelectedFields { get; set; }
+
+        public List<SelectField> SelectedFields
+        {
+            get => _selectedFields;
+            private set
+            {
+                _selectedFields = value;
+                txtFields.Text = value is null ? string.Empty : string.Join("; ", value.Where(s => !s.IsTempField)?.ToList());
+
+            }
+        }
+
+        public void SetSelectedFields(List<SelectField> selectedFields, bool doRefresh = false)
+        {
+            this.SelectedFields = selectedFields;
+            if (doRefresh) this.Changed?.Invoke(this, EventArgs.Empty);
+        }
+
         public SelectFieldsConfig()
         {
             InitializeComponent();
@@ -37,13 +56,12 @@ namespace QueryBuilder
             SelectFieldsForm selectFieldsForm = new SelectFieldsForm();
             selectFieldsForm.DbTables = this.DbTables;
             selectFieldsForm.UsedTables = this.UsedTables;
-            selectFieldsForm.SelectedFields = this.SelectedFields?.Select(sf=>sf.ShallowCopy()).ToList();
-            selectFieldsForm.Location= new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
+            selectFieldsForm.SelectedFields = this.SelectedFields?.Select(sf => sf.ShallowCopy()).ToList();
+            selectFieldsForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
             if (selectFieldsForm.ShowDialog(button) == DialogResult.OK)
             {
                 this.SelectedFields = selectFieldsForm.SelectedFields;
-                txtFields.Text = string.Join("; ", selectFieldsForm.SelectedFields.Where(s=>!s.IsTempField).ToList());
-                this.Changed?.Invoke(this,EventArgs.Empty);
+                this.Changed?.Invoke(this, EventArgs.Empty);
             }
         }
     }

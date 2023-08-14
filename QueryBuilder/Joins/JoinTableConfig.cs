@@ -9,6 +9,7 @@ namespace QueryBuilder
     public partial class JoinTableConfig : UserControl
     {
         private List<NameAlias> _usedTables;
+        private Join _join;
         public event EventHandler AddedJoin;
         public event EventHandler RemovingJoin;
         public event EventHandler Changed;
@@ -20,10 +21,40 @@ namespace QueryBuilder
             set
             {
                 _usedTables = value;
-                btnAddJoin.Enabled=!( _usedTables is null || _usedTables?.Count <1);
+                btnAddJoin.Enabled = !(_usedTables is null || _usedTables?.Count < 1);
             }
         }
-        public Join Join { get; private set; }
+
+        public Join Join
+        {
+            get => _join;
+            private set
+            {
+                _join = value;
+
+                btnAddJoin.Visible = _join == null;
+                btnRemoveJoin.Visible = btnJoinedTable.Visible = _join != null;
+
+                if (_join != null)
+                {
+                    this.ToolTip?.SetToolTip(this.btnJoinedTable, _join?.Table?.Name);
+
+
+                    if (string.IsNullOrEmpty(_join.Table.Alias))
+                        btnJoinedTable.Text = _join?.Table?.Name.Substring(0, Math.Min(_join.Table.Name.Length, 12));
+                    else
+                        btnJoinedTable.Text =
+                            $"{_join?.Table?.Name.Substring(0, Math.Min(_join.Table.Name.Length, 12))} as {_join.Table.Alias}";
+                }
+            }
+        }
+
+        public void SetJoin(Join join, bool doRefresh = false)
+        {
+            this.Join = join;
+            if (doRefresh) AddedJoin?.Invoke(this, EventArgs.Empty);
+        }
+
         public JoinTableConfig()
         {
             InitializeComponent();
@@ -41,18 +72,7 @@ namespace QueryBuilder
             if (joinForm.ShowDialog(button) == DialogResult.OK)
             {
                 this.Join = joinForm.Join;
-
-                btnAddJoin.Visible = false;
-                btnRemoveJoin.Visible =  btnJoinedTable.Visible = true;
-
-                this.ToolTip?.SetToolTip(this.btnJoinedTable, joinForm.Join.Table.Name);
-
-
-                if(string.IsNullOrEmpty(joinForm.Join.Table.Alias))
-                    btnJoinedTable.Text = joinForm.Join.Table.Name.Substring(0, Math.Min(joinForm.Join.Table.Name.Length, 12)) ; 
-                else
-                    btnJoinedTable.Text = $"{joinForm.Join.Table.Name.Substring(0, Math.Min(joinForm.Join.Table.Name.Length, 12)) } as {joinForm.Join.Table.Alias}";
-                AddedJoin?.Invoke(this, e);
+                AddedJoin?.Invoke(this, EventArgs.Empty);
 
             }
 

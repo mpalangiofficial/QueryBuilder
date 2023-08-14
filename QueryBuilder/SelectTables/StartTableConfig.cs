@@ -9,33 +9,51 @@ namespace QueryBuilder
 {
     public partial class StartTableConfig : UserControl
     {
+        private NameAlias _table = new NameAlias();
         public event EventHandler Changed;
         public ToolTip ToolTipName { get; set; }
         public List<DbTableModel> DbTables { get; set; }
 
-        public NameAlias Table { get; private set; } = new NameAlias();
+        public NameAlias Table
+        {
+            get => _table;
+            private set
+            {
+                _table = value ?? new NameAlias();
+                btnAddAlias.Visible = lblAlias.Visible = btnSelectedTable.Visible = true;
+                btnStartTable.Visible = false;
+
+                this.ToolTipName?.SetToolTip(this.btnSelectedTable, _table.Name);
+                btnSelectedTable.Text = _table.Name?.Substring(0, Math.Min(_table.Name.Length, 12));
+                btnSelectedTable.Tag = _table;
+
+                lblAlias.Text = _table.Alias;
+
+            }
+        }
+
+        public void SetTable(NameAlias table,bool doRefresh=false)
+        {
+            this.Table = table ?? new NameAlias();
+            if(doRefresh) this.Changed?.Invoke(this, EventArgs.Empty);
+        }
+
         public StartTableConfig()
         {
             InitializeComponent();
         }
+
         private void btnSelectTable_Click(object sender, EventArgs e)
         {
-          
+
             var button = (Button)sender;
             SelectTableForm popupForm = new SelectTableForm(DbTables);
             var screenCoordinates = button.PointToScreen(Point.Empty);
             popupForm.Location = new Point(screenCoordinates.X + button.Width, screenCoordinates.Y);
             if (popupForm.ShowDialog(button) == DialogResult.OK)
             {
-                btnAddAlias.Visible = lblAlias.Visible = btnSelectedTable.Visible = true;
-                btnStartTable.Visible = false;
-
-                this.ToolTipName?.SetToolTip(this.btnSelectedTable, popupForm.SelectedTable.Name);
-                this.Table.Name = popupForm.SelectedTable.Name;
-                 btnSelectedTable.Text = popupForm.SelectedTable.Name.Substring(0, Math.Min(popupForm.SelectedTable.Name.Length, 12));
-                btnSelectedTable.Tag = popupForm.SelectedTable;
-                
-                this.Changed?.Invoke(this, e);
+                this.Table = new NameAlias() { Name = popupForm.SelectedTable.Name, Alias = Table.Alias };
+                this.Changed?.Invoke(this, EventArgs.Empty);
             }
         }
 

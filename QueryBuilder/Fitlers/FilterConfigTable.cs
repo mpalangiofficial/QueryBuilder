@@ -10,6 +10,7 @@ namespace QueryBuilder
     {
         public event EventHandler Changed;
         private List<NameAlias> _usedTables;
+        private BaseWhereExpression _whereExpression;
         public List<DbTableModel> DbTables { get; set; }
 
         public List<NameAlias> UsedTables
@@ -22,7 +23,22 @@ namespace QueryBuilder
             }
         }
 
-        public BaseWhereExpression WhereExpression { get; set; }
+        public BaseWhereExpression WhereExpression
+        {
+            get => _whereExpression;
+            private set
+            {
+                _whereExpression = value;
+                this.btnAddFilter.BackColor = value == null ? SystemColors.ButtonHighlight : Color.DarkSeaGreen;
+            }
+        }
+
+        public void SetWhereExpression(BaseWhereExpression whereExpression, bool doRefresh = false)
+        {
+            this.WhereExpression = whereExpression;
+            if (doRefresh) this.Changed?.Invoke(this, EventArgs.Empty);
+        }
+
         public FilterConfigTable()
         {
             InitializeComponent();
